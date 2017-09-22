@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Peterborough Fish and Game Association: Events</title>
+    <link rel="stylesheet" href="css/pfga.css" />
+
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/jquery.scrollabletable.js_2.js" type="text/javascript"></script>
+    <script src="common.js" type="text/javascript"></script>
+    <link href='css/fullcalendar.css' rel='stylesheet' />
+    <link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <script src='js/moment.min.js'></script>
+    <script src='js/jquery.min.js'></script>
+    <script src='js/fullcalendar.min.js'></script>
+    <script src='js/bootstrap.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                eventStartEditable: false,
+                events: 'calendar/events.php',
+                eventMouseover: function (calEvent, jsEvent) {
+                    var time
+                    try{
+                        time = calEvent.start.format("HH:mm") + ' - ' + calEvent.end.format("HH:mm");
+                    }
+                   catch (ex) {
+                        time = 'All Day';
+                    }
+                    var tooltip = '<div class="tooltipevent" style="width:200px;height:100px;position:absolute;z-index:10001;background: #fff; border: 1px solid #3a87ad;">'
+                        + time + '<br />' + calEvent.title + '<br />' + calEvent.description + '</div>';
+                    $("body").append(tooltip);
+                    $(this).mouseover(function (e) {
+                        $(this).css('z-index', 10000);
+                        $('.tooltipevent').fadeIn('500');
+                        $('.tooltipevent').fadeTo('10', 1.9);
+                    }).mousemove(function (e) {
+                        $('.tooltipevent').css('top', e.pageY + 10);
+                        $('.tooltipevent').css('left', e.pageX + 20);
+                    });
+                },
+                eventMouseout: function (calEvent, jsEvent) {
+                    $(this).css('z-index', 8);
+                    $('.tooltipevent').remove();
+                },
+                loading: function (bool) {
+                    $('#loading').toggle(bool);
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="menu"></div>
+
+    <div id="content" style="overflow:visible">
+        <div id='script-warning'>
+            <code>get-events.php</code> must be running.
+        </div>
+        <div id="test"></div>
+        <div id='loading'>loading...</div>
+        <div id='calendar'></div>
+    </div>
+
+    <div id="footer"></div>
+    <input type="hidden" id="pageRef" value="#l_events" />
+    <input type="hidden" id="panelRef" value="Events" />
+</body>
+</html>

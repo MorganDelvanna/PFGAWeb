@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+
+    <title>Peterborough Fish and Game Association: Courses</title>
+
+    <style type="text/css">
+        @import "js/dojotoolkit/dijit/themes/pfga/pfga.css";
+    </style>
+    
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="common.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Toggle the sub-menus
+        $(".title").toggle(function(){
+            // Show sub menu
+             $('#CourseAcc tr[class!=title]').hide();
+             $(this).next().show();
+           },function(){
+            // Hide the sub menu
+             $(this).next().hide();
+         });
+        });
+    </script>
+
+   
+</head>
+
+<body>
+       <div id="header">
+            
+       </div>
+       <div id="menu">
+            
+       </div>
+       <div id="content">            
+            <div class="Heading1">Courses</div>
+            <p>We run Hunter Safety courses, and host Ontario Handgun Association Safety Officer, Range Officer, and Instructor clinics. 
+            <br />All courses listed are done through cssa or ipsc and are subject to the amount of members interested in signing up for that course and will be hosted and organized by pfga based on the amount of willing participants.
+            <br />Anyone interested in taking any of the below Handgun courses, contact Reg Lake 705-745-3331</p>
+            
+           <div style="overflow: auto; height: 400px" >
+           <table id="CourseAcc" class="pfgaAccordian" >
+                <tr class="title"><td>Train-the-Trainer Course (Instructional Techniques)</td></tr>
+                <tr><td>
+                    All instructors delivering Canadian Shooting Sports association courses shall have successfully completed the Train-the-Trainer course or a recognized suitable equivalent. This course is required so that the instructors can deliver a more professional program.
+                </td></tr>
+                <tr class="title"><td>The New Handgun Safety Course</td></tr>
+                 <tr style="display:none;"><td>
+                    This is a one day training course for certification as a Club Level Safety Instructor certified to deliver the Handgun Safety Course.
+                 </td></tr>
+                 <tr class="title"><td>Range Safety Officer Course</td></tr>
+                 <tr style="display:none;"><td>
+                    This is a one day training course designed to train people in the safe operation of a shooting range for fun shooting events at the local gun club level.
+                 </td></tr>
+                 <tr class="title"><td>Club Level Range Officer (Official) Course</td></tr>
+                 <tr style="display:none;"><td>
+                     This is a one day training course, which provides the candidate with the theoretical and practical skills to competently conduct ISSF and the Canadian 1800 matches at the local gun club level.  
+                 </td></tr>
+                 <tr class="title"><td>Black Badge Course</td></tr>
+                 <tr style="display:none;"><td>
+                    
+                    <p>The "Black Badge" course teaches a combination of safety and proficiency because proficiency is important to safety. The student has to be safe at the normal speed and accuracy requirements of Practical Pistol competition. The course is designed to develop safety and proficiency in a progression. The student has to learn by doing and by being closely supervised by the instructor.</p>
+                    <p>The IPSC Ontario Black Badge Program is a multi-level program that requires certain policies be maintained to insure program integrity. The objective of this document is to provide information that can be used by all interested parties as well as current IPSC Ontario Black Badge Instructors to administer the program. </p>
+                    <p>In order for a Canadian citizen to participate in IPSC matches in Canada, the intridual must be the holder of a Black Badge, and must also be a current member of IPSC Canada. </p>
+                    <p>The qualifications that everyone is required to meet are set out on the IPSC Ontario qualification page, and are designed to teach the candidate to be safe in the use of a handgun and associated equipment. We believe the time restraints built into the Black Badge Program produces a very safe novice competitor. </p>
+                    <p>The Black Badge Program is not designed to teach people "how to shoot",  but to teach novice shooters how to be safe with a firearm under different circumstances such as under stress, using a holster, or while moving. It is important that the intridual taking the course has had at least some formal training in the use of a handgun. This will allow them to reap maximum benefit from the Black Badge Program.</p>
+                    <p>This document assumes that all IPSC Ontario Black Badge Instructors will use the most current instructors manual, as well as the most current edition of the IPSC Rules and will always work towards upholding the integrity of the Black Badge Program.</p>
+
+                 </td></tr>
+            </table>
+            </div>
+            <div id="spacingDiv">This Div contains text that doesn't show up in the but rather is used as a space to size up the Div to it's maximum lengthThis Div contains text that doesn't show up in the but rather is used as a space to size up the Div to it's maximum length</div>
+        </div>
+    <input type="hidden" id="pageRef" value="#l_courses" />
+    <input type="hidden" id="panelRef" value="Facilities" />
+</body>
+</html>

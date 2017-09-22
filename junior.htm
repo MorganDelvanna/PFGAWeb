@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+
+    <title>Peterborough Fish and Game Association: Junior Program</title>
+
+   <style type="text/css">
+        @import "js/dojotoolkit/dijit/themes/pfga/pfga.css";
+    </style>
+    
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="common.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            el = $('#email_one');
+            el.each(function () {
+                el.attr('href', 'mailto:' + el.attr('href').replace('|', '@').replace('/', '').replace(':', '.'));
+                el.attr('title', el.attr('href').replace('|', '@').replace('/', '').replace(':', '.').replace('mailto.', 'Email: '));
+            });
+        });
+    </script>
+    
+</head>
+
+<body>
+    
+   <div id="header">
+        
+   </div>
+   <div id="menu">
+        
+   </div>
+   <div id="content">
+        <div class="Heading1">Junior Program</div>
+            <p>The club has a very active junior program with many Ontario and Canadian champions in both air pistol and air rifle. 
+            The PF&GA Junior program is designed to introduce new shooters to target shooting is air rifle, air pistol and smallbore rifle. 
+            Emphasis is on safe gun handling and range safety. Rifles, pistols, pellets, targets, safety glasses are provided.</p>
+
+            <p>Open to male and female participants between the ages of 11 to 21. </p>
+
+            <p>The PF&GA Junior Air Program is held on Friday nights from 7pm to 9pm November to February on our 10m indoor range complete with returning targets.</p>
+
+            <p>From May to July we move outdoors and learn .22 rifle.</p>
+
+            <p>Junior shooters are encouraged to participate in shooting competitions. In the past few years we have had participants compete in the Lakeshore Smallbore Association matches, Ontario Provincial Indoor and Outdoor Championships, The Tournament of Juniors, The National Smallbore Championships in Calgary, The Grand Prix (which is an international event), as well as at our own club level matches. Our shooters have done well, often winning medals, most recently we took fifteen air gun shooters to the Ontario Winter Games where both our pistol team and rifle team won the Bronze medals as well as individual performances winning Gold, Silver and Bronze. More important than the medals was the experience of participating in an event of this magnitude. </p>
+            	
+            <p>Target shooting with air guns, either rifle or pistol, is a sport that is open to all. There is no ideal criteria or age group for this sport. It is completely open, in some events male and female compete as equals. The shooting sports are one of the most popular sports in the world.  Competition is available at all levels and age groups, from club level right up to Olympic events. Shooters are able to be competitive into their senior years. There are events for disabled athletes as well.  Shooting is also a recreational sport, where individuals can practice at the club in non-competitive setting. </p>
+
+            <p>Canadian Shooting Sports Association (CSSA) membership is mandatory for participants in registered competition. Shooting Federation of Canada (SFC) is not mandatory but is recommended. </p>
+            
+            <p>Sign up form can be downloaded <a href="forms/PFGA Juniors 2014.pdf">here</a></p>
+
+            <p><a href="/smallbore|pfga:ca?subject=Smallbore inquiry" id="email_one" title="">Bryan McKellar</a> is the director of the Smallbore Section</a></p>
+    </div>
+    <div id="footer"></div>
+    <input type="hidden" id="pageRef" value="#l_junior" />
+    <input type="hidden" id="panelRef" value="Sections" />
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <title>Peterborough Fish and Game Association: Welcome</title>
+    <style type="text/css">
+        @import "js/dojotoolkit/dijit/themes/pfga/pfga.css";
+    </style>
+     
+    <script src="js/jquery.js" type="text/javascript"></script> 
+    <script src="common.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "news.xml",
+            dataType: "xml",
+            success: parseXml
+        });
+        
+        function parseXml(xml) {
+            var sDate;
+            sDate = $(xml).find("date:first").text();
+            $("#latest").text(sDate);
+            
+            $(xml).find("newsitem").each(function() {
+
+                //find each instance of header in xml file
+                var header = $(this).find("header").text();
+                var latest = $(this).find("latest").text();
+                var link = $(this).find("index").text();
+                
+                //if blank hide row
+                if (header == "") {
+                    $("table#table tbody tr").hide();
+                } else if (latest == "Y") {
+                    //else add tr and td tags and add alt class for striping
+                    $("#newsLayout tbody").append("<tr>" + "<td nowrap='nowrap'><a href='news.htm#" + link + "' class='newslinks'>" + header + "</a></td></tr>");
+                    $('#newsLayout tbody tr:odd').addClass('alt');
+                }
+            });
+
+        }
+    });
+    </script>
+</head>
+
+<body>
+   <div id="header">
+        
+   </div>
+   <div id="menu">
+        
+   </div>
+   <div id="content">
+        <table width="100%" border="1" cellpadding="0" cellspacing="0" >
+            <tr align="left">
+              <td width="20%" colspan="1" rowspan="2" valign="middle">
+                <div class="Heading1">
+                  Latest News<br /> 
+                </div>
+                <div id="latest" align="center">
+                    
+                </div>
+              </td>
+              <td width="80%" align="left">
+                <div id="news" >
+                <table id="newsLayout" width="100%"><tbody></tbody></table>
+                </div>
+              </td>
+            </tr>
+          </table>
+
+            <div class="Heading1">
+              <br />
+              Welcome To The Peterborough Fish and Game Association</div> <br />
+
+            <p>
+              The clubhouse is situated on 100 acres of property.
+              Our facilities include a clubhouse with an indoor heated range, canteen, lounge, washrooms,
+              4 outdoor ranges for handguns, rifles, archery.
+              The facilities are open 24 hours a day for club members.
+              Out of consideration of our neighbours, the outdoor ranges shouldn't be used after dusk and the indoor ranges after 9 p.m. on weeknights and 9 p.m. on weekends or before noon on Sundays.
+            </p>
+            <p> Check out the <a href="schedule.htm">Schedule</a> page for availability of the Indoor range</p>
+  
+            <p> We have the following activities or sections - Archery, Handguns, Rifles, Air pistols, Air rifles, and Action Shooting</p>
+
+            <p> Our Junior program is second to none and has had Canadian and Ontario champions in air pistol, air rifle and sporting rifle. </p>
+
+            <p>
+              The club also has a very active Action Shooting section with monthly competitions all year round
+              They are outdoors during the nice weather then they move indoors for the winter.
+            </p>
+
+            <p> The archery section is very active all year round (both indoors and outdoors with a 3-D walkabout range of over 20 targets. They have hosted many Canadian and Ontario events in conjunction with Saugeen Shafts. </p>
+        </div>
+
+       <input type="hidden" id="pageRef" value="#l_Index" />
+       <input type="hidden" id="panelRef" value="None" />
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿{
+	identifier: 'monthNum', 
+	label: 'month',
+	items: [
+  {month:'January', label:'January', monthNum:'1'},
+  {month:'February', label:'February', monthNum:'2'},
+  {month:'March', label:'March', monthNum:'3'},
+  {month:'April', label:'April', monthNum:'4'},
+  {month:'May', label:'May', monthNum:'5'},
+  {month:'June', label:'June', monthNum:'6'},
+  {month:'July', label:'July', monthNum:'7'},
+  {month:'August', label:'August', monthNum:'8'},
+  {month:'September', label:'September', monthNum:'9'},
+  {month:'October', label:'October', monthNum:'10'},
+  {month:'November', label:'November', monthNum:'11'},
+  {month:'December', label:'December', monthNum:'12'}
+  ]}

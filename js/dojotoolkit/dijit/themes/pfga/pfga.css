@@ -1,0 +1,188 @@
+/* This Theme is copied from Tundra and modified for the pfga, anything leftover kudos to the tundra team */
+
+@import url("../dijit.css");
+
+
+body
+{
+	color: black;
+	font-family: Arial;
+	font-size: medium;
+	background-color: #fff8dc;
+}
+
+p
+{
+	line-height: normal;
+}
+
+#menu
+{
+	position:absolute;
+	width:200px;
+	top:125px;
+	padding:0;
+	margin:0;
+}
+
+#menu ul, #menu li
+{
+	list-style-type:none;
+	padding:0;
+	border:0;
+	margin:0 0 0 0;
+	line-height: normal;
+}
+
+#menu a, .panelList
+{
+	text-decoration:none;
+	color:Black;
+	margin-left:11px;
+	margin-bottom:20px;
+	font-family:Arial;
+	font-weight:bold;
+	font-size:medium;
+}
+
+#menu a:hover, .panelList:hover
+{
+	color:Red;
+}
+
+#Header
+{
+	position:relative;
+	height:100px;
+	padding:0;
+	margin:0;
+	text-align:center;
+}
+
+#content
+{
+	position:absolute;
+	left:220px;
+	top:125px;
+	font-family:Arial;
+	font-size: medium;
+    width: 75%;
+}
+
+#spacingDiv
+{
+	visibility:hidden;
+}
+
+.alt
+{
+    background-color:white;
+    height: auto;
+}
+.row
+{
+    height: auto;
+}
+
+.sub
+{
+}
+
+.newslinks
+{
+    text-decoration:none;
+	color:Black;
+}
+
+.direction
+{
+	text-decoration:none;
+	color:Black;
+	margin-left:11px;
+	margin-bottom:20px;
+	font-family:Arial;
+	font-weight:bold;
+	font-size: medium;
+}
+
+.direction:hover
+{
+	color:Red;
+}
+
+
+.Heading2
+{
+	font-family:Arial;
+	font-size: medium;
+	font-weight:bold;
+}
+
+.Heading1
+{
+	font-size: large;
+	font-family: Arial;
+	font-weight: bold;
+	text-align:center;
+	width: 100%;
+}
+
+.Panel
+{
+	display:block;
+	
+}
+
+.ListPanel
+{
+	margin-left:20px; 
+	margin-bottom:0px;
+	margin-top:0px;
+	padding:0;
+}
+
+.pfgaTable
+{
+    width: 100%;
+}
+
+.pfgaTable thead tr 
+{
+    border-width: 1px;
+	padding-bottom: 0px;
+	border-color: transparent #ACA899 #919191 transparent;
+	background: url(../../../dijit/themes/pfga/images/tabEnabled.png) #e9e9e9 repeat-x top;
+	color: #000 !important;
+}
+
+.pfgaAccordian
+{
+    width: 100%;
+}
+
+.pfgaAccordian .title
+{
+    border-width: 1px;
+    padding-bottom: 0px;
+    border-color: transparent #ACA899 #919191 transparent;
+    background: url(../../../dijit/themes/pfga/images/tabEnabled.png) #e9e9e9 repeat-x top;
+    color: #000 !important; 
+}
+
+.gallery
+{
+    margin: 0px auto 0px auto;
+    width: 600px;
+}
+
+.map
+{
+    margin: 0px auto 0px auto;
+    width: 307px
+}
+
+.center
+{
+    margin: 0px auto 0px auto;
+    width:75%;
+}

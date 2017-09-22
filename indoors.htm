@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+
+    <title>Peterborough Fish and Game Association: Indoors</title>
+
+    <link rel="stylesheet" href="css/pfga.css" />
+    <link rel="stylesheet" href="css/blueimp-gallery.min.css" />
+    
+    <script src="js/jquery.js" type="text/javascript"></script> 
+    <script src="common.js" type="text/javascript"></script>
+    
+    
+</head>
+
+<body>
+    
+   <div id="header">
+        
+   </div>
+   <div id="menu">
+        
+   </div>
+   <div id="content">
+        <div class="Heading1">Indoor Facilities</div>
+        <div style="overflow: auto; height: auto;" >
+            <p>We at Peterborough Fish and Game Association have a lot to be proud of. The PF&amp;GA is the oldest 
+            shooting facility in the area and is located a 10-minute drive east of downtown Peterborough on 100 acres of land. 
+            Our facilities include a heated clubhouse with a lounge, canteen, and washrooms.
+            The clubhouse has Peterborough's only heated indoor shooting range for pellet, .22 calibre rifles and handguns, 
+            center fire handguns and archery activities. </p>
+            <p>
+                No pets allowed in the clubhouse, service animals excepted.
+            </p>
+
+            <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+            <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-controls blueimp-gallery-carousel">
+                <div class="slides"></div>
+                <h3 class="title"></h3>
+                <a class="prev">‹</a>
+                <a class="next">›</a>
+                <a class="play-pause"></a>
+            </div>
+        </div>
+
+       <div id="links">
+           <a href="images/Indoor/clubhouse.jpg" title="Clubhouse"></a>
+           <a href="images/Indoor/insideclubhouse.jpg" title="Lounge"></a>
+           <a href="images/Indoor/noteboard.jpg" title="Notice Board"></a>
+           <a href="images/Indoor/canteen.jpg" title="Canteen" ></a>
+           <a href="images/Indoor/safearea.jpg" title="Safe Area"></a>
+           <a href="images/Indoor/safearea2.jpg" title="Safe Area"></a>
+           <a href="images/Indoor/downrange.jpg" title="Down Range"></a>
+           <a href="images/Indoor/Signin.jpg" title="Sign In"></a>
+       </div>
+    </div>
+    <div id="footer"></div>
+    <input type="hidden" id="pageRef" value="#l_indoors" />
+    <input type="hidden" id="panelRef" value="Facilities" />
+    <script src="js/blueimp-gallery.min.js"></script>
+    <script>
+        blueimp.Gallery(
+            document.getElementById('links').getElementsByTagName('a'),
+            {
+                container: '#blueimp-gallery-carousel',
+                carousel: true
+            }
+        );
+    </script>
+</body>
+</html>
