@@ -79,8 +79,6 @@ function init(){
             togglePanels("#panSections");
             break;
         default:
-            
-            
             break;
     }
 };

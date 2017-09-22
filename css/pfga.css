@@ -184,3 +184,31 @@ p
 	margin: 40px auto;
 	padding: 0 10px;
 }
+
+.pfgaTable
+{
+    width: 100%;
+}
+
+.pfgaTable thead tr 
+{
+    border-width: 1px;
+	padding-bottom: 0px;
+	border-color: transparent #ACA899 #919191 transparent;
+	background: url(/img/tabEnabled.png) #e9e9e9 repeat-x top;
+	color: #000 !important;
+}
+
+.pfgaAccordian
+{
+    width: 100%;
+}
+
+.pfgaAccordian .title
+{
+    border-width: 1px;
+    padding-bottom: 0px;
+    border-color: transparent #ACA899 #919191 transparent;
+    background: url(/img/tabEnabled.png) #e9e9e9 repeat-x top;
+    color: #000 !important; 
+}
