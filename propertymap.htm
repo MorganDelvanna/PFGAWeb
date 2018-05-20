@@ -1,62 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
-
+<!DOCTYPE html>
+<html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="language" content="en-us" />
+    <meta name="description" content="Peterborough Fish & Game Association gun club in Peterborough Ontario Canada" />
+    <meta name="keywords" content="handgun, rifle, archery, indoor range, outdoor range" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="Bryan McKellar" />
+    <meta name="copyright" content="2018, PFGA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Peterborough Fish and Game Association: Property Map</title>
 
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/pfga.css" />
-    
-    <script src="/js/jquery.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript">
-    $(document).ready(function() {
-       $('area').mouseover(function() {
-        var altText = $(this).attr('alt');
+    <link rel="shortcut icon" href="images/pfgalogo.ico" />
 
-       $('#Description').text(altText);
-       });
-       
-       $('area').mouseout(function() {
-        var altText = 'Peterborough Fish & Game Association Property, move the mouse over the map for Range Descriptions';
-
-       $('#Description').text(altText);
-       });
-    });
-    </script>
-    
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 </head>
 
 <body class="pfga">
-    
-   <div id="header" dojoType="dijit.layout.ContentPane" region="top" class="pfga">
-        
-   </div>
-   <div id="menu" dojoType="dijit.layout.ContentPane" region="left" class="pfga">
-        
-   </div>
-   <div id="content" dojoType="dijit.layout.ContentPane" region="center">
-        <div class="Heading1" align="center" >Property Map</div>
-        <div align="center" class="map">
-            <img src="images/property-map2.jpg" alt="" usemap="#ranges" />
-            <map name="ranges" id="ranges">
-                <area shape="rect" coords="0,0,100,100" alt="test" nohref="nohref" />
-                <area shape="rect" coords="107,418,179,458" alt="Club House, Indoor Range #1 and Parking Lot"  nohref="nohref" />
-                <area shape="rect" coords="20,352,94,379" alt="Range #2" title="Range #2" nohref="nohref" />
-                <area shape="rect" coords="1,308,128,343" alt="Covered Range #3 - 50m and 100 yards" title="Covered Range #3" nohref="nohref" />
-                <area shape="rect" coords="52,282,127,306" alt="50m Range #4" title="50m Range #4" nohref="nohref" />
-                <area shape="rect" coords="56,252,127,281" alt="50m Range #5" title="50m Range #5" nohref="nohref" />
-                <area shape="poly" coords="69,215,121,232,114,252,63,242,69,216" alt="Archery Range #6" title="Archery Range #6" nohref="nohref" />
-                <area shape="poly" coords="84,180,136,205,124,228,71,207,86,180" alt="IPSC and Action Pistol 50m Range #7" title="50m Range #7" nohref="nohref" />
-                <area shape="poly" coords="84,170,155,208,171,179,103,138,85,171" alt="Multi-Purpose Range #8 100m" title="Range #8 100m" nohref="nohref" />
-                <area shape="poly" coords="85,103,93,13,147,19,143,114" alt="FITA Archery Range #9"  nohref="nohref" />
-                <area shape="poly" coords="49,217,1,216,2,8,302,2,301,87,159,80,152,15,90,12,71,116,37,167" alt="3-D Archery" title="3-D Archery" nohref="nohref" />
-            </map>
-        </div>    
-        <div id="Description" class="center">Peterborough Fish & Game Association Property, move the mouse over the map for Range Descriptions</div>
+    <div class="container">
+        <div class="row">
+            <div class="col center">
+                <img alt="Peterborough Fish & Game Association" src="images/header.gif" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="menu">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1>Property Map</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div align="center" class="map">
+                    <img src="images/property-map2.jpg" alt="" usemap="#ranges" />
+                    <map name="ranges" id="ranges">
+                        <area shape="rect" coords="0,0,100,100" alt="test" nohref="nohref" />
+                        <area shape="rect" coords="107,418,179,458" alt="Club House, Indoor Range #1 and Parking Lot" nohref="nohref" />
+                        <area shape="rect" coords="20,352,94,379" alt="Range #2" title="25m Bullseye Range #2 " nohref="nohref" />
+                        <area shape="rect" coords="1,308,128,343" alt="Covered Range #3 - 50m and 100 yards" title="Covered Range #3" nohref="nohref" />
+                        <area shape="rect" coords="52,282,127,306" alt="50m Range #4" title="50m Range #4" nohref="nohref" />
+                        <area shape="rect" coords="56,252,127,281" alt="50m Range #5" title="50m Range #5" nohref="nohref" />
+                        <area shape="poly" coords="69,215,121,232,114,252,63,242,69,216" alt="Archery Range #6" title="Archery Range #6" nohref="nohref" />
+                        <area shape="poly" coords="84,180,136,205,124,228,71,207,86,180" alt="IPSC and Action Pistol 50m Range #7" title="50m Range #7" nohref="nohref" />
+                        <area shape="poly" coords="84,170,155,208,171,179,103,138,85,171" alt="Multi-Purpose Range #8 100m" title="Range #8 100m" nohref="nohref" />
+                        <area shape="poly" coords="85,103,93,13,147,19,143,114" alt="FITA Archery Range #9" nohref="nohref" />
+                        <area shape="poly" coords="49,217,1,216,2,8,302,2,301,87,159,80,152,15,90,12,71,116,37,167" alt="3-D Archery" title="3-D Archery" nohref="nohref" />
+                    </map>
+                </div>
+                <div id="Description" class="center">Peterborough Fish & Game Association Property, move the mouse over the map for Range Descriptions</div>
+            </div>
+        </div>
     </div>
+
     <div id="footer"></div>
     <input type="hidden" id="pageRef" value="#l_property" />
-    <input type="hidden" id="panelRef" value="Facilities" />
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('area').mouseover(function () {
+                var altText = $(this).attr('alt');
+
+                $('#Description').text(altText);
+            });
+
+            $('area').mouseout(function () {
+                var altText = 'Peterborough Fish & Game Association Property, move the mouse over the map for Range Descriptions';
+
+                $('#Description').text(altText);
+            });
+        });
+    </script>
 </body>
 </html>

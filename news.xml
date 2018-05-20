@@ -4,11 +4,22 @@
     <index>1</index>
     <latest>Y</latest>
     <header>
-      <![CDATA[Annual General Meeting this month]]> 
+      <![CDATA[Item 1]]> 
     </header>
     <date>Sep 22, 2017</date>
     <desc>
-       <![CDATA[]]> 
+       <![CDATA[Item 1 Description]]> 
+    </desc>
+  </newsitem>
+<newsitem>
+    <index>2</index>
+    <latest>Y</latest>
+    <header>
+      <![CDATA[Item 2]]> 
+    </header>
+    <date>Sep 22, 2017</date>
+    <desc>
+       <![CDATA[Item 2 Description]]> 
     </desc>
   </newsitem>
 </news>

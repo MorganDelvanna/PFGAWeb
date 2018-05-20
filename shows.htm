@@ -1,128 +1,166 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html>
 <head>
-        <title>Peterborough Fish and Game Association: Shows and Auctions </title>
-        
-        <!-- TODO: Make teh row clickable for directions -->
+    <meta charset="UTF-8">
+    <meta name="language" content="en-us" />
+    <meta name="description" content="Peterborough Fish & Game Association gun club in Peterborough Ontario Canada" />
+    <meta name="keywords" content="handgun, rifle, archery, indoor range, outdoor range" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="Bryan McKellar" />
+    <meta name="copyright" content="2018, PFGA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Peterborough Fish and Game Association: Shows and Auctions </title>
+
     <link rel="stylesheet" href="css/pfga.css" />
 
-    <script src="/js/jquery.js" type="text/javascript"></script>
-    <script src="/js/jquery.scrollabletable.js_2.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $.ajax({
-                type: "GET",
-                url: "shows.xml",
-                dataType: "xml",
-                success: parseXml
-            });
 
-            function parseXml(xml) {
-                var altRow = 0;
-                var rowTag;
-                var rowTag2;
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/pfga.css" />
+    <link rel="shortcut icon" href="images/pfgalogo.ico" />
 
-                $(xml).find("show").each(function() {
-
-                    //find each instance of header in xml file
-                    var description = $(this).find("description").text();
-
-                    //if blank hide row
-                    if (description == "") {
-                        $("#eventGrid tbody tr").hide();
-                    } else {
-                        if (altRow == 1) {
-                            rowTag = "<tr id='Main_" + $(this).find("month").text() + '_' + $(this).attr("id") + "' class='alt'>";
-                            rowTag = "<tr id='Other_" + $(this).find("month").text() + '_' + $(this).attr("id") + "' class='alt'>";
-                        } else {
-                            rowTag = "<tr id='Main_" + $(this).find("month").text() + '_' + $(this).attr("id") + "' >";
-                            rowTag = "<tr id='Other_" + $(this).find("month").text() + '_' + $(this).attr("id") + "' >";
-                        }
-                        //else add tr and td tags and add alt class for striping
-                        $("#eventGrid tbody").append(rowTag
-                        + "<td width='80px'>" + $(this).find("date").text() + "</td>"
-                        + "<td>" + $(this).find("description").text() + "</td>"
-                        + "<td>" + $(this).find("location").text() + "</td>"
-                        + "</tr>"
-                        + rowTag
-                        + "<td colspan='4'>" + $(this).find("detail").text()
-                        + "<br />"
-                        + "<a href='directions.htm?id=" + $(this).attr("id") + "' class='direction'>Click for directions</a>"
-                        + "</td>"
-                        + "</tr>"
-                     );
-                        if (altRow == 0) {
-                            altRow = 1;
-                        } else {
-                            altRow = 0;
-                        }
-                    }
-                });
-                
-                showMonth(0);
-
-                $('#monthInput').change(function() {
-                    showMonth($('#monthInput option:selected').val());
-                });
-
-                $("#eventGrid").scrollable({ tableHeight: 400 });
-            }
-
-            function showMonth(selMonth) {
-                var nYear;
-                var nMonth;
-                var d = new Date();
-
-                $("#eventGrid tbody").find('tr').hide();
-                $("#eventGrid tbody").find('tr[id*="_' + selMonth + '_"').show();
-            }
-        });
-    </script>
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>   
 </head>
 <body>
-   <div id="header"></div>
-   <div id="menu"></div>
-   
-   <div id="content" style="overflow:visible" >
-          
-        <div id="pagehead" class="Heading1" > Shows and Auctions </div>
-        <p>
-            <select id="monthInput" >
-                <option value='0'>Monthly</option>
-                <option value='1'>January</option>
-                <option value='2'>February</option>
-                <option value='3'>March</option>
-                <option value='4'>April</option>
-                <option value='5'>May</option>
-                <option value='6'>June</option>
-                <option value='7'>July</option>
-                <option value='8'>August</option>
-                <option value='9'>September</option>
-                <option value='10'>October</option>
-                <option value='11'>November</option>
-                <option value='12'>December</option>
-            </select>        
-        </p>
+    <div class="container">
+        <div class="row">
+            <div class="col center">
+                <img alt="Peterborough Fish & Game Association" src="images/header.gif" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="menu">
 
-        <table class="pfgaTable"  cellpadding="0px" cellspacing="0px" id="eventGrid">
-          <thead>
-            <tr>
-              <th width="20%" align="left" valign="top">Date</th>
-              <th width="40%" align="left" valign="top">Description</th>
-              <th width="40%" align="left" valign="top">Location</th>
-            </tr>
-            <tr>
-                <th align="left" colspan="3">Details <br />Directions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-   </div>     
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1>Shows and Auctions</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <select id="monthInput">
+                    <option value="-1">Show All</option>
+                    <option value='0'>Monthly</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table pfgaTable" id="eventGrid">
+                    <thead>
+                        <tr>
+                            <th width="20%" align="left" valign="top" scope="col" id="thDate">Date</th>
+                            <th width="40%" align="left" valign="top" scope="col" id="thDescription">Description</th>
+                            <th width="40%" align="left" valign="top" scope="col" id="thLocation">Location</th>
+                        </tr>
+                        <tr>
+                            <th align="left" colspan="3" scope="col" id="thDirections">Details / Directions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>    
    
    <div id="footer"></div>
    <input type="hidden" id="pageRef" value="#l_shows" />
-   <input type="hidden" id="panelRef" value="None" />
+    
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="js/common.js" type="text/javascript"></script>
+    <script src="js/moment.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "shows.xml",
+            dataType: "xml",
+            success: parseXml
+        });
+
+        function parseXml(xml) {
+            var altRow = 0;
+            var rowTag;
+            var formattedMonth;
+
+            $(xml).find("show").each(function () {
+
+                //find each instance of header in xml file
+                var description = $(this).find("description").text();
+
+                //if blank hide row
+                if (description == "") {
+                    $("#eventGrid tbody tr").hide();
+                } else {
+                    rowTag = "<tr name='Main_" + $(this).find("month").text() + '_' + $(this).attr("id") + "' >";                        
+        
+                    formattedMonth = moment($(this).find("month").text(), 'MM').format('MMMM');
+                    
+                    $("#eventGrid tbody").append(rowTag
+                    + "<td headers='thDate' width='80px'>" + formattedMonth + ' ' + $(this).find("date").text() + "</td>"
+                    + "<td headers='thDescription'>" + $(this).find("description").text() + "</td>"
+                    + "<td headers='thLocation'>" + $(this).find("location").text() + "</td>"
+                    + "</tr>"
+                    + rowTag
+                    + "<td headers='thDirections' colspan='4'>" + $(this).find("detail").text()
+                    + "<br />"
+                    + "<a href='directions.htm?id=" + $(this).attr("id") + "' class='direction'>Click for directions</a>"
+                    + "</td>"
+                    + "</tr>"
+                 );
+                }
+            });
+
+           showMonth(-1);
+
+            $('#monthInput').change(function () {
+                showMonth($('#monthInput option:selected').val());
+            });
+        }
+
+        function showMonth(selMonth) {
+            var nYear;
+            var nMonth;
+            var d = new Date();
+
+            $("#eventGrid tbody tr").removeClass("alt");
+            
+            if (selMonth == -1)
+            {
+                $("#eventGrid tbody tr").show();
+            }
+            else
+            {
+                $("#eventGrid tbody").find('tr').hide();
+                $("#eventGrid tbody").find('tr[name^="Main_' + selMonth + '_"]').show();
+            }
+            
+            $('#eventGrid tbody tr:visible').each(function (i) {
+                if ((i + 1) % 4 === 0) {
+                    $(this).addClass('alt');
+                    $(this).prev().addClass('alt');
+                }
+            })
+        }
+    });
+    </script>
+
 </body>
 </html>

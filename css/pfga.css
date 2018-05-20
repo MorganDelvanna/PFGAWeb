@@ -3,7 +3,7 @@ body
 	color: black;
 	font-family: Arial;
 	font-size: medium;
-	background-color: #fff8dc;
+	background-color: #ffeb99;
 }
 
 p
@@ -11,121 +11,14 @@ p
 	line-height: normal;
 }
 
-.divTable
-{
-    width:100%; 
-    display:flex; 
-    justify-content:center;
-}
-.cell
-{
-    width:30%;
-    padding-bottom: 20px;
-}
-
-#menu
-{
-	position:absolute;
-	width:200px;
-	top:125px;
-	padding:0;
-	margin:0;
-}
-
-#menu ul, #menu li
-{
-	list-style-type:none;
-	padding:0;
-	border:0;
-	margin:0 0 0 0;
-	line-height: normal;
-}
-
-#menu a, .panelList
-{
-	text-decoration:none;
-	color:Black;
-	margin-left:11px;
-	margin-bottom:20px;
-	font-family:Arial;
-	font-weight:bold;
-	font-size:medium;
-}
-
-#menu a:hover, .panelList:hover
-{
-	color:Red;
-}
-
-#Header
-{
-	position:relative;
-	height:100px;
-	padding:0;
-	margin:0;
-	text-align:center;
-}
-
-#content
-{
-	position:absolute;
-	left:220px;
-	top:125px;
-	font-family:Arial;
-	font-size: medium;
-    width: 75%;
-}
-
-#spacingDiv
-{
-	visibility:hidden;
-}
-
-.alt
-{
-    background-color:white;
-    height: auto;
-}
-.row
-{
-    height: auto;
-}
-
-.sub
-{
-}
-
-.newslinks
-{
-    text-decoration:none;
-	color:Black;
-}
-
-.direction
-{
-	text-decoration:none;
-	color:Black;
-	margin-left:11px;
-	margin-bottom:20px;
-	font-family:Arial;
-	font-weight:bold;
-	font-size: medium;
-}
-
-.direction:hover
-{
-	color:Red;
-}
-
-
-.Heading2
+h2
 {
 	font-family:Arial;
 	font-size: medium;
 	font-weight:bold;
 }
 
-.Heading1
+h1
 {
 	font-size: large;
 	font-family: Arial;
@@ -134,30 +27,70 @@ p
 	width: 100%;
 }
 
-.Panel
+.alt
 {
-	display:block;
-	
+    background-color: white;
 }
 
-.ListPanel
+.center 
 {
-	margin-left:20px; 
-	margin-bottom:0px;
-	margin-top:0px;
-	padding:0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
-.map
+.pfgaAccordian
 {
-    margin: 0px auto 0px auto;
-    width: 307px
+    border-width: 1px;
+    padding-bottom: 0px;
+    border-color: transparent #ACA899 #919191 transparent;
+    background: url(/img/tabEnabled.png) #e9e9e9 repeat-x top;
+    color: #000 !important; 
+    font-size: medium;
+    font-weight: 600;
 }
 
-.center
+.row
 {
-    margin: 0px auto 0px auto;
-    width:75%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.padded
+{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.navbar
+{
+    background-color: gold;
+}
+
+a.active
+{
+    color:blue;
+}
+
+.nav-link
+{
+    font-weight: bold;
+    color: black;
+}
+
+.nav-item:hover
+{
+    color: #0056b3;
+}
+
+.news
+{
+    border: 1px solid black;
+}
+
+.latest
+{
+    border-right: 1px solid black;
 }
 
 #script-warning {
@@ -193,10 +126,15 @@ p
 .pfgaTable thead tr 
 {
     border-width: 1px;
-	padding-bottom: 0px;
+	padding: 0 0 0 0;
 	border-color: transparent #ACA899 #919191 transparent;
-	background: url(/img/tabEnabled.png) #e9e9e9 repeat-x top;
+	background-color: gold;
 	color: #000 !important;
+}
+
+.table th
+{
+	padding: 0 0 0 0;
 }
 
 .pfgaAccordian
@@ -204,11 +142,3 @@ p
     width: 100%;
 }
 
-.pfgaAccordian .title
-{
-    border-width: 1px;
-    padding-bottom: 0px;
-    border-color: transparent #ACA899 #919191 transparent;
-    background: url(/img/tabEnabled.png) #e9e9e9 repeat-x top;
-    color: #000 !important; 
-}
