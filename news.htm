@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="container" ng-controller="NewsController">
-                    <div class="row newsRow" ng-repeat="item in news | orderBy:'Index'" ng-class-even="'alt'">
+                    <div class="row newsRow" ng-repeat="item in news | filter:{ Latest:'Y' } | orderBy:'-Index'" ng-class-even="'alt'" >
                         <div class="col12" ng-bind-html="item.Description | to_trusted">
 
                         </div>

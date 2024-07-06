@@ -1,43 +1,277 @@
 ﻿[
-    { "Category": "Dealers", "URL": "http://www.accuracyplus.biz", "Title": "Accuracy Plus", "Location": "Peterborough", "Contact": "705-740-0063" },
-    { "Category": "Dealers", "URL": "https://www.facebook.com/Emmssportslindsay/", "Title": "Emm's Sports - Outdoors Outfitters", "Location": "Lindsay", "Contact": "705-324-5563" } ,
-    { "Category": "Dealers", "URL": "http://www.alsimmonsgunshop.on.ca/", "Title": "Al Simmons Gun Shop", "Location": "Hamilton", "Contact": "905-522-1131"},
-    { "Category": "Dealers", "URL": "http://www.ellwoodepps.com/", "Title": "Ellwood Epps", "Location": "Orillia", "Contact": "705-689-2279"},
-    { "Category": "Dealers", "URL": "http://www.gagnonsports.com", "Title": "Gagnon Sports", "Location": "Oshawa", "Contact": "905-725-5798"},
-    { "Category": "Dealers", "URL": "http://www.e-gunparts.com/", "Title": "Gun Parts Corporation", "Location": "Very good list of gun parts", "Contact": "Viewed best with IE"} ,
-    { "Category": "Dealers", "URL": "http://www.saugeenshafts.com/", "Title": "Saugeen Shafts", "Location": "Peterborough", "Contact": "(705) 749 1533 or (888) 820 2098"},
-    { "Category": "Dealers", "URL": "https://targetcrazy.com/", "Title": "Target Crazy", "Location": "Archery Resources"},
-    { "Category": "Dealers", "URL": "http://www.huntinggearguy.com/", "Title": "The Hunting Gear Guy", "Location": "Gear Reviews"},
-    { "Category": "Dealers", "URL": "http://www.tesro.ca/", "Title": "Tesro Canada", "Location": "Sport shooting gear" },
-    { "Category": "Dealers", "URL": "https://www.airgunsource.ca/en/", "Title": "Airgun Source", "Location": "Peterborough", "Contact": "1-800-565-9527" },    
-    { "Category": "Clubs", "URL": "http://barriegunclub.org/", "Title": "Barrie Gun Club", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.rangeburlington.ca", "Title": "Burlington Rifle and Revolver Club", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.ontarioskeet.com/clubs/Cobourg.html", "Title": "Cobourg Trap and Skeet Club", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.grenvillefishandgame.com/", "Title": "Greenville Fish and Game Club", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.eohc.ca/", "Title": "Eastern Ontario Handgun Club", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.marksmenclub.com/", "Title": "Marksmen Club Oshawa", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.nprc.ca", "Title": "Northhumberland Pistol & Rifle Club", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.oshawaskeetandgunclub.ca/", "Title": "Oshawa Skeet and Gun Club", "Location": "", "Contact": "" },
-    { "Category": "Clubs", "URL": "http://www.scarboroughrifleclub.ca/", "Title": "Scarboro Rifle Club", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.berettausa.com/", "Title": "Beretta USA Corp", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.browning.com/", "Title": "Browning", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.colt.com/", "Title": "Colt's Mfg. Co. Inc.", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.cz-usa.com/", "Title": "CZ USA", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.glock.com/", "Title": "Glock Inc", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "https://hk-usa.com/", "Title": "Heckler & Koch", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.savagearms.com/", "Title": "Savage Arms Canada", "Location": "Lakefield, Ontario", "Contact": "220,000+ annual rifle production <br />145+ employees" },
-    { "Category": "Manufacturer", "URL": "http://home.smith-wesson.com/", "Title": "Smith & Wesson", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.springfield-armory.com/", "Title": "Springfield Armoury", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.ruger.com", "Title": "Sturm Ruger & Co. Inc", "Location": "", "Contact": "" },
-    { "Category": "Manufacturer", "URL": "http://www.winchesterguns.com/", "Title": "Winchester/US Repeating Arms Co.", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.canadianguns.com/", "Title": "Canadian Access to Firearms", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.cdnshootingsports.org/", "Title": "Canadian Shooting Sports Association", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.rcmp-grc.gc.ca/cfp-pcaf/", "Title": "Canadian Firearms Program", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.ipsc-ont.org/", "Title": "IPSC Ontario", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.nfa.ca/", "Title": "National Firearms Association - Canada", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.ontariorifleassociation.ca/", "Title": "Ontario Rifle Association", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.canadiangunnutz.com/", "Title": "Canadian GunNutz", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://www.nra.org/", "Title": "National Rifle Association", "Location": "USA", "Contact": "" },
-    { "Category": "Organizations", "URL": "http://sfc-ftc.ca/", "Title": "Shooting Federation of Canada", "Location": "", "Contact": "" },
-    { "Category": "Organizations", "URL": "https://ontariotarget.ca/", "Title": "ONTarget Rifle and Pistol Alliance", "Location": "", "Contact": "" }
+
+  {
+    "Category": "Dealers",
+    "URL": "https://www.facebook.com/Emmssportslindsay/",
+    "Title": "Emm's Sports - Outdoors Outfitters",
+    "Location": "Lindsay",
+    "Contact": "705-324-5563"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.targets.ca/",
+    "Title": "Cibles Canada Tagets",
+    "Location": "Target Shooting Supplies",
+    "Contact": ""
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.alsimmonsgunshop.on.ca/",
+    "Title": "Al Simmons Gun Shop",
+    "Location": "Hamilton",
+    "Contact": "905-522-1131"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.ellwoodepps.com/",
+    "Title": "Ellwood Epps",
+    "Location": "Orillia",
+    "Contact": "705-689-2279"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.gagnonsports.com",
+    "Title": "Gagnon Sports",
+    "Location": "Oshawa",
+    "Contact": "905-725-5798"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "https://redheadarchery.com/",
+    "Title": "Red Head Archery",
+    "Location": "Douro-Dummer",
+    "Contact":  ""
+  },
+  {
+    "Category": "Dealers",
+    "URL": "https://targetcrazy.com/",
+    "Title": "Target Crazy",
+    "Location": "Archery Resources"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.huntinggearguy.com/",
+    "Title": "The Hunting Gear Guy",
+    "Location": "Gear Reviews"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.tesro.ca/",
+    "Title": "Tesro Canada",
+    "Location": "Sport shooting gear"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "https://www.airgunsource.ca/en/",
+    "Title": "Airgun Source",
+    "Location": "Peterborough",
+    "Contact": "1-800-565-9527"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "https://www.black-sheep-brass.com/",
+    "Title": "Black Sheep Brass",
+    "Location": "Professionally processed brass for commercial loaders and competitive shooters across Canada"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "https://www.a-hitsinc.com/",
+    "Title": "A-Hits Inc.",
+    "Location": "Targeting your range game"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "https://www.doubletapsports.com/",
+    "Title": "Double Tap Sports",
+    "Location": "Mississauga"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://houndsden.ca",
+    "Title": "Hounds Den",
+    "Location": "Specializes in new & used reloading equipment",
+    "Contact": "905-903-4171"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.williamsarms.net/",
+    "Title": "Williams Arms",
+    "Location": "We have fair prices, the best products, and the best service!",
+    "Contact": "1-877-833-2634"
+  },
+  {
+    "Category": "Dealers",
+    "URL": "http://www.targetshootingproducts.com/",
+    "Title": "Target Shooting Products (International Imports)",
+    "Location": "We sell the best",
+    "Contact": "416 242 8540"
+  },
+  {
+    "Category": "Clubs",
+    "URL": "http://barriegunclub.org/",
+    "Title": "Barrie Gun Club",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Clubs",
+    "URL": "http://www.rangeburlington.ca",
+    "Title": "Burlington Rifle and Revolver Club",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Clubs",
+    "URL": "http://www.grenvillefishandgame.com/",
+    "Title": "Greenville Fish and Game Club",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Clubs",
+    "URL": "http://www.oshawaskeetandgunclub.ca/",
+    "Title": "Oshawa Skeet and Gun Club",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.berettausa.com/",
+    "Title": "Beretta USA Corp",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.browning.com/",
+    "Title": "Browning",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.colt.com/",
+    "Title": "Colt's Mfg. Co. Inc.",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.cz-usa.com/",
+    "Title": "CZ USA",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.glock.com/",
+    "Title": "Glock Inc",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "https://hk-usa.com/",
+    "Title": "Heckler & Koch",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.savagearms.com/",
+    "Title": "Savage Arms Canada",
+    "Location": "Lakefield, Ontario",
+    "Contact": "220,000+ annual rifle production <br />145+ employees"
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.springfield-armory.com/",
+    "Title": "Springfield Armoury",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.ruger.com",
+    "Title": "Sturm Ruger & Co. Inc",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Manufacturer",
+    "URL": "http://www.winchesterguns.com/",
+    "Title": "Winchester/US Repeating Arms Co.",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.canadianguns.com/",
+    "Title": "Canadian Access to Firearms",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.cdnshootingsports.org/",
+    "Title": "Canadian Shooting Sports Association",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.rcmp-grc.gc.ca/cfp-pcaf/",
+    "Title": "Canadian Firearms Program",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.ipsc-ont.org/",
+    "Title": "IPSC Ontario",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.nfa.ca/",
+    "Title": "National Firearms Association - Canada",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.ontariorifleassociation.ca/",
+    "Title": "Ontario Rifle Association",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.canadiangunnutz.com/",
+    "Title": "Canadian GunNutz",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://www.nra.org/",
+    "Title": "National Rifle Association",
+    "Location": "USA",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "http://sfc-ftc.ca/",
+    "Title": "Shooting Federation of Canada",
+    "Location": "",
+    "Contact": ""
+  },
+  {
+    "Category": "Organizations",
+    "URL": "https://ontariotarget.ca/",
+    "Title": "ONTarget Rifle and Pistol Alliance",
+    "Location": "",
+    "Contact": ""
+  }
 ]

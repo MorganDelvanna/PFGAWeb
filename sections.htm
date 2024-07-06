@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="language" content="en-us" />
+    <meta name="description" content="Peterborough Fish & Game Association gun club in Peterborough Ontario Canada" />
+    <meta name="keywords" content="handgun, rifle, archery, indoor range, outdoor range" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="Bryan McKellar" />
+    <meta name="copyright" content="2018, PFGA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Peterborough Fish and Game Association: Sections</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/pfga.css" />
+    <link rel="shortcut icon" href="images/pfgalogo.ico" />
+
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col center">
+                <img alt="Peterborough Fish & Game Association" src="images/header.gif" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="menu">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1>Sections</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p>The Peterborough Fish & Game Association has several activities or sections available to join</p>
+                
+                <p>
+                    <a href="action.htm">Action shooting:</a> the practice of shooting at multiple targets, moving targets, targets that react when hit, penalty targets mixed-in, obstacle movement, and competitive tactics.
+                </p>
+                <p>
+                    <a href="archery.htm">Archery:</a> Recurve bows, compound bows and crossbows
+                </p>
+                <p>
+                    <a href="handgun.htm">Handgun:</a> Bullseye shooting
+                </p>
+                <p>
+                    <a href="rifles.htm">Rifles:</a> Big bore rifle and hunting rifle
+                </p>
+                <p>
+                    <a href="smallbore.htm">Smallbore:</a> .22 rifle, air rifle and air pistol competitive shooting
+                </p>
+                <p>
+                    <a href="junior.htm">Junior Rifle:</a> For kids age 12 to 18 we teach air rifle in the winter and .22 rifle in the summer
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+    <input type="hidden" id="pageRef" value="#l_sections" />
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            el = $('#email_one');
+            el.each(function () {
+                el.attr('href', 'mailto:' + el.attr('href').replace('|', '@').replace('/', '').replace(':', '.'));
+                el.attr('title', el.attr('href').replace('|', '@').replace('/', '').replace(':', '.').replace('mailto.', 'Email: '));
+            });
+        });
+    </script>
+</body>
+</html>

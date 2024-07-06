@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -45,23 +45,17 @@
                 P.O. Box 241 <br />
                 Peterborough, Ontario <br />
                 K9J 6Y1 <br />
-                Phone:&nbsp; 705-742-6845
             </div>
         </div>
         <div class="row">
-            <dic class="col">
-                Email:&nbsp; <a href="/info|pfga:ca?subject=PF-GA inquiry" id="email_one" title="">Contact Peterborough Fish & Game Association</a>
-            </dic>
+            <div class="col">
+                Membership Information:&nbsp; <span class="emails">/membership|pfga:ca</span>
+            </div>
         </div>
         <div class="row">
-            <dic class="col">
-                Email:&nbsp; <a href="/membership|pfga:ca?subject=PF-GA membership inquiry" id="email_three" title="">Membership Information</a>
-            </dic>
-        </div>
-        <div class="row">
-            <dic class="col">
-                Email:&nbsp; <a href="/dawebguy|pfga.ca?subject=PF-GA web page" id="email_two" title="">Contact the webmaster for website Info</a>
-            </dic>
+            <div class="col">
+                Contact the webmaster for website Info:&nbsp; <span class="emails">/dawebguy2|pfga.ca</span>
+            </div>
         </div>
     </div>
 
@@ -71,20 +65,10 @@
     <script src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
-            el = $('#email_one');
+            let el = $('.emails');
             el.each(function () {
-                el.attr('href', 'mailto:' + el.attr('href').replace('|', '@').replace('/', '').replace(':', '.'));
-                el.attr('title', el.attr('href').replace('|', '@').replace('/', '').replace(':', '.').replace('mailto.', 'Email: '));
-            });
-            el = $('#email_two');
-            el.each(function () {
-                el.attr('href', 'mailto:' + el.attr('href').replace('|', '@').replace('/', '').replace(':', '.'));
-                el.attr('title', el.attr('href').replace('|', '@').replace('/', '').replace(':', '.').replace('mailto.', 'Email: '));
-            });
-            el = $('#email_three');
-            el.each(function () {
-                el.attr('href', 'mailto:' + el.attr('href').replace('|', '@').replace('/', '').replace(':', '.'));
-                el.attr('title', el.attr('href').replace('|', '@').replace('/', '').replace(':', '.').replace('mailto.', 'Email: '));
+                let data = $(this).text();
+                $(this).text(data.replace('|', '@').replace('/', '').replace(':', '.'));
             });
         });
     </script>

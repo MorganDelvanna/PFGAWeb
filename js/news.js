@@ -8,10 +8,11 @@
         }
 
         var onError = function (reason) {
-            $scope.error = "Couldn't find any links";
+            $scope.error = "Couldn't find any news";
+            console.log(reason);
         }
 
-        $http.get("news.json")
+        $http.get("news_data.json")
             .then(onNewsComplete, onError);
     };
 
