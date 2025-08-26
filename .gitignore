@@ -162,6 +162,7 @@ node_modules/
 board/
 forms/
 images/
+*.thing
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -191,3 +192,4 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /Web.Config
+/storage/PFGA_Bluebook_2024_Rev9.pdf
