@@ -41,9 +41,16 @@
             <div class="col-12">
                 <div class="container" ng-controller="NewsController">
                     <div class="row newsRow" ng-repeat="item in news | filter:{ Latest:'Y' } | orderBy:'-Index'" ng-class-even="'alt'" >
-                        <div class="col12" ng-bind-html="item.Description | to_trusted">
-
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 ng-bind="item.Header"></h2>
+                            </div>
                         </div>
+                        <div class="row">
+                            <div class="col-12" ng-bind-html="item.Description | to_trusted">
+
+                            </div>
+                        </div>                        
                     </div>
                 </div>
             </div>
