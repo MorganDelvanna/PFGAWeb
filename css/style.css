@@ -1,0 +1,126 @@
+body {
+  background: #ffeb99;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+  'Helvetica Neue', 'Ubuntu', sans-serif;
+  height: 100vh;
+  margin: 50px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+section {
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h3 {
+  font-weight: 800;
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+h5 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.154px;
+  color: #242d60;
+  margin: 0;
+}
+button {
+  height: 36px;
+  background: #556cd6;
+  color: white;
+  width: 100%;
+  font-size: 14px;
+  border: 0;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.6;
+  border-radius: 0 0 6px 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+label {
+  font-weight: 500;
+}
+
+input[type=text] {
+  width: 100%;
+}
+
+select {
+  width: 100%;
+}
+
+th {
+  text-align: center;
+}
+
+caption {
+  caption-side:top ;
+  color: black; 
+}
+
+table {
+  width: 100%;
+}
+
+hr {
+  color: black;
+  height: 2px;
+  background-color: black;
+}
+
+
+.cart{
+  border: 1px solid black; 
+  padding: 5px;
+}
+
+.error:focus {
+  border: solid 1px darkred;
+  color: black;
+}
+
+.error{
+  color: darkred;
+}
+
+.required{
+  color: darkred;
+}
+.required:after {
+  content: ' *';
+}
+
+.title{
+  font-size: small;
+  text-align: left;
+}
+
+.centered{
+ text-align: center;
+ align-content: center;
+}
+
+.hidden{
+  display: none;
+}
+
+.terms { 
+  border: 1px solid black;
+}

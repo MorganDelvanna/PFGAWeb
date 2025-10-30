@@ -150,3 +150,17 @@ a.active
 .altList > li:nth-child(even) {
 	background-color: White;
 }
+
+.tooltip {
+	z-index: 2000;
+	opacity: 1;	
+}
+
+.fc-list-event tr {
+	width: 100% !important;
+	box-sizing: border-box;
+}
+
+.newsRow {
+	border-bottom: solid 1px black
+}
