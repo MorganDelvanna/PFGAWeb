@@ -1,0 +1,19 @@
+﻿extends ../layout
+block content
+	.container
+		.row.justify-content-center
+			.col-md-8
+				.card
+					.card-header New News Item
+					.card-body
+						form.form-horizontal(method='post', action='/news/saveNews')
+							input(type='hidden', id='_csrf', name='_csrf', value=csrfToken)
+							.mb-3
+								label.form-label.control-label(for='header') Heading
+								input#header.form-control(name='header')
+							.mb-3
+								label.form-label.control-label(for='description') Description
+								textarea#description.form-control(name='description')
+							.mb-3
+								button.btn.btn-primary(type='submit') Save
+								a(href='/news/list').btn.btn-secondary Cancel

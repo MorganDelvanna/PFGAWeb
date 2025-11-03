@@ -1,0 +1,23 @@
+﻿extends ../layout
+block content
+	.container
+		.row.justify-content-center
+			.col-md-8
+				.card
+					.card-header New News Item
+					.card-body
+						form.form-horizontal(method='post', action='/news/update')
+							input(type='hidden', id='_csrf', name='_csrf', value=csrfToken)
+							input(type='hidden', name='index', value= index)
+							.mb-3
+								label.form-label.control-label(for='header') Heading
+								input#header.form-control(name='header' value=header)
+							.mb-3
+								label.form-label.control-label(for='description') Description
+								textarea#description.form-control(name='description') #{description}
+							.mb-3
+								label.form-label.control-label(for='archived') Archived
+								input#archived.form-check-input(type='checkbox' name='archived' checked=archived value='isArchived')
+							.mb-3
+								button.btn.btn-primary(type='submit') Save
+								a(href='/news/list').btn.btn-secondary Cancel

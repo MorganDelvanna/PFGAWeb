@@ -1,0 +1,43 @@
+﻿extends ../layout
+
+block content
+	div.main
+		h3 News List
+		div.mb-3
+			a(id='addBtn', href='/news/addNews').button Add New Announcement
+		div.container
+			input(type='hidden', id='_csrf', name='_csrf', value=csrfToken)
+			div.row
+				div.col-1.bordered.heading Date
+				div.col-3.bordered.heading Header
+				div.col-5.bordered.heading Description
+				div.col-1.bordered.heading Archived
+				div.col-2.bordered.heading.text-center Action
+			if (news)
+				each item in news
+					div.row
+						div.col-1.bordered #{ moment(item.date).format('YYYY-MM-DD') }
+						div.col-3.bordered #{item.header}						
+						div.col-5.bordered
+							div.description #{item.description}						
+						div(id='archive_'+item.index).col-1.bordered.text-center.pt-3
+							if (item.archived === true)
+								span x
+						div.col-2.bordered
+							div.row.pt-2
+								div.col-6
+									a.button.edit(href='/news/edit?id=' + item.index) Edit
+								div.col-6
+									a.button.archive(data-id=item.index) Archive
+	script.
+		$(function(){
+			$('.archive').on('click', function(){
+				const csrf = $('#_csrf').val();
+				const id = $(this).data('id');
+				$.post('/news/archive', {_csrf: csrf, id: id}, function(response){
+					if(response.success){
+						$('#archive_' + id).append('<span>x<span>');
+					}					
+				});
+			});
+		});
