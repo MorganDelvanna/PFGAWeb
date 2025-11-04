@@ -7,11 +7,29 @@ module.exports = {
         const csrfToken = req.csrfToken();
         res.render('auth/login', { csrfToken: csrfToken });
     },
-    loginUser: (req, res) => {
-        passport.authenticate('local', {
-            successRedirect: '/news/list?loginsuccess',
-            failureRedirect: '/login?error'
-        })(req, res);
+    loginUser: (req, res, next) => {
+        passport.authenticate('local', (err, user, info) => {
+            if (err) return next(err);
+
+            if (!user) {
+                return res.redirect('/login?error');
+            }
+
+            req.logIn(user, (err) => {
+                if (err) return next(err)
+                switch (user.role) {
+                    case 'news':
+                        return res.redirect('/news/list');
+                        break;
+                    case 'calendar':
+                        console.log("going to calendar");
+                        return res.redirect('/calendar/list');
+                        break;
+                    default:
+                        return res.redirect('/login?role');
+                }
+            });
+        })(req, res, next);        
     },
     registerView: (req, res) => {
         const csrfToken = req.csrfToken();

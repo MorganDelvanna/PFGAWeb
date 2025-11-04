@@ -1,0 +1,41 @@
+﻿extends ../layout
+block head
+	link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+block content
+	.container
+		.row.justify-content-center
+			.col-md-8
+				.card
+					.card-header New News Item
+					.card-body
+						form.form-horizontal(method='post', action='/calendar/update')
+							input(type='hidden', id='_csrf', name='_csrf', value=csrfToken)
+							input(type='hidden', name='id', value= id)
+							.mb-3
+								label.form-label.control-label(for='eventStart') Event Start
+								input#eventStart.form-control(type="text", name="eventStart", placeholder="Select date and time", required=true, class="datepicker", value=eventStart)
+							.mb-3
+								label.form-label.control-label(for='eventEnd') Event End
+								input#eventEnd.form-control(type="text", name="eventEnd", placeholder="Select date and time", required=true, class="datepicker", value=eventEnd)
+							.mb-3
+								label.form-label.control-label(for='title') Title
+								input#title.form-control(name='title', value=title)
+							.mb-3
+								label.form-label.control-label(for='description') Description
+								textarea#description.form-control(name='description', value=desciption) #{description}
+							.mb-3
+								button.btn.btn-primary(type='submit') Save
+								a(href='/calendar/list').btn.btn-secondary Cancel
+
+	script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+	script.
+		flatpickr("#eventStart", {
+			enableTime: true,
+			dateFormat: "Y-m-d H:i",
+			defaultHour: 9
+		});
+		flatpickr("#eventEnd", {
+			enableTime: true,
+			dateFormat: "Y-m-d H:i",
+			defaultHour: 21
+		});

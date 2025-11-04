@@ -1,0 +1,26 @@
+﻿extends ../layout
+
+block content
+	div.main
+		h3 Event List
+		div.mb-3
+			a(id='addBtn', href='/calendar/addEvent').button Add New Calendar Event
+		div.container
+			div.row
+				div.col-1.bordered.heading Start
+				div.col-1.bordered.heading End
+				div.col-4.bordered.heading Title
+				div.col-4.bordered.heading Description
+				div.col-2.bordered.heading.text-center Action
+			if (events)
+				each item in events
+					div.row
+						div.col-1.bordered #{ moment(item.eventStart).format('YYYY-MM-DD HH:mm') }
+						div.col-1.bordered #{ moment(item.eventEnd).format('YYYY-MM-DD HH:mm') }	
+						div.col-4.bordered #{ item.title }
+						div.col-4.bordered
+							div.description #{ item.description }
+						div.col-2.bordered
+							div.row.pt-2
+								div.col-12
+									a.button.edit(href='/calendar/edit?id=' + item.id) Edit

@@ -7,6 +7,7 @@ module.exports = {
         const result = await NewsItem.findAll({ where: { archived: false } });
         res.render('news/news', { news: result });
     },
+    // List of existing news items
     listView: async (req, res) => {
         const result = await NewsItem.findAll();
         const csrfToken = req.csrfToken();
@@ -17,6 +18,7 @@ module.exports = {
             moment
         });
     },
+    // Add new News Item
     addNew: async (req, res) => {
         const csrfToken = req.csrfToken();
         res.render('news/new', {
@@ -24,6 +26,7 @@ module.exports = {
             csrfToken: csrfToken
         });
     },
+    // Edit an existing News item
     edit: async (req, res) => {
         const { id } = req.query;
 
@@ -38,6 +41,7 @@ module.exports = {
             index: instance.index
         });
     },
+    // Set news item as archived
     archive: async (req, res) => {
         const { id } = req.body;
         const instance = await NewsItem.findOne({ where: { index: id } });
@@ -49,11 +53,13 @@ module.exports = {
         await instance.save();
         res.send({ success: true, message: 'NewsItem Updated' });
     },
+    // save new News Item
     saveNew: async (req, res) => {
         const { header, description } = req.body;
         const item = await NewsItem.create({ header: header, description: description });
         res.redirect('/news/list');
     },
+    // save updated News Item
     update: async (req, res) => {
         const { header, description, archived, index } = req.body
         const instance = await NewsItem.findOne({ where: { index: index } });

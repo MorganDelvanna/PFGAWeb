@@ -2,31 +2,34 @@
 const sequelize = require('../util/db');
 
 module.exports = sequelize.define(
-    'News',
+    'Calendar',
     {
-        index: {
+        id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        date: {
-            type: DataTypes.DATEONLY,
+        eventStart: {
+            type: DataTypes.DATE,
             allowNull: false,
             defaultValue: Sequelize.NOW
         },
-        archived: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
+        eventEnd: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.NOW
         },
-        header: {
+        title: {
             type: DataTypes.STRING,
             allowNull: false
         },
         description: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: true
         }
-    }, {
-    timestamps: false
+    },
+    {
+        timestamps: false,
+        tableName: 'calendar'
     }
 );

@@ -31,14 +31,12 @@ module.exports = {
 
     protectRoute:
         (options = {}) =>
-        (req, res, next) => {
-            if (req.isAuthenticated()) {
-                if (req.user.role == options.route) {
+            (req, res, next) => {                
+                if (req.isAuthenticated()) {
+                    console.log('go next');
                     return next();
-                } else {
-                    res.redirect('/login?next=' + req.url);
-                }               
-            }
-            res.redirect('/login?next=' + req.url);
+                }
+                res.redirect('/login?next=' + req.url);
+
     },
 };

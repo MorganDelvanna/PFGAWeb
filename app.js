@@ -10,6 +10,7 @@ const session = require('express-session');
 const { init: initAuth } = require('./auth');
 const newsRoutes = require('./routes/news');
 const authRoutes = require('./routes/auth');
+const calRoutes = require('./routes/calendar');
 
 
 const app = express();
@@ -30,15 +31,6 @@ app.use((req, res, next) => {
     next();
 });
 app.use(cookieParser());
-const csrfProtection = csrf({
-    cookie: {
-        httpOnly: true, // CSRF cookie can't be accessed via JavaScript
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
-    }
-});
-app.use(csrfProtection);
-initAuth();
 app.use(session({
     secret: 'tcw9wnq@yug6pytBQA',
     saveUninitialized: true,
@@ -54,7 +46,18 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+const csrfProtection = csrf({
+    cookie: {
+        httpOnly: true, // CSRF cookie can't be accessed via JavaScript
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict'
+    }
+});
+app.use(csrfProtection);
+initAuth();
+
 app.use('/news/', newsRoutes);
+app.use('/calendar/', calRoutes);
 app.use('/', authRoutes);
 
 // catch 404 and forward to error handler

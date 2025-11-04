@@ -16,5 +16,6 @@ module.exports = new Sequelize('pfga_forum', 'root', '1q2w3e4r',
         },
         dialectOptions: {
             options: { encrypt: true }
-        }
+        },
+        timezone: '-05:00'
     });
