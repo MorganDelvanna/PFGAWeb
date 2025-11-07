@@ -14,13 +14,14 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/pfga.css" />
+    <link rel="stylesheet" href="css/menu.css" />
     <link rel="shortcut icon" href="images/pfgalogo.ico" />
 
     <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 </head>
 
 <body class="pfga">
-    <div class="container">
+    <div class="container app">
         <div class="row">
             <div class="col center">
                 <img alt="Peterborough Fish & Game Association" src="images/header.gif" />
@@ -28,9 +29,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div id="menu">
-
-                </div>
+                <menu-control></menu-control>
             </div>
         </div>
         <div class="row">
@@ -55,19 +54,7 @@
                         <area shape="poly" coords="67,167,58,174,61,210,76,228,58,253,5,246,4,211,26,205,5,54,21,20,86,3,119,12,140,50,162,47,223,45,233,80,231,98,159,126,148,110,217,90,211,59,125,60,92,13,19,47" alt="Range 10 – 3D Archery" title="Range 10 – 3D Archery" nohref="nohref" />
                         <area shape="poly" coords="236,74,245,142,252,189,283,188,280,78,255,68" alt="Range 11 – 25 Yard Handgun" title="Range 11 – 25 Yard Handgun" nohref="nohref" />
                         <area shape="poly" coords="282,60,287,188,323,188,322,53,320,53" alt="Range 12 – 20 Yard Handgun" title="Range 12 – 20 Yard Handgun" nohref="nohref" />
-                        <area shape="poly" coords="325,48,329,188,364,191,367,50" alt="Range 13 – 20 Yard Handgun" title="Range 13 – 20 Yard Handgun" nohref="nohref" />
-                        <!-- OLD Map property-map2.jpg
-                            <area shape="rect" coords="284, 452, 403, 614" alt="Club House, Indoor Range #1 and Parking Lot" nohref="nohref" />
-                            <area shape="rect" coords="20,352,94,379" alt="Range 2: Bullseye 25m, handgun only" title="Range 2: Bullseye 25m, handgun and rifle" nohref="nohref" />
-                            <area shape="rect" coords="1,308,128,343" alt="Range 3: Covered Range - 50m and 100yrd, rifle only" title="Range 3: Covered Range - 50m and 100yrd, rifle only" nohref="nohref" />
-                            <area shape="rect" coords="52,282,127,306" alt="Range 4: 50m Range, rifle or handgun at 25m" title="Range 4: 50m Range, rifle or handgun at 25m" nohref="nohref" />
-                            <area shape="rect" coords="56,252,127,281" alt="Range 5: 50m Range, rifle or handgun at 25m" title="Range 5: 50m Range, rifle or handgun at 25m" nohref="nohref" />
-                            <area shape="poly" coords="69,215,121,232,114,252,63,242,69,216" alt="Range 6: Archery and crossbow" title="Range 6: Archery and crossbow" nohref="nohref" />
-                            <area shape="poly" coords="84,180,136,205,124,228,71,207,86,180" alt="Range 7: Action Range, handgun and PCC 25m Range" title="Range 7: IPSC and Action Pistol 50m Range" nohref="nohref" />
-                            <area shape="poly" coords="84,170,155,208,171,179,103,138,85,171" alt="Range 8: Multi-Purpose Range 100m rifle or 50m handgun" title="Range 8: Multi-Purpose Range 100m rifle or 50m handgun" nohref="nohref" />
-                            <area shape="poly" coords="85,103,93,13,147,19,143,114" alt="Range 9: FITA Archery Range" title="Range 9: FITA Archery Range" nohref="nohref" />
-                            <area shape="poly" coords="49,217,1,216,2,8,302,2,301,87,159,80,152,15,90,12,71,116,37,167" alt="Range 10: 3-D archery" title="Range 10: 3-D archery" nohref="nohref" />
-                        -->
+                        <area shape="poly" coords="325,48,329,188,364,191,367,50" alt="Range 13 – 20 Yard Handgun" title="Range 13 – 20 Yard Handgun" nohref="nohref" />                       
                     </map>
                 </div>
                 <div id="Description" class="center">Peterborough Fish & Game Association Property, move the mouse over the map for Range Descriptions</div>
@@ -76,9 +63,9 @@
     </div>
 
     <div id="footer"></div>
-    <input type="hidden" id="pageRef" value="#l_property" />
     <script src="js/bootstrap.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="js/vue.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('area').mouseover(function () {

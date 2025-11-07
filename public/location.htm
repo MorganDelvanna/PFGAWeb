@@ -14,13 +14,14 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/pfga.css" />
+    <link rel="stylesheet" href="css/menu.css" />
     <link rel="shortcut icon" href="images/pfgalogo.ico" />
 
     <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container app">
         <div class="row">
             <div class="col center">
                 <img alt="Peterborough Fish & Game Association" src="images/header.gif" />
@@ -28,9 +29,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div id="menu">
-
-                </div>
+                <menu-control></menu-control>
             </div>
         </div>
         <div class="row">
@@ -68,8 +67,8 @@
 
     </div>
     <div id="footer"></div>
-    <input type="hidden" id="pageRef" value="#l_location" />
     <script src="js/bootstrap.js" type="text/javascript"></script>
-    <script src="js/common.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="js/vue.js"></script>
 </body>
 </html>

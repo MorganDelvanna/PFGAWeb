@@ -14,13 +14,14 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/pfga.css" />
+    <link rel="stylesheet" href="css/menu.css" />
     <link rel="shortcut icon" href="images/pfgalogo.ico" />
 
     <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container app">
         <div class="row">
             <div class="col center">
                 <img alt="Peterborough Fish & Game Association" src="images/header.gif" />
@@ -28,9 +29,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div id="menu">
-
-                </div>
+                <menu-control></menu-control>
             </div>
         </div>
         <div class="row">
@@ -77,7 +76,7 @@
                 </p>
                 
                 <h2>Rules</h2>
-                <p>Many have asked about the rules for our matches, they can be found at the Shooting Federation of Canada <a href="https://www.sfc-ftc.ca/rules_and_regulations.php" target="_blank">SFC Regulations</a><br />
+                <p>Many have asked about the rules for our matches, they can be found at the Shooting Federation of Canada <a href="https://www.sfc-ftc.ca/en/rules-and-regulations?rq=rules%20and%20regulations" target="_blank">SFC Regulations</a><br />
                      Silhouette rules are here: <a href="https://competitions.nra.org/documents/pdf/compete/RuleBooks/Sil-r/sil-r-book.pdf" target="_blank">NRA Silhouette Rules</a>
                     Precision Rimfire requirements are here: <a href="https://outlawrimfire.com/getting-started/" target="_blank">Outlaw Rimfire Precision Series - Getting Started</a>
                 </p>
@@ -87,8 +86,9 @@
     </div>
 
     <div id="footer"></div>
-    <input type="hidden" id="pageRef" value="#l_sections" />
+    
     <script src="js/bootstrap.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="js/vue.js"></script>
 </body>
 </html>
