@@ -83,7 +83,10 @@
                 },
                 editable: true,
                 eventStartEditable: false,
-                events: 'calendar/events.php',
+                events: 'http://localhost/public/calendar/events.php', //calendar/events.php, http://localhost/public/calendar/events.php for local
+                eventContent: function(info) {
+                  return { html: info.event.title };
+                },
                 eventDidMount: function (info) {
                     let calEvent = info.event;
                     let time                    
