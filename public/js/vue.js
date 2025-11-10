@@ -34,48 +34,16 @@ app.component("menu-control", {
     data() {
         return {
             isOpen: false,
-            menu: [
-                { text: "Welcome", href: "index.html" },
-                { text: "Range Rules", href: "rules.htm" },
-                {
-                    text: "Club Information",
-                    children: [
-                        { text: "Club history", href: "history.htm" },
-                        { text: "Location", href: "location.htm" },
-                        { text: "Schedule", href: "schedule.htm" },
-                        { text: "FAQ", href: "faq.htm" },
-                    ]
-                },
-                {
-                    text: "Membership",
-                    children: [
-                        { text: "Info", href: "membership.htm" },
-                        { text: "New Members", href: "newmember.htm" },
-                        { text: "Renewals", href: "renewal.htm" },
-                    ]
-                },
-                {
-                    text: "Links",
-                    children: [
-                        { text: "Shows & Auctions", href: "shows.htm" },
-                        { text: "Shooting links", href: "links.htm" },
-                    ]
-                },
-                { text: "CALENDAR", href: "calendar.htm" },
-                { text: "News", href: "news.htm" },
-                {
-                    text: "Facilities",
-                    children: [
-                        { text: "Indoors", href: "indoors.htm" },
-                        { text: "Outdoor", href: "outdoors.htm" },
-                        { text: "Courses", href: "courses.htm" },
-                        { text: "Property map", href: "propertymap.htm" },
-                    ]
-                },
-                { text: "Sections", href: "sections.htm" },
-                { text: "Contact us", href: "contact.htm" },
-            ],
+            menu: [],
         };
+    },
+    mounted() {
+        // Load the JSON file
+        fetch("menu.json")
+            .then(r => r.json())
+            .then(data => {
+                this.menu = data;
+            });
     },
     created() {
         this.menu.forEach(m => {
