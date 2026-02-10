@@ -8,3 +8,6 @@
 /pfgaWeb.v12.suo
 /public/.gitattributes
 /public/.gitignore
+/public/.env_local.exclude
+/public/.env_prod
+/public/calendar/packages.config
