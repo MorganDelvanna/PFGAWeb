@@ -126,6 +126,8 @@ if (!empty($_POST['token'])) {
                     ];
             }
             break;
+        case 'update':
+          break;
         default:
             $items = [[
                 'price' => $_ENV['PRICE_INITIATION'],

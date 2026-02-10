@@ -39,7 +39,7 @@ app.component("menu-control", {
     },
     mounted() {
         // Load the JSON file
-        fetch("menu.json")
+        fetch("./menu.json")
             .then(r => r.json())
             .then(data => {
                 this.menu = data;
@@ -81,8 +81,8 @@ app.component("news-rotator", {
         <div class="col-10">
           <!-- Display rotating headlines -->
           <div v-if="visible.length > 0">
-            <div class="news-item" v-for="item in visible" :key="item.Index">
-              <h1><a href="news.htm#{{item.Index}}">{{ item.Header }}</a>
+            <div class="news-item" v-for="item in visible" :key="item.id">
+              <h1><a :href="'news.htm#news_' + item.id">{{ item.header }}</a>
             </div>
           </div>
         </div>
@@ -100,11 +100,10 @@ app.component("news-rotator", {
 
     mounted() {
         // Load the JSON file
-        fetch("news_data.json")
+        fetch("/calendar/news.php") //news_data.json | /calendar/news.php | http://pfga_calendar/news.php for local
             .then(r => r.json())
             .then(data => {
                 this.items = data;
-                this.items = data.filter(item => item.Latest === "Y");
                 this.findLatestDate();
                 this.updateVisible();   // show first two
                 this.startRotation();   // begin rotation
@@ -118,39 +117,48 @@ app.component("news-rotator", {
 
             // Sort by date descending
             const sorted = [...this.items].sort((a, b) => {
-                return new Date(b.Date) - new Date(a.Date);
+                return new Date(b.publish_date) - new Date(a.publish_date);
             });
 
-            this.latestDate = sorted[0].Date;
+            this.latestDate = sorted[0].publish_date;
         },
         updateVisible() {
-            // rotate two at a time
-            this.visible = [
-                this.items[this.index],
-                this.items[(this.index + 1) % this.items.length]
-            ];
+            if (this.items.length > 1) {
+                // rotate two at a time
+                this.visible = [
+                    this.items[this.index],
+                    this.items[(this.index + 1) % this.items.length]
+                ];
+            } else {
+                this.visible = [
+                    this.items[this.index]
+                ];
+            }
         },
 
         startRotation() {
-            setInterval(() => {
-                this.index = (this.index + 2) % this.items.length;
-                this.updateVisible();
-            }, 5000); // rotate every 5 seconds
+            if (this.items.length > 1) {
+                setInterval(() => {
+                    this.index = (this.index + 2) % this.items.length;
+                    this.updateVisible();
+                }, 5000); // rotate every 5 seconds
+            }
+            
         }
     }
 });
 
 app.component("news-viewer", {
     template: `
-        <div class="row newsRow" v-for="item in items" :key="item.Index" :class="{ 'alt': item.Index % 2 === 0 }" >
+        <div class="row newsRow" v-for="item in items" :key="item.id" :id="'news_' + item.id" :class="{ 'alt': item.id % 2 === 0 }" >
             <div class="col-12">
                 <div class="row">
                     <div class="col-12" >
-                        <h2>{{ item.Header }}</h2>
+                        <h2>{{ item.header }}</h2>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12" v-html="item.Description">
+                    <div class="col-12" v-html="item.description">
                     
                     </div>
                 </div>
@@ -166,11 +174,10 @@ app.component("news-viewer", {
     },
     mounted() {
         // Load the JSON file
-        fetch("news_data.json")
+        fetch("/calendar/news.php") //news_data.json | /calendar/news.php | http://pfga_calendar/news.php for local
             .then(r => r.json())
             .then(data => {
                 this.items = data;
-                this.items = data.filter(item => item.Latest === "Y");
             });
     },
 });

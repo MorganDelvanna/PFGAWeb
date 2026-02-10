@@ -11,3 +11,4 @@
 /public/.env_local.exclude
 /public/.env_prod
 /public/calendar/packages.config
+/public/.dev

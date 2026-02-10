@@ -37,6 +37,9 @@ switch( $meta['applicationType'] ) {
   case 'renew':
     $appType = 'Renewal';
     break;
+  case 'update':
+    $appType = 'Update';
+    break;
   default:
     $appType = 'New';
 }
@@ -53,6 +56,9 @@ switch( $meta['membershipFeeType']){
   case 'archery':
     $feeType = 'Archery Membership';
     break;
+  case 'update':
+    $feeType= 'Family Membership';
+    break;
   default:
     $feeType = 'General Membership';
 }
@@ -68,19 +74,26 @@ $extraCards = $meta['extra'];
 $customer = $checkout_session['customer_details'];
 $ccEmail = $customer['email'];
 
+
+
 $bodyHTML = "<strong>$appType $feeType</strong><br />";
 $bodyHTML .= (strlen($meta['card']) > 0) ? '<strong>Card #</strong>: '.$meta['card'].'<br />' : '';   
 $bodyHTML .= "<strong>First Name</strong>: $firstName<br />";
 $bodyHTML .= "<strong>Last Name</strong>: $lastName<br />"; 
-$bodyHTML .= (strlen($meta['alias']) > 0) ? '<strong>Preferred Name</strong>: '.$meta['alias'].'<br />' : '';
-$bodyHTML .= "<strong>Date of Birth</strong>: $dob<br />";  
-$bodyHTML .= "<strong>Address</strong>: $address<br />";  
-$bodyHTML .= (strlen($meta['homephone']) > 0) ? '<strong>Home Phone</strong>: '.$meta['homephone'].'<br />':'';  
-$bodyHTML .= (strlen($meta['cellphone']) > 0) ? '<strong>Cell Phone</strong>: '.$meta['cellphone'].'<br />':'';
-$bodyHTML .= "<strong>Email</strong>: $email<br />";
-$bodyHTML .= ($meta['palType']=='noPal') ? 'None<br />' : "<strong>PAL</strong>: ".$meta['palNum'].' expires: '.$meta['palExpiry'].'<br />' ;  
-$bodyHTML .= (strlen($meta['palDate'])>0) ? '<strong>Approx PAL Date</strong>: '.$meta['palDate'].'<br />' :''; 
-$bodyHTML .= "<strong>Disciplines</strong>: $disciplines<br />";
+if($appType != 'Update'){
+  $bodyHTML .= (strlen($meta['alias']) > 0) ? '<strong>Preferred Name</strong>: '.$meta['alias'].'<br />' : '';
+  $bodyHTML .= "<strong>Date of Birth</strong>: $dob<br />";  
+  $bodyHTML .= "<strong>Address</strong>: $address<br />";  
+  $bodyHTML .= (strlen($meta['homephone']) > 0) ? '<strong>Home Phone</strong>: '.$meta['homephone'].'<br />':'';  
+  $bodyHTML .= (strlen($meta['cellphone']) > 0) ? '<strong>Cell Phone</strong>: '.$meta['cellphone'].'<br />':'';
+  $bodyHTML .= "<strong>Email</strong>: $email<br />";
+  $bodyHTML .= ($meta['palType']=='noPal') ? 'None<br />' : "<strong>PAL</strong>: ".$meta['palNum'].' expires: '.$meta['palExpiry'].'<br />' ;  
+  $bodyHTML .= (strlen($meta['palDate'])>0) ? '<strong>Approx PAL Date</strong>: '.$meta['palDate'].'<br />' :''; 
+  $bodyHTML .= "<strong>Disciplines</strong>: $disciplines<br />";
+}
+if($appType == 'Update'){
+  $bodyText .= "<br/>\n";
+}
 $bodyHTML .= "<strong>Extra Cards Ordered</strong>: $extraCards<br />";  
 if ($meta['family'] > 0) {
   $bodyHTML .= '<p><strong>Family Members</strong><br/>';
@@ -113,15 +126,20 @@ $bodyText = "$appType $feeType\n";
 $bodyText .= (strlen($meta['card']) > 0) ? 'Card #: '.$meta['card'].'\n' : '';   
 $bodyText .= "First Name: $firstName\n";
 $bodyText .= "Last Name: $lastName\n"; 
-$bodyText .= (strlen($meta['alias']) > 0) ? 'Preferred Name: '.$meta['alias'].'\n' : '';
-$bodyText .= "Date of Birth: $dob\n";  
-$bodyText .= "Address: $address\n";  
-$bodyText .= (strlen($meta['homephone']) > 0) ? 'Home Phone: '.$meta['homephone'].'\n':'';  
-$bodyText .= (strlen($meta['cellphone']) > 0) ? 'Cell Phone: '.$meta['cellphone'].'\n':'';
-$bodyText .= "Email: $email\n";
-$bodyText .= ($meta['palType']=='noPal') ? 'None' : "PAL: ".$meta['palNum'].' <strong>Expires:</strong> '.$meta['palExpiry']."\n";  
-$bodyText .= (strlen($meta['palDate'])>0) ? 'Approx PAL Date: '.$meta['palDate']."\n" :''; 
-$bodyText .= "Disciplines: $disciplines\n";
+if($appType != 'Update'){
+  $bodyText .= (strlen($meta['alias']) > 0) ? 'Preferred Name: '.$meta['alias'].'\n' : '';
+  $bodyText .= "Date of Birth: $dob\n";  
+  $bodyText .= "Address: $address\n";  
+  $bodyText .= (strlen($meta['homephone']) > 0) ? 'Home Phone: '.$meta['homephone'].'\n':'';  
+  $bodyText .= (strlen($meta['cellphone']) > 0) ? 'Cell Phone: '.$meta['cellphone'].'\n':'';
+  $bodyText .= "Email: $email\n";
+  $bodyText .= ($meta['palType']=='noPal') ? 'None' : "PAL: ".$meta['palNum'].' <strong>Expires:</strong> '.$meta['palExpiry']."\n";  
+  $bodyText .= (strlen($meta['palDate'])>0) ? 'Approx PAL Date: '.$meta['palDate']."\n" :''; 
+  $bodyText .= "Disciplines: $disciplines\n";
+}
+if($appType == 'Update'){
+  $bodyText .= "\n";
+}
 $bodyText .= "Extra Cards Ordered: $extraCards\n";  
 if ($meta['family'] > 0) {
   $bodyText .= 'Family Members<br/>';
@@ -186,6 +204,7 @@ if(!$mail->Send()) {
     <link rel="stylesheet" href="../css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/pfga.css">
+    <link rel="stylesheet" href="../css/menu.css" />   
     <link rel="icon" href="../images/pfgalogo.ico" type="image/icon type">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   </head>
@@ -197,10 +216,8 @@ if(!$mail->Send()) {
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
-            <div id="menu">
-
-            </div>
+        <div class="col-12 app">
+            <menu-control></menu-control>
         </div>
     </div>
     <div class="sr-root">
@@ -227,8 +244,9 @@ if(!$mail->Send()) {
         </div>
       </div>
     </div>
-    <input type="hidden" id="pageRef" value="#l_membership" />
+    
     <script src="../js/bootstrap.js" type="text/javascript"></script>
-    <script src="../js/common.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="../js/vue.js"></script>
   </body>
 </html>

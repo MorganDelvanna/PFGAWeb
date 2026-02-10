@@ -82,7 +82,7 @@
                 },
                 editable: true,
                 eventStartEditable: false,
-                events: 'http://localhost/public/calendar/events.php', //calendar/events.php, http://localhost/public/calendar/events.php for local
+                events: '/calendar/events.php', // /calendar/events.php, http://pfga_calendar/events.php for local
                 eventContent: function(info) {
                   return { html: info.event.title };
                 },

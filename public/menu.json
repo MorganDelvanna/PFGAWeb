@@ -1,30 +1,30 @@
 [
   {
     "text": "Welcome",
-    "href": "index.html"
+    "href": "/index.html"
   },
   {
     "text": "Range Rules",
-    "href": "rules.htm"
+    "href": "/rules.htm"
   },
   {
     "text": "Club Information",
     "children": [
       {
         "text": "Club history",
-        "href": "history.htm"
+        "href": "/history.htm"
       },
       {
         "text": "Location",
-        "href": "location.htm"
+        "href": "/location.htm"
       },
       {
         "text": "Schedule",
-        "href": "schedule.htm"
+        "href": "/schedule.htm"
       },
       {
         "text": "FAQ",
-        "href": "faq.htm"
+        "href": "/faq.htm"
       }
     ]
   },
@@ -33,15 +33,15 @@
     "children": [
       {
         "text": "Info",
-        "href": "membership.htm"
+        "href": "/membership.htm"
       },
       {
         "text": "New Members",
-        "href": "newmember.htm"
+        "href": "/newmember.htm"
       },
       {
         "text": "Renewals",
-        "href": "renewal.htm"
+        "href": "/renewal.htm"
       }
     ]
   },
@@ -50,49 +50,49 @@
     "children": [
       {
         "text": "Shows & Auctions",
-        "href": "shows.htm"
+        "href": "/shows.htm"
       },
       {
         "text": "Shooting links",
-        "href": "links.htm"
+        "href": "/links.htm"
       }
     ]
   },
   {
     "text": "CALENDAR",
-    "href": "calendar.htm"
+    "href": "/calendar.htm"
   },
   {
     "text": "News",
-    "href": "news.htm"
+    "href": "/news.htm"
   },
   {
     "text": "Facilities",
     "children": [
       {
         "text": "Indoors",
-        "href": "indoors.htm"
+        "href": "/indoors.htm"
       },
       {
         "text": "Outdoor",
-        "href": "outdoors.htm"
+        "href": "/outdoors.htm"
       },
       {
         "text": "Courses",
-        "href": "courses.htm"
+        "href": "/courses.htm"
       },
       {
         "text": "Property map",
-        "href": "propertymap.htm"
+        "href": "/propertymap.htm"
       }
     ]
   },
   {
     "text": "Sections",
-    "href": "sections.htm"
+    "href": "/sections.htm"
   },
   {
     "text": "Contact us",
-    "href": "contact.htm"
+    "href": "/contact.htm"
   }
 ]

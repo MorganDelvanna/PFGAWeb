@@ -17,7 +17,8 @@
         <link rel="stylesheet" href="../css/bootstrap.min.css" />
         <link rel="stylesheet" href="../css/bootstrap-grid.min.css">
         <link rel="stylesheet" href="../css/pfga.css">
-        <link rel="stylesheet" href="../css/style.css">        
+        <link rel="stylesheet" href="../css/style.css">    
+        <link rel="stylesheet" href="../css/menu.css" />     
         <link rel="icon" href="../images/pfgalogo.ico" type="image/icon type">
         <script src="https://js.stripe.com/v3/"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -28,18 +29,17 @@
     </head>
 
     <body>
-    <div class="row">
-        <div class="col-12 center">
-            <img alt="Peterborough Fish & Game Association" src="../images/header.gif" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div id="menu">
-
+        <div class="container">
+            <div class="row">
+            <div class="col-12 center">
+                <img alt="Peterborough Fish & Game Association" src="../images/header.gif" />
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-12 app">
+                <menu-control></menu-control>
+            </div>
+        </div>
         <h1>Membership Application</h1>
         <h2><span id="memberYear">October 1st, 2025 - September 30th, 2026</span></h2>
         <form id="form" method="post" action="checkout.php">
@@ -52,13 +52,13 @@
                 <div class="col-12"><strong>Application Type: </strong>(Please select one of the following options)</div>
             </div>
             <div class="row mt-1">
-                <div class="col-4 col-md-2">
+                <div class="col-12 col-md-4">
                     <input type="radio" id="newMember" name="applicationType" value="new" checked> <label for="newMember">New Membership (Full Year)</label> 
                 </div>
-                <div class="col-4 col-md-2" id="halfColumn">
+                <div class="col-12 col-md-4" id="halfColumn">
                    <input type="radio" id="halfMember" name="applicationType" value="half"> <label for="halfMember">New Membership (Half Year)*</label>
                 </div>
-                <div class="col-4 col-md-2">
+                <div class="col-12 col-md-4">
                     <input type="radio" id="renewMember" name="applicationType" value="renew"> <label for="renewMember">Membership Renewal</label> 
                 </div>
             </div>
@@ -76,15 +76,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="firstname" class="title required">First Name</label><br />
                     <input id="firstname" type="text" class="new" name="firstname" required>
                 </div>
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="lastname" class="title required">Last Name</label><br />
                     <input id="lastname" type="text" class="new" name="lastname" required>
                 </div>
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="alias" class="title">Preferred Name</label><br />
                     <input id="alias" type="text" name="alias">
                 </div>
@@ -92,7 +92,7 @@
                     <label for="dob" class="title required new" >Date of Birth</label><br/>
                     <input id="dob" type="date" class="new" name="dob" required>
                 </div>
-                <div id="cardCell" class="col-12 col-md-1 hidden">
+                <div id="cardCell" class="col-12 col-md-3 hidden">
                     <label id="cardLabel" for="card" class="title">PFGA Card #</label><br/>
                     <input id="card" type="text" name="card">
                 </div>
@@ -102,35 +102,35 @@
                     <label for="address" class="title required new">Home Address</label><br />
                     <input id="address" type="text" class="new" name="address" required>
                 </div>
-                <div class="col-12 col-md-1" >
+                <div class="col-12 col-md-2" >
                     <label for="city" class="title required new">City</label><br />
                     <input id="city" type="text" class="new" name="city" required>
                 </div>
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="province" class="title required new">Province</label><br />
                     <input id="province" type="text" class="new" name="province" required>
                 </div>
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="postal" class="title required new">Postal Code</label><br />
                     <input id="postal" type="text" class="new" name="postal" required>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="homephone" class="title">Home Phone *</label><br/>
                     <input id="homephone" type="text" class="new phone" name="homephone" >
                 </div>
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="cellphone" class="title">Cell Phone *</label><br />
                     <input id="cellphone" type="text" class="new phone" name="cellphone" >
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-4">
                     <label for="email" class="title required new">E-Mail Address</label>
                     <input type="text" id="email" class="new" name="email" required>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-4">
                     <div class="row">
                         <div class="col-4 centered">
                             <label for="pal" class="title required">PAL</label><br />
@@ -150,11 +150,11 @@
                     <label for="palDate" class="title">Approx. Date of PAL Course (MM-YY)</label>
                     <input type="text" id="palDate" name="palDate">
                 </div>                    
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="PALNum" class="title required pal">PAL/RPAL #</label>
                     <input type="text" id="PALNum" name="palNum" required>
                 </div>
-                <div class="col-12 col-md-1">
+                <div class="col-12 col-md-2">
                     <label for="palExpiry" class="title required pal">Pal Expiry Date</label>
                     <input type="date" id="palExpiry" name="palExpiry" required>
                 </div>
@@ -164,23 +164,23 @@
                 <div class="col-12">
                     <span><strong>Please select the section(s) you would like to join:</strong> (New Members Only)</span>
                 </div>
-                <div class="col-12 col-md-1" style="align-content: center;">
+                <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="archery" name="archery">
                     <label for="archery">Archery</label>
                 </div>
-                <div class="col-12 col-md-1" style="align-content: center;">
+                <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="rifle" name="rifle">
                     <label for="rifle">Rifle</label>
                 </div>
-                <div class="col-12 col-md-1" style="align-content: center;">
+                <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="smallbore" name="smallbore">
                     <label for="smallbore">Smallbore</label>
                 </div>
-                <div class="col-12 col-md-1" style="align-content: center;">
+                <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="handgun" name="handgun">
                     <label for="handgun">Handgun</label>
                 </div>
-                <div class="col-12 col-md-1" style="align-content: center;">
+                <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="action" name="action">
                     <label for="action">Action*</label>
                 </div>
@@ -191,25 +191,25 @@
             <hr class="newOnly" />
             <div class="row mt-2">
                 <div class="col-12 col-md-8">
-                    <strong>Additional Family Members:</strong> (Please ensure you included the appropriate number of family members in the Membership Fees section above)<br />
+                    <strong>Additional Family Members:</strong> (Please ensure you included the appropriate number of family members in the Membership Fees section below)<br />
                             <button type="button" id="addFamily">Add Family</button>
                 </div>
             </div>
             <div class="row familyRow">
                 <div class="d-none d-sm-block col-md-2"><label class="centered required">First Name</label></div>
-                <div class="d-none d-sm-block col-md-2"><label class="centered required">Last Name</label></div>
-                <div class="d-none d-sm-block col-md-1"><label class="centered">PAL#</label></div>
-                <div class="d-none d-sm-block col-md-1"><label class="centered">PAL Expiry</label></div>
-                <div class="d-none d-sm-block col-md-1"><label class="centered required">Date of Birth</label></div>
+                <div class="d-none d-sm-block col-md-3"><label class="centered required">Last Name</label></div>
+                <div class="d-none d-sm-block col-md-2"><label class="centered">PAL#</label></div>
+                <div class="d-none d-sm-block col-md-2"><label class="centered">PAL Expiry</label></div>
+                <div class="d-none d-sm-block col-md-2"><label class="centered required">Date of Birth</label></div>
             </div>                   
 
             <script id="familyTemplate" type="text/x-custom-template">
                 <div class="row mt-2 familyRow">
                     <div class="col-6 d-md-none"><label class="required">First Name: </label></div><div class="col-6 col-md-2"><input type="text" class="famName" required aria-label="First Name"></div>
-                    <div class="col-6 d-md-none"><label class="required">Last Name: </label></div><div class="col-6 col-md-2"><input type="text" class="famLast" required aria-label="Last Name"></div>
-                    <div class="col-6 d-md-none"><label class="required">PAL#: </label></div><div class="col-6 col-md-1"><input type="text" class="famPAL" aria-label="PAL #"></div>
-                    <div class="col-6 d-md-none"><label class="required">Pal Expiry: </label></div><div class="col-6 col-md-1"><input type="date" class="famExpiry" aria-label="Pal Expiry"></div>
-                    <div class="col-6 d-md-none"><label class="required">Date of Birth: </label></div><div class="col-6 col-md-1"><input type="date" class="famDOB" required aria-label="Date of Birth"></div>
+                    <div class="col-6 d-md-none"><label class="required">Last Name: </label></div><div class="col-6 col-md-3"><input type="text" class="famLast" required aria-label="Last Name"></div>
+                    <div class="col-6 d-md-none"><label class="required">PAL#: </label></div><div class="col-6 col-md-2"><input type="text" class="famPAL" aria-label="PAL #"></div>
+                    <div class="col-6 d-md-none"><label class="required">Pal Expiry: </label></div><div class="col-6 col-md-2"><input type="date" class="famExpiry" aria-label="Pal Expiry"></div>
+                    <div class="col-6 d-md-none"><label class="required">Date of Birth: </label></div><div class="col-6 col-md-2"><input type="date" class="famDOB" required aria-label="Date of Birth"></div>
                     <div class="col-12 col-md-1"><button type="button" class="btnDeleteFam">delete</button><input type="hidden" name="familyMembers[]"></div>
                 </div>
             </script>
@@ -222,17 +222,17 @@
                 </div>                        
             </div>
             <div class="row clubRow newOnly">
-                <div class="d-none d-sm-block col-md-2 centered">Club Name</div>
-                <div class="d-none d-sm-block col-md-2 centered">City, Province</div>
-                <div class="d-none d-sm-block col-md-1 centered">From (MM/YY)</div>
-                <div class="d-none d-sm-block col-md-1 centered">To (MM/YY)</div>
+                <div class="d-none d-sm-block col-md-3 centered">Club Name</div>
+                <div class="d-none d-sm-block col-md-3 centered">City, Province</div>
+                <div class="d-none d-sm-block col-md-2 centered">From (MM/YY)</div>
+                <div class="d-none d-sm-block col-md-2 centered">To (MM/YY)</div>
             </div>
             <script id="clubTemplate" type="text/x-custom-template">
                 <div class="row clubRow">
-                    <div class="col-6 d-md-none">Club Name: </div><div class="col-6 col-md-2"><input type="text" class="otherClub"></div>
-                    <div class="col-6 d-md-none">City, Province: </div><div class="col-6 col-md-2"><input type="text" class="otherCity"></div>
-                    <div class="col-6 d-md-none">From (MM/YY): </div><div class="col-6 col-md-1"><input type="text" class="otherFrom" placeholder="MM/YY"></div>
-                    <div class="col-6 d-md-none">To (MM/YY): </div><div class="col-6 col-md-1"><input type="text" class="otherTo" placeholder="MM/YY"></div>
+                    <div class="col-6 d-md-none">Club Name: </div><div class="col-6 col-md-3"><input type="text" class="otherClub"></div>
+                    <div class="col-6 d-md-none">City, Province: </div><div class="col-6 col-md-3"><input type="text" class="otherCity"></div>
+                    <div class="col-6 d-md-none">From (MM/YY): </div><div class="col-6 col-md-2"><input type="text" class="otherFrom" placeholder="MM/YY"></div>
+                    <div class="col-6 d-md-none">To (MM/YY): </div><div class="col-6 col-md-2"><input type="text" class="otherTo" placeholder="MM/YY"></div>
                     <div class="col-12 col-md-1"><button type="button" class="btnDeleteClub">delete</button>      
                         <input type="hidden" name="otherClubs[]">
                     </div>
@@ -247,17 +247,17 @@
                 </div>
             </div>
             <div class="row courseRow newOnly">
-                <div class="d-none d-sm-block col-md-2 centered">Description</div>
-                <div class="d-none d-sm-block col-md-2 centered">Instructor/Trainer</div>
-                <div class="d-none d-sm-block col-md-2 centered">Location</div>
-                <div class="d-none d-sm-block col-md-1 centered">Date (MM/YY)</div>
+                <div class="d-none d-sm-block col-md-3 centered">Description</div>
+                <div class="d-none d-sm-block col-md-3 centered">Instructor/Trainer</div>
+                <div class="d-none d-sm-block col-md-3 centered">Location</div>
+                <div class="d-none d-sm-block col-md-2 centered">Date (MM/YY)</div>
             </div>                   
             <script id="courseTemplate" type="text/x-custom-template">
                 <div class="row courseRow">
-                    <div class="col-6 d-md-none">Description: </div><div class="col-6 col-md-2"><input type="text" class="courseDesc"></div>
-                    <div class="col-6 d-md-none">Instructor/Trainer: </div><div class="col-6 col-md-2"><input type="text" class="courseTrainer"></div>
-                    <div class="col-6 d-md-none">Location: </div><div class="col-6 col-md-2"><input type="text" class="courseLocation"></div>
-                    <div class="col-6 d-md-none">Date (MM/YY): </div><div class="col-6 col-md-1"><input type="text" class="courseDate" placeholder="MM/YY"></div>
+                    <div class="col-6 d-md-none">Description: </div><div class="col-6 col-md-3"><input type="text" class="courseDesc"></div>
+                    <div class="col-6 d-md-none">Instructor/Trainer: </div><div class="col-6 col-md-3"><input type="text" class="courseTrainer"></div>
+                    <div class="col-6 d-md-none">Location: </div><div class="col-6 col-md-3"><input type="text" class="courseLocation"></div>
+                    <div class="col-6 d-md-none">Date (MM/YY): </div><div class="col-6 col-md-2"><input type="text" class="courseDate" placeholder="MM/YY"></div>
                     <div class="col-12 col-md-1"><button type="button" class="btnDeleteCourse">delete</button>
                         <input type="hidden" name="courses[]">
                     </div>
@@ -342,8 +342,10 @@
                 </div>
             </div>          
         </form>
-        <input type="hidden" id="pageRef" value="#l_membership" />
+    </div>
+    
         <script src="../js/bootstrap.js" type="text/javascript"></script>
-        <script src="../js/common.js" type="text/javascript"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+        <script src="../js/vue.js"></script>
     </body>
 </html>

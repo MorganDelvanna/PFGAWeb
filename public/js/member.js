@@ -59,36 +59,42 @@ function recalc() {
         case "renew":
             totalInitiation = 0;
             break;
+        default:
+            totalInitiation = 0;
+            break;
     }
     let totalFee;
-    let selectedFee = $('input[name="membershipFee"]:checked').val();
-    switch (true) {
-        case (selectedFee == "general" && selectedValue == "new"):
-        case (selectedFee == "general" && selectedValue == "renew"):
-            totalFee = general;
-            break;
-        case (selectedFee == "general" && selectedValue == "half"):
-        case (selectedFee == "archery" && selectedValue == "half"):
-        case (selectedFee == "archery" && selectedValue == "renew"):
-            totalFee = halfGeneral;
-            break;
-        case (selectedFee == "senior" && selectedValue == "new"):
-        case (selectedFee == "senior" && selectedValue == "renew"):
-            totalFee = senior;
-            break;
-        case (selectedFee == "senior" && selectedValue == "half"):
-            totalFee = halfSenior;
-            break;
-        case (selectedFee == "junior" && selectedValue == "new"):
-        case (selectedFee == "junior" && selectedValue == "renew"):
-            totalFee = junior;
-            break;
-        case (selectedFee == "junior" && selectedValue == "half"):
-            totalFee = halfJunior;
-            break;
-        default: 
-            totalfee = 0;
-    }
+
+        let selectedFee = $('input[name="membershipFee"]:checked').val();
+        switch (true) {
+            case (selectedFee == "general" && selectedValue == "new"):
+            case (selectedFee == "general" && selectedValue == "renew"):
+                totalFee = general;
+                break;
+            case (selectedFee == "general" && selectedValue == "half"):
+            case (selectedFee == "archery" && selectedValue == "half"):
+            case (selectedFee == "archery" && selectedValue == "renew"):
+                totalFee = halfGeneral;
+                break;
+            case (selectedFee == "senior" && selectedValue == "new"):
+            case (selectedFee == "senior" && selectedValue == "renew"):
+                totalFee = senior;
+                break;
+            case (selectedFee == "senior" && selectedValue == "half"):
+                totalFee = halfSenior;
+                break;
+            case (selectedFee == "junior" && selectedValue == "new"):
+            case (selectedFee == "junior" && selectedValue == "renew"):
+                totalFee = junior;
+                break;
+            case (selectedFee == "junior" && selectedValue == "half"):
+                totalFee = halfJunior;
+                break;
+            default: 
+                totalFee = 0;
+        }
+
+    
 
     let totalFam = parseInt($('#family').val()) * family;
     let totalExtra = parseInt($('#extra').val()) * extraCards;
