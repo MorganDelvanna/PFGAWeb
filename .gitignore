@@ -12,3 +12,5 @@
 /public/.env_prod
 /public/calendar/packages.config
 /public/.dev
+/public/stripe/sql_create_encrypted_members.sql
+/public/stripe/success.php.bak
