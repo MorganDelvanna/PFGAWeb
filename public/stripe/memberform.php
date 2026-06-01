@@ -25,6 +25,9 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/jquery.inputmask.min.js"></script>
+        <script type="text/javascript">
+            <?php include 'fees.php'; ?>
+        </script>
         <script src="../js/member.js?v=1"></script>
     </head>
 
@@ -44,6 +47,7 @@
         <h2><span id="memberYear">October 1st, 2025 - September 30th, 2026</span></h2>
         <form id="form" method="post" action="checkout.php">
             <input id="csrfToken" name="token" type="hidden" value="<?php echo $token ?>">
+            <input type="hidden" id="members_json" name="members_json"  value="">
             <p>All required fields must be complete. Applications that are illegible, incomplete or incorrect WILL NOT BE ACCEPTED.<br />
                 The membership application and payment form must be submitted with appropriate fees for presentation to the Board of Directors. Applications without payment WILL NOT BE ACCEPTED.</p>
             <p>As part of the new member application process please submit a photo for each family member to be used for ID. Email your photo(s) to membership@pfga.ca. The photo does not need to be professional, it can be taken on your phone. It should look like a passport photo. Please stand in front of a plain, preferably light coloured, background and include your head and shoulders. You can smile or not, whichever you prefer. Your face needs to be clearly seen. Thank you. </p>
@@ -56,7 +60,7 @@
                     <input type="radio" id="newMember" name="applicationType" value="new" checked> <label for="newMember">New Membership (Full Year)</label> 
                 </div>
                 <div class="col-12 col-md-4" id="halfColumn">
-                   <input type="radio" id="halfMember" name="applicationType" value="half"> <label for="halfMember">New Membership (Half Year)*</label>
+                   <input type="radio" id="halfMember" name="applicationType" value="half"> <label for="halfMember">New Membership (Half Year)*<br />April to September</label>
                 </div>
                 <div class="col-12 col-md-4">
                     <input type="radio" id="renewMember" name="applicationType" value="renew"> <label for="renewMember">Membership Renewal</label> 
@@ -93,8 +97,8 @@
                     <input id="dob" type="date" class="new" name="dob" required>
                 </div>
                 <div id="cardCell" class="col-12 col-md-3 hidden">
-                    <label id="cardLabel" for="card" class="title">PFGA Card #</label><br/>
-                    <input id="card" type="text" name="card">
+                    <label id="cardLabel" for="pfgaNumber" class="title">PFGA Card #</label><br/>
+                    <input id="pfgaNumber" type="text" name="pfgaNumber">
                 </div>
             </div>
             <div class="row">
@@ -166,23 +170,23 @@
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="archery" name="archery">
-                    <label for="archery">Archery</label>
+                    <label class="ml-1" for="archery">Archery</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="rifle" name="rifle">
-                    <label for="rifle">Rifle</label>
+                    <label class="ml-1" for="rifle">Rifle</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="smallbore" name="smallbore">
-                    <label for="smallbore">Smallbore</label>
+                    <label class="ml-1" for="smallbore">Smallbore</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="handgun" name="handgun">
-                    <label for="handgun">Handgun</label>
+                    <label class="ml-1" for="handgun">Handgun</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
                     <input type="checkbox" id="action" name="action">
-                    <label for="action">Action*</label>
+                    <label class="ml-1" for="action">Action*</label>
                 </div>
                 <div class="col-12">
                     <span><strong>Note:</strong> In order to join Action Pistol you must first join Handgun, or be a current active member of an action shooting organization such as IPSC, IDPA, or ICORE. Please include this in the training & certifications section.</span>
@@ -192,77 +196,87 @@
             <div class="row mt-2">
                 <div class="col-12 col-md-8">
                     <strong>Additional Family Members:</strong> (Please ensure you included the appropriate number of family members in the Membership Fees section below)<br />
-                            <button type="button" id="addFamily">Add Family</button>
+                    <button type="button" id="addFamilyVue">Add Family</button>
                 </div>
             </div>
-            <div class="row familyRow">
-                <div class="d-none d-sm-block col-md-2"><label class="centered required">First Name</label></div>
-                <div class="d-none d-sm-block col-md-3"><label class="centered required">Last Name</label></div>
-                <div class="d-none d-sm-block col-md-2"><label class="centered">PAL#</label></div>
-                <div class="d-none d-sm-block col-md-2"><label class="centered">PAL Expiry</label></div>
-                <div class="d-none d-sm-block col-md-2"><label class="centered required">Date of Birth</label></div>
-            </div>                   
 
-            <script id="familyTemplate" type="text/x-custom-template">
-                <div class="row mt-2 familyRow">
-                    <div class="col-6 d-md-none"><label class="required">First Name: </label></div><div class="col-6 col-md-2"><input type="text" class="famName" required aria-label="First Name"></div>
-                    <div class="col-6 d-md-none"><label class="required">Last Name: </label></div><div class="col-6 col-md-3"><input type="text" class="famLast" required aria-label="Last Name"></div>
-                    <div class="col-6 d-md-none"><label class="required">PAL#: </label></div><div class="col-6 col-md-2"><input type="text" class="famPAL" aria-label="PAL #"></div>
-                    <div class="col-6 d-md-none"><label class="required">Pal Expiry: </label></div><div class="col-6 col-md-2"><input type="date" class="famExpiry" aria-label="Pal Expiry"></div>
-                    <div class="col-6 d-md-none"><label class="required">Date of Birth: </label></div><div class="col-6 col-md-2"><input type="date" class="famDOB" required aria-label="Date of Birth"></div>
-                    <div class="col-12 col-md-1"><button type="button" class="btnDeleteFam">delete</button><input type="hidden" name="familyMembers[]"></div>
+            <div id="familyApp">
+                <div class="row familyRow">
+                    <div class="d-none d-sm-block col-md-2"><label class="centered required">First Name</label></div>
+                    <div class="d-none d-sm-block col-md-3"><label class="centered required">Last Name</label></div>
+                    <div class="d-none d-sm-block col-md-2"><label class="centered">PAL#</label></div>
+                    <div class="d-none d-sm-block col-md-2"><label class="centered">PAL Expiry</label></div>
+                    <div class="d-none d-sm-block col-md-2"><label class="centered required">Date of Birth</label></div>
                 </div>
-            </script>
+
+                <div class="row mt-2 familyRow" v-for="(m, idx) in members" :key="idx">
+                    <div class="col-6 d-md-none"><label class="required">First Name: </label></div>
+                    <div class="col-6 col-md-2"><input type="text" class="famName" v-model="m.firstname" required aria-label="First Name"></div>
+                    <div class="col-6 d-md-none"><label class="required">Last Name: </label></div>
+                    <div class="col-6 col-md-3"><input type="text" class="famLast" v-model="m.lastname" required aria-label="Last Name"></div>
+                    <div class="col-6 d-md-none"><label class="required">PAL#: </label></div>
+                    <div class="col-6 col-md-2"><input type="text" class="famPAL" v-model="m.pal" aria-label="PAL #"></div>
+                    <div class="col-6 d-md-none"><label class="required">Pal Expiry: </label></div>
+                    <div class="col-6 col-md-2"><input type="date" class="famExpiry" v-model="m.palExpiry" aria-label="Pal Expiry"></div>
+                    <div class="col-6 d-md-none"><label class="required">Date of Birth: </label></div>
+                    <div class="col-6 col-md-2"><input type="date" class="famDOB" v-model="m.dob" required aria-label="Date of Birth"></div>
+                    <div class="col-12 col-md-1"><button type="button" class="btnDeleteFam" @click="removeFamily(idx)">delete</button>
+                        <input type="hidden" :name="'familyMembers[]'" :value="formatMember(m)">
+                    </div>
+                </div>
+            </div>
                 
             <hr />
-            <div class="row mt-2 newOnly">
-                <div class="col-12 col-md-7">
-                    <strong>Other Club Affiliations Past or Present:</strong> (New Members Only - Optional)<br />
-                    <button id="addClub" type="button">Add Club</button>
-                </div>                        
-            </div>
-            <div class="row clubRow newOnly">
-                <div class="d-none d-sm-block col-md-3 centered">Club Name</div>
-                <div class="d-none d-sm-block col-md-3 centered">City, Province</div>
-                <div class="d-none d-sm-block col-md-2 centered">From (MM/YY)</div>
-                <div class="d-none d-sm-block col-md-2 centered">To (MM/YY)</div>
-            </div>
-            <script id="clubTemplate" type="text/x-custom-template">
-                <div class="row clubRow">
-                    <div class="col-6 d-md-none">Club Name: </div><div class="col-6 col-md-3"><input type="text" class="otherClub"></div>
-                    <div class="col-6 d-md-none">City, Province: </div><div class="col-6 col-md-3"><input type="text" class="otherCity"></div>
-                    <div class="col-6 d-md-none">From (MM/YY): </div><div class="col-6 col-md-2"><input type="text" class="otherFrom" placeholder="MM/YY"></div>
-                    <div class="col-6 d-md-none">To (MM/YY): </div><div class="col-6 col-md-2"><input type="text" class="otherTo" placeholder="MM/YY"></div>
-                    <div class="col-12 col-md-1"><button type="button" class="btnDeleteClub">delete</button>      
-                        <input type="hidden" name="otherClubs[]">
+            <div id="clubsApp" class="newOnly">
+                <div class="row mt-2">
+                    <div class="col-12 col-md-7">
+                        <strong>Other Club Affiliations Past or Present:</strong> (New Members Only - Optional)<br />
+                        <button id="addClubVue" type="button">Add Club</button>
                     </div>
                 </div>
-            </script>
+                <div class="row clubRow">
+                    <div class="d-none d-sm-block col-md-3 centered">Club Name</div>
+                    <div class="d-none d-sm-block col-md-3 centered">City, Province</div>
+                    <div class="d-none d-sm-block col-md-2 centered">From (MM/YY)</div>
+                    <div class="d-none d-sm-block col-md-2 centered">To (MM/YY)</div>
+                </div>
+
+                <div class="row clubRow" v-for="(c, idx) in clubs" :key="idx">
+                    <div class="col-6 d-md-none">Club Name: </div><div class="col-6 col-md-3"><input type="text" v-model="c.name" class="otherClub"></div>
+                    <div class="col-6 d-md-none">City, Province: </div><div class="col-6 col-md-3"><input type="text" v-model="c.city" class="otherCity"></div>
+                    <div class="col-6 d-md-none">From (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.from" class="otherFrom" placeholder="MM/YY"></div>
+                    <div class="col-6 d-md-none">To (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.to" class="otherTo" placeholder="MM/YY"></div>
+                    <div class="col-12 col-md-1"><button type="button" class="btnDeleteClub" @click="removeClub(idx)">delete</button>
+                        <input type="hidden" :name="'otherClubs[]'" :value="formatClub(c)">
+                    </div>
+                </div>
+            </div>
                 
             <hr class="newOnly" />
-            <div class="row mt-2 newOnly">
-                <div class="col-12 col-md-8">
-                    <strong>Firearms/Archery Training or Certifications:</strong> (New Members Only - Optional)<br />
-                    <button type="button" id="addCourse">Add Training/Certification</button>
-                </div>
-            </div>
-            <div class="row courseRow newOnly">
-                <div class="d-none d-sm-block col-md-3 centered">Description</div>
-                <div class="d-none d-sm-block col-md-3 centered">Instructor/Trainer</div>
-                <div class="d-none d-sm-block col-md-3 centered">Location</div>
-                <div class="d-none d-sm-block col-md-2 centered">Date (MM/YY)</div>
-            </div>                   
-            <script id="courseTemplate" type="text/x-custom-template">
-                <div class="row courseRow">
-                    <div class="col-6 d-md-none">Description: </div><div class="col-6 col-md-3"><input type="text" class="courseDesc"></div>
-                    <div class="col-6 d-md-none">Instructor/Trainer: </div><div class="col-6 col-md-3"><input type="text" class="courseTrainer"></div>
-                    <div class="col-6 d-md-none">Location: </div><div class="col-6 col-md-3"><input type="text" class="courseLocation"></div>
-                    <div class="col-6 d-md-none">Date (MM/YY): </div><div class="col-6 col-md-2"><input type="text" class="courseDate" placeholder="MM/YY"></div>
-                    <div class="col-12 col-md-1"><button type="button" class="btnDeleteCourse">delete</button>
-                        <input type="hidden" name="courses[]">
+            <div id="coursesApp" class="newOnly">
+                <div class="row mt-2">
+                    <div class="col-12 col-md-8">
+                        <strong>Firearms/Archery Training or Certifications:</strong> (New Members Only - Optional)<br />
+                        <button type="button" id="addCourseVue">Add Training/Certification</button>
                     </div>
                 </div>
-            </script>                        
+                <div class="row courseRow">
+                    <div class="d-none d-sm-block col-md-3 centered">Description</div>
+                    <div class="d-none d-sm-block col-md-3 centered">Instructor/Trainer</div>
+                    <div class="d-none d-sm-block col-md-3 centered">Location</div>
+                    <div class="d-none d-sm-block col-md-2 centered">Date (MM/YY)</div>
+                </div>
+
+                <div class="row courseRow" v-for="(c, idx) in courses" :key="idx">
+                    <div class="col-6 d-md-none">Description: </div><div class="col-6 col-md-3"><input type="text" v-model="c.desc" class="courseDesc"></div>
+                    <div class="col-6 d-md-none">Instructor/Trainer: </div><div class="col-6 col-md-3"><input type="text" v-model="c.trainer" class="courseTrainer"></div>
+                    <div class="col-6 d-md-none">Location: </div><div class="col-6 col-md-3"><input type="text" v-model="c.location" class="courseLocation"></div>
+                    <div class="col-6 d-md-none">Date (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.date" class="courseDate" placeholder="MM/YY"></div>
+                    <div class="col-12 col-md-1"><button type="button" class="btnDeleteCourse" @click="removeCourse(idx)">delete</button>
+                        <input type="hidden" :name="'courses[]'" :value="formatCourse(c)">
+                    </div>
+                </div>
+            </div>
             <hr class="newOnly" />
             <div class="row mt-2">
                 <div class="col-12">
@@ -328,24 +342,167 @@
             <div class="row">
                 <div class="col-6 col-md-10 align-content-end"><strong>Amount Due:</strong></div>
                 <div class="col-6 col-md-2">&nbsp;$<span id="total"></span></div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-6 col-md-10 align-content-end"><strong>Grand Total (All Applicants):</strong></div>
+                <div class="col-6 col-md-2"><strong>$<span id="grandTotal">0</span></strong></div>
             </div>         
             <div class="row mt-2 terms">
                 <div class="col-12">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree that I have read the all the instructions and I hereby declare that the information provided is true and correct</label>
+                    <label class="ml-1" for="terms">I agree that I have read the all the instructions and I hereby declare that the information provided is true and correct</label>
                 </div>
             </div>              
             <div class="row mt-2">
-                <div class="col-8 col-md-1">
+                <div class="col-8 col-md-4">
                     <span id="errors" class="error"></span>
-                    <button type="button" id="btnSubmit">Submit</button>
+                    <button type="button" id="addApplicant">Add Another Applicant</button>                    
                 </div>
             </div>          
         </form>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-12">
+                <button type="button" id="btnSubmit">Submit</button>
+                <span id="applicantCount">0 applicants added</span>
+                <div id="applicantList"></div>
+            </div>
+        </div>
     </div>
     
         <script src="../js/bootstrap.js" type="text/javascript"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
         <script src="../js/vue.js"></script>
+        <script>
+            (function(){
+                const { createApp } = Vue;
+
+                // Form-level Vue app to manage conditional UI, clubs and courses and validation
+                window.formVm = createApp({
+                    data() {
+                        return {
+                            applicationType: document.querySelector('input[name="applicationType"]:checked')?.value || 'new',
+                            palType: document.querySelector('input[name="palType"]:checked')?.value || 'pal',
+                            membershipFee: document.querySelector('input[name="membershipFee"]:checked')?.value || 'general',
+                            clubs: [],
+                            courses: [],
+                            members: []
+                        };
+                    },
+                    methods: {
+                        addClub() { this.clubs.push({ name: '', city: '', from: '', to: '' }); },
+                        removeClub(i){ this.clubs.splice(i,1); },
+                        formatClub(c){ return `${c.name || ''} ${c.city || ''} ${c.from || ''} - ${c.to || ''}`; },
+                        addCourse(){ this.courses.push({ desc: '', trainer: '', location: '', date: '' }); },
+                        removeCourse(i){ this.courses.splice(i,1); },
+                        formatCourse(c){ return `${c.desc || ''} ${c.trainer || ''} ${c.location || ''} ${c.date || ''}`; },
+                        addFamily() { this.members.push({ firstname: '', lastname: '', pal: '', palExpiry: '', dob: '' }); this.updateCount(); },
+                        removeFamily(idx) { this.members.splice(idx,1); this.updateCount(); },
+                        formatMember(m) { return `${m.firstname || ''} ${m.lastname || ''} DOB: ${m.dob || ''} PAL: ${m.pal || ''} ${m.palExpiry || ''}`; },
+                        updateCount() { const el = document.getElementById('family'); if (el) el.value = this.members.length; if (typeof recalc === 'function') recalc(); },
+                        // simple validation that complements jQuery Validate
+                        validate() {
+                            let ok = true;
+                            // Don't validate if we're submitting multiple
+                            const applicantCount = parseInt(document.querySelectorAll('#applicantList li').length || '0');
+                            if (applicantCount > 0) return true;
+
+                            // applicationType-specific required fields (class new)                            
+                            document.querySelectorAll('input[required]').forEach(i=>{
+                                if (!i.value || i.value.trim()==='') { 
+                                    i.setAttribute('aria-invalid','true'); ok=false; 
+                                    i.classList.add('failed');
+                                }
+                                else {
+                                    i.removeAttribute('aria-invalid');
+                                    i.classList.remove('failed');}
+                            });
+                            
+                            // pal rules
+                            if (this.palType === 'pal' || this.palType === 'rpal') {
+                                const palNum = document.getElementById('PALNum');
+                                const palExpiry = document.getElementById('palExpiry');
+                                if (!palNum || !palNum.value.trim()) { 
+                                    if(palNum) {
+                                        palNum.setAttribute('aria-invalid','true'); ok=false; 
+                                        palNum.classList.add('failed');
+                                    }
+                                }
+                                else if (palNum) {
+                                    palNum.removeAttribute('aria-invalid');
+                                    palNum.classList.remove('failed');
+                                }
+                                if (!palExpiry || !palExpiry.value.trim()) { 
+                                    if(palExpiry) {
+                                        palExpiry.setAttribute('aria-invalid','true'); ok=false; 
+                                        palExpiry.classList.add('failed');
+                                    }
+                                }
+                                else if (palExpiry) {
+                                    palExpiry.removeAttribute('aria-invalid');
+                                    palExpiry.classList.remove('failed');
+                                }
+                            }
+                            // phone requirement (home or cell)
+                            const homePhone = document.getElementById('homephone')?.value || '';
+                            const cellPhone = document.getElementById('cellphone')?.value || '';
+                            const homePhoneInput = document.getElementById('homephone');
+                            const cellPhoneInput = document.getElementById('cellphone');
+                            if (homePhone.trim() === '' && cellPhone.trim() === '') {
+                                homePhoneInput.setAttribute('aria-invalid','true'); 
+                                cellPhoneInput.setAttribute('aria-invalid','true'); 
+                                homePhoneInput.classList.add('failed');
+                                cellPhoneInput.classList.add('failed');
+                                ok=false; 
+                            } else {
+                                homePhoneInput.removeAttribute('aria-invalid'); homePhoneInput.classList.remove('failed'); 
+                                cellPhoneInput.removeAttribute('aria-invalid'); cellPhoneInput.classList.remove('failed'); 
+                            }
+                            // family count vs members
+                            const famCount = parseInt(document.getElementById('family')?.value || '0');
+                            const familyMembers = (window.familyVm && Array.isArray(window.familyVm.members)) ? window.familyVm.members.length : Array.from(document.querySelectorAll('.famName')).filter(e => e.value && e.value.trim() !== '').length;
+                            if (famCount !== familyMembers) {
+                                const el = document.getElementById('family'); if (el) el.setAttribute('aria-invalid','true'); ok=false;
+                            } else { const el = document.getElementById('family'); if (el) el.removeAttribute('aria-invalid'); }
+
+                            // Terms checkbox
+                            const termsChecked = document.getElementById('terms')?.checked;
+                            const termsInput = document.getElementById('terms');
+                            const termsDiv = document.querySelector('.terms');
+
+                            if (!termsChecked) {    
+                                termsInput.setAttribute('aria-invalid','true'); 
+                                termsDiv.classList.add('failed');
+                                ok=false; 
+                            } else {
+                                termsInput.removeAttribute('aria-invalid'); 
+                                termsDiv.classList.remove('failed');
+                            }
+
+                            return ok;
+                        }
+                    },
+                    watch: {
+                        applicationType(v){
+                            // reflect changes into DOM to keep existing scripts working
+                            const node = document.querySelector(`input[name="applicationType"][value="${v}"]`);
+                            if (node) node.checked = true;
+                            if (typeof applicationTypeChange === 'function') applicationTypeChange();
+                        },
+                        palType(v){
+                            const node = document.querySelector(`input[name="palType"][value="${v}"]`);
+                            if (node) node.checked = true;
+                            if (typeof $('input[name="palType"]').trigger === 'function') $('input[name="palType"]').trigger('change');
+                        },
+                        members: { handler(){ this.updateCount(); }, deep:true } 
+                    }
+                }).mount('#form');
+
+                // wire clubs/courses add buttons
+                const addClubBtn = document.getElementById('addClubVue'); if (addClubBtn && window.formVm) addClubBtn.addEventListener('click', ()=>window.formVm.addClub());
+                const addCourseBtn = document.getElementById('addCourseVue'); if (addCourseBtn && window.formVm) addCourseBtn.addEventListener('click', ()=>window.formVm.addCourse());
+                const addBtn = document.getElementById('addFamilyVue'); if (addBtn) addBtn.addEventListener('click', function(){ window.formVm.addFamily(); });
+            })();
+        </script>
     </body>
 </html>

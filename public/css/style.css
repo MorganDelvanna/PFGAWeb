@@ -57,9 +57,21 @@ button:hover {
 label {
   font-weight: 500;
 }
+label.failed {
+  color: purple;
+  font-weight: bold;
+}
+
+div.failed {
+  border: solid medium purple;
+}
 
 input[type=text] {
   width: 100%;
+}
+
+input.failed {
+  border: solid medium purple;
 }
 
 select {

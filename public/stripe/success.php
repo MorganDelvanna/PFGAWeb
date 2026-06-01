@@ -26,173 +26,300 @@ function preg_grep_keys($pattern, $input) {
   }
 }
 
-$meta = $checkout_session['metadata'];
-switch( $meta['applicationType'] ) {
-  case 'new':
-    $appType = 'New';
-    break;
-  case 'half':
-    $appType = 'New Half-Year';
-    break;
-  case 'renew':
-    $appType = 'Renewal';
-    break;
-  case 'update':
-    $appType = 'Update';
-    break;
-  default:
-    $appType = 'New';
-}
-switch( $meta['membershipFeeType']){
-  case 'general':
-    $feeType = 'General Membership';
-    break;
-  case 'senior':
-    $feeType = 'Senior Membership';
-    break;
-  case 'junior':
-    $feeType = 'Junior Membership';
-    break;
-  case 'archery':
-    $feeType = 'Archery Membership';
-    break;
-  case 'update':
-    $feeType= 'Family Membership';
-    break;
-  default:
-    $feeType = 'General Membership';
-}
+// --- Additional step: retrieve encrypted records by UUID from DB, decrypt, and email in batch ---
+// Find UUID keys in metadata
+$uuids = [];
+if (!empty($checkout_session['metadata'])) {
+  $meta = $checkout_session['metadata'];
+  $v = $meta['applicant_uuids'];
 
-$firstName = $meta['firstname'];
-$lastName = $meta['lastname'];
-$dob = $meta['dob'];
-$address = $meta['address'].', '.$meta['city'].', '.$meta['province'].', '.$meta['postal']; 
-$email = $meta['email'];
-$disciplines = $meta['disciplines'];
-$extraCards = $meta['extra'];
-
-$customer = $checkout_session['customer_details'];
-$ccEmail = $customer['email'];
-
-
-
-$bodyHTML = "<strong>$appType $feeType</strong><br />";
-$bodyHTML .= (strlen($meta['card']) > 0) ? '<strong>Card #</strong>: '.$meta['card'].'<br />' : '';   
-$bodyHTML .= "<strong>First Name</strong>: $firstName<br />";
-$bodyHTML .= "<strong>Last Name</strong>: $lastName<br />"; 
-if($appType != 'Update'){
-  $bodyHTML .= (strlen($meta['alias']) > 0) ? '<strong>Preferred Name</strong>: '.$meta['alias'].'<br />' : '';
-  $bodyHTML .= "<strong>Date of Birth</strong>: $dob<br />";  
-  $bodyHTML .= "<strong>Address</strong>: $address<br />";  
-  $bodyHTML .= (strlen($meta['homephone']) > 0) ? '<strong>Home Phone</strong>: '.$meta['homephone'].'<br />':'';  
-  $bodyHTML .= (strlen($meta['cellphone']) > 0) ? '<strong>Cell Phone</strong>: '.$meta['cellphone'].'<br />':'';
-  $bodyHTML .= "<strong>Email</strong>: $email<br />";
-  $bodyHTML .= ($meta['palType']=='noPal') ? 'None<br />' : "<strong>PAL</strong>: ".$meta['palNum'].' expires: '.$meta['palExpiry'].'<br />' ;  
-  $bodyHTML .= (strlen($meta['palDate'])>0) ? '<strong>Approx PAL Date</strong>: '.$meta['palDate'].'<br />' :''; 
-  $bodyHTML .= "<strong>Disciplines</strong>: $disciplines<br />";
-}
-if($appType == 'Update'){
-  $bodyText .= "<br/>\n";
-}
-$bodyHTML .= "<strong>Extra Cards Ordered</strong>: $extraCards<br />";  
-if ($meta['family'] > 0) {
-  $bodyHTML .= '<p><strong>Family Members</strong><br/>';
-  for ($i = 0; $i < (int)$meta['family']; $i++){
-    $bodyHTML .= $meta['familyMember'.$i].'<br />';
-  };
-  $bodyHTML .= "</p>";
-};
-if(isset($meta['club0'])){
-  $bodyHTML .= '<p><strong>Club Affiliations</strong><br />';
-  for ($i = 0; $i < 20; $i++){
-    if(isset($meta['club'.$i])){
-      $bodyHTML .= $meta['club'.$i].'';
+  // if value contains multiple uuids separated by commas, split
+  if (is_string($v) && strpos($v, ',') !== false) {
+    foreach (explode(',', $v) as $part) {
+      $part = trim($part);
+      if ($part !== '') $uuids[] = $part;
     }
-  };
-  $bodyHTML .= "</p>";
-};
-if(isset($meta['course0'])){
-  $bodyHTML .= '<strong>Course/Training</strong><br />';
-  for ($i = 0; $i < 20; $i++){
-    if(isset($meta['course'.$i])){
-      $bodyHTML .= $meta['course'.$i].'';
-    }
-  };
-  $bodyHTML .= "</p>";
-};
-
-
-$bodyText = "$appType $feeType\n";
-$bodyText .= (strlen($meta['card']) > 0) ? 'Card #: '.$meta['card'].'\n' : '';   
-$bodyText .= "First Name: $firstName\n";
-$bodyText .= "Last Name: $lastName\n"; 
-if($appType != 'Update'){
-  $bodyText .= (strlen($meta['alias']) > 0) ? 'Preferred Name: '.$meta['alias'].'\n' : '';
-  $bodyText .= "Date of Birth: $dob\n";  
-  $bodyText .= "Address: $address\n";  
-  $bodyText .= (strlen($meta['homephone']) > 0) ? 'Home Phone: '.$meta['homephone'].'\n':'';  
-  $bodyText .= (strlen($meta['cellphone']) > 0) ? 'Cell Phone: '.$meta['cellphone'].'\n':'';
-  $bodyText .= "Email: $email\n";
-  $bodyText .= ($meta['palType']=='noPal') ? 'None' : "PAL: ".$meta['palNum'].' <strong>Expires:</strong> '.$meta['palExpiry']."\n";  
-  $bodyText .= (strlen($meta['palDate'])>0) ? 'Approx PAL Date: '.$meta['palDate']."\n" :''; 
-  $bodyText .= "Disciplines: $disciplines\n";
+  } else {
+    $uuids[] = $v;
+  }
 }
-if($appType == 'Update'){
-  $bodyText .= "\n";
-}
-$bodyText .= "Extra Cards Ordered: $extraCards\n";  
-if ($meta['family'] > 0) {
-  $bodyText .= 'Family Members<br/>';
-  for ($i = 0; $i < (int)$meta['family']; $i++){
-    $bodyText .= $meta['familyMember'.$i].'\n';
-  };
-  $bodyText .= "";
-};
-if(isset($meta['club0'])){
-  $bodyText .= 'Club Affiliations\n';
-  for ($i = 0; $i < 20; $i++){
-    if(isset($meta['club'.$i])){
-      $bodyText .= $meta['club'.$i].'';
+
+// Initialize output variables
+$collectedBodyHTML = [];
+$collectedRecords = [];
+$emailSuccess = [];
+$emailErrors = [];
+$debugRecords = [];
+
+if (!empty($uuids)) {
+  $dbHost = $_ENV['DB_HOST'] ?? '127.0.0.1';
+  $dbName = $_ENV['DB_NAME'] ?? null;
+  $dbUser = $_ENV['DB_USER'] ?? null;
+  $dbPass = $_ENV['DB_PASS'] ?? null;
+
+  if ($dbName && $dbUser) {
+    $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+    if ($mysqli->connect_errno) {
+      error_log('DB connect failed in success.php: ' . $mysqli->connect_error);
+    } else {
+      
+      $stmt = $mysqli->prepare("SELECT uuid, `type`, data, created_at FROM encrypted_members WHERE uuid = ? LIMIT 1");
+      if ($stmt) {
+        // decryption helper
+        function decrypt_record($b64, $key) {
+          $raw = base64_decode($b64);
+          if ($raw === false || strlen($raw) < 17) return false;
+          $iv = substr($raw, 0, 16);
+          $cipher = substr($raw, 16);
+          $plain = openssl_decrypt($cipher, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+          return $plain === false ? false : $plain;
+        }
+
+        $enc_key = $_ENV['ENCRYPTION_KEY'] ?? null;
+
+        // STEP 1: Retrieve and decrypt all records
+        foreach ($uuids as $u) {
+          $stmt->bind_param('s', $u);
+          $stmt->execute();
+          $res = $stmt->get_result();
+          if ($row = $res->fetch_assoc()) {
+            if (!$enc_key) {
+              error_log('ENCRYPTION_KEY not set; cannot decrypt for uuid ' . $u);
+              continue;
+            }
+            
+            $plain = decrypt_record($row['data'], $enc_key);
+            if ($plain === false) {
+              error_log('Failed to decrypt record for uuid ' . $u);
+              continue;
+            }
+            // decrypted payload is JSON; decode to associative array
+            $decoded = json_decode($plain, true);
+            if (!is_array($decoded)) {
+              error_log('Decrypted record is not valid JSON for uuid ' . $u . ': ' . substr($plain, 0, 200));
+              continue;
+            }
+
+            // Store the record for batch processing
+            $collectedRecords[] = $decoded;
+            $debugRecords[] = [
+              'firstname' => $decoded['firstname'] ?? '',
+              'lastname' => $decoded['lastname'] ?? '',
+              'clubs' => isset($decoded['clubs']) && is_array($decoded['clubs']) ? count($decoded['clubs']) : 0,
+              'courses' => isset($decoded['courses']) && is_array($decoded['courses']) ? count($decoded['courses']) : 0
+            ];
+          } else {
+            error_log('No DB record found for uuid ' . $u);
+          }
+        }
+        $stmt->close();
+
+        // STEP 2: Build batch email from all collected records
+        if (!empty($collectedRecords)) {
+          $batchBodyHTML = '';
+          $batchBodyText = '';
+
+          foreach ($collectedRecords as $plain) {
+            // Initialize per-record variables
+            $bodyHTML = '';
+            $bodyText = '';
+
+            $isUpdate = isset($plain['applicationType']) && $plain['applicationType'] === 'update';
+
+            switch( $plain['applicationType'] ) {
+              case 'new':
+                $appType = 'New';
+                break;
+              case 'half':
+                $appType = 'New Half-Year';
+                break;
+              case 'renew':
+                $appType = 'Renewal';
+                break;
+              case 'update':
+                $appType = 'Update';
+                break;
+              default:
+                $appType = 'New';
+            }
+
+            switch( $plain['membershipFee']){
+              case 'general':
+                $feeType = 'General Membership';
+                break;
+              case 'senior':
+                $feeType = 'Senior Membership';
+                break;
+              case 'junior':
+                $feeType = 'Junior Membership';
+                break;
+              case 'archery':
+                $feeType = 'Archery Membership';
+                break;
+              case 'update':
+                $feeType= 'Family Membership';
+                break;
+              default:
+                $feeType = 'General Membership';
+            }            
+
+            $firstName = $plain['firstname'];
+            $lastName = $plain['lastname'];
+
+            if(!$isUpdate){
+                          $dob = $plain['dob'];
+                        $address = $plain['address'].', '.$plain['city'].', '.$plain['province'].', '.$plain['postal']; 
+                        $email = $plain['email'];
+                        $disciplines = implode(',', $plain['disciplines']);
+            }
+            $extraCards = $plain['extra'];
+
+            $bodyHTML = "<strong>$appType $feeType</strong><br />";
+            $bodyHTML .= (strlen($plain['pfgaNumber']) > 0) ? '<strong>Card #</strong>: '.$plain['pfgaNumber'].'<br />' : '';   
+            $bodyHTML .= "<strong>First Name</strong>: $firstName<br />";
+            $bodyHTML .= "<strong>Last Name</strong>: $lastName<br />"; 
+            if(!$isUpdate){
+              $bodyHTML .= (strlen($plain['alias']) > 0) ? '<strong>Preferred Name</strong>: '.$plain['alias'].'<br />' : '';
+              $bodyHTML .= "<strong>Date of Birth</strong>: $dob<br />";  
+              $bodyHTML .= "<strong>Address</strong>: $address<br />";  
+              $bodyHTML .= (strlen($plain['homephone']) > 0) ? '<strong>Home Phone</strong>: '.$plain['homephone'].'<br />':'';  
+              $bodyHTML .= (strlen($plain['cellphone']) > 0) ? '<strong>Cell Phone</strong>: '.$plain['cellphone'].'<br />':'';
+              $bodyHTML .= "<strong>Email</strong>: $email<br />";
+              $bodyHTML .= ($plain['palType']=='noPal') ? 'None<br />' : "<strong>PAL</strong>: ".$plain['palNum'].' expires: '.$plain['palExpiry'].'<br />' ;  
+              $bodyHTML .= (strlen($plain['palDate'])>0) ? '<strong>Approx PAL Date</strong>: '.$plain['palDate'].'<br />' :''; 
+              $bodyHTML .= "<strong>Disciplines</strong>: $disciplines<br />";
+            }
+            $bodyHTML .= "<strong>Extra Cards Ordered</strong>: $extraCards<br />";  
+            if ($plain['family'] > 0) {
+              $bodyHTML .= '<p><strong>Family Members</strong><br/>';
+              foreach ($plain['family'] as $f) {
+                $bodyHTML .= $f['firstname'].' '.$f['lastname'].', PAL: '.$f['pal'].' '.$f['palExpiry'].', DoB: '.$f['dob'].'<br />';
+              };
+              $bodyHTML .= "</p>";
+            };
+            if(!$isUpdate){
+              if(isset($plain['clubs']) && is_array($plain['clubs'])){
+                $bodyHTML .= '<p><strong>Club Affiliations</strong><br />';
+                foreach ( $plain['clubs'] as $c) {
+                  $bodyHTML .= $c['name'].', '.$c['city'].', '.$c['from'].' -'. $c['to'].'<br />';                
+                };
+                $bodyHTML .= "</p>";
+              };
+              if(isset($plain['courses']) && is_array($plain['courses'])){
+                $bodyHTML .= '<strong>Course/Training</strong><br />';
+                foreach ($plain['courses'] as $c) {
+                  $bodyHTML .= $c['desc'].', '.$c['location'].', '.$c['trainer'].', '. $c['date'].'<br />';
+                };
+                $bodyHTML .= "</p>";
+              };
+            }
+            
+
+
+            $bodyText = "$appType $feeType\n";
+            $bodyText .= (strlen($plain['pfgaNumber']) > 0) ? 'Card #: '.$plain['pfgaNumber'].'\n' : '';   
+            $bodyText .= "First Name: $firstName\n";
+            $bodyText .= "Last Name: $lastName\n"; 
+            if($appType != 'Update'){
+              $bodyText .= (strlen($plain['alias']) > 0) ? 'Preferred Name: '.$plain['alias'].'\n' : '';
+              $bodyText .= "Date of Birth: $dob\n";  
+              $bodyText .= "Address: $address\n";  
+              $bodyText .= (strlen($plain['homephone']) > 0) ? 'Home Phone: '.$plain['homephone'].'\n':'';  
+              $bodyText .= (strlen($plain['cellphone']) > 0) ? 'Cell Phone: '.$plain['cellphone'].'\n':'';
+              $bodyText .= "Email: $email\n";
+              $bodyText .= ($plain['palType']=='noPal') ? 'None' : "PAL: ".$plain['palNum'].' Expires: '.$plain['palExpiry']."\n";  
+              $bodyText .= (strlen($plain['palDate'])>0) ? 'Approx PAL Date: '.$plain['palDate']."\n" :''; 
+              $bodyText .= "Disciplines: $disciplines\n";
+            }
+            $bodyText .= "Extra Cards Ordered: $extraCards\n";  
+            if ($plain['family'] > 0) {
+              $bodyText .= 'Family Members\n';
+              foreach ($plain['family'] as $f) {
+                $bodyText .= $f['firstname'].' '.$f['lastname'].', PAL: '.$f['pal'].' '.$f['palExpiry'].', DoB: '.$f['dob'].'\n';
+              };
+            };
+
+            if(!$isUpdate){
+              if(isset($plain['clubs']) && is_array($plain['clubs'])){
+                $bodyText .= 'Club Affiliations\n';
+                foreach ( $plain['clubs'] as $c) {
+                  $bodyText .= $c['name'].', '.$c['city'].', '.$c['from'].' -'. $c['to'].'\n';                 
+                };
+              };
+              if(isset($plain['courses']) && is_array($plain['courses'])){
+                $bodyText .= 'Course/Training\n';
+                foreach ($plain['courses'] as $c) {
+                  $bodyText .= $c['desc'].', '.$c['location'].', '.$c['trainer'].', '. $c['date'].'\n';
+                };
+              };
+            }            
+
+            // Store for display on page
+            $collectedBodyHTML[] = $bodyHTML;
+
+            // Append to batch body (separator between applicants)
+            $batchBodyHTML .= $bodyHTML . "<br /><hr><br />";
+            $batchBodyText .= $bodyText . "\n---\n";
+          }
+
+          // STEP 3: Send single batch email with all applicants
+          $customer = $checkout_session['customer_details'];
+          $ccEmail = $customer['email'];
+
+          $pm = new PHPMailer();
+          $pm->isSMTP();
+          $pm->CharSet = 'UTF-8';
+          $pm->Host = $_ENV['HOST'];
+          $smtpDebug = '';
+          $pm->SMTPDebug = 0; // Set to 2 for detailed debug output
+          $pm->Debugoutput = function($str, $level) use (&$smtpDebug) { $smtpDebug .= "[$level] $str\n"; };
+          $pm->SMTPAuth = True;
+          $pm->Port = $_ENV['PORT'];
+          $pm->Username = $_ENV['USERNAME'];
+          $pm->Password = $_ENV['PASSWORD'];
+          $pm->setFrom($_ENV['FROM']);
+          $pm->addAddress($_ENV['FROM']);
+          if (!empty($ccEmail)) $pm->AddCC($ccEmail);
+          $pm->isHTML(true);
+          
+          $appCountStr = count($collectedRecords) === 1 ? 'Applicant' : 'Applicants (' . count($collectedRecords) . ')';
+          $pm->Subject = "PFGA $appCountStr from Stripe";
+          $pm->Body = "<html><body><p>Hello Membership Secretary,</p><p>The following $appCountStr submitted via Stripe:</p>" . $batchBodyHTML . "<p>Thanks,<br />The PFGA Stripe Application</p></body></html>";
+          $pm->AltBody = "Hello Membership Secretary,\n\nThe following $appCountStr submitted via Stripe:\n\n" . $batchBodyText . "\n\nThanks,\nThe PFGA Stripe Application";
+
+          if ($pm->send()) {
+            $emailSuccess[] = 'Batch email sent for ' . count($collectedRecords) . ' applicant(s)';
+            
+            // Mark all records as emailed in DB
+            if (isset($mysqli) && $mysqli instanceof mysqli) {
+              $transactionId = $checkout_session['payment_intent'];
+              foreach ($uuids as $uuid) {
+                $u_stmt = $mysqli->prepare("UPDATE encrypted_members SET emailed = 1, emailed_at = ?, transactionId=? WHERE uuid = ?");
+                if ($u_stmt) {
+                  $now = date('Y-m-d H:i:s');
+                  $u_stmt->bind_param('sss', $now, $transactionId, $uuid);
+                  $u_stmt->execute();
+                  $u_stmt->close();
+                } else {
+                  error_log('Failed to prepare update statement for uuid ' . $uuid . ': ' . $mysqli->error);
+                }
+              }
+            }
+          } else {
+            $emailErrors[] = ['message' => 'Batch email failed', 'error' => $pm->ErrorInfo, 'debug' => $smtpDebug];
+            error_log('Failed to send batch email: ' . $pm->ErrorInfo . '\n' . $smtpDebug);
+          }
+        }
+      } else {
+        error_log('DB prepare failed in success.php: ' . $mysqli->error);
+      }
+      $mysqli->close();
     }
-  };
-  $bodyText .= "";
-};
-if(isset($meta['course0'])){
-  $bodyText .= 'Course/Training\n';
-  for ($i = 0; $i < 20; $i++){
-    if(isset($meta['course'.$i])){
-      $bodyText .= $meta['course'.$i].'';
-    }
-  };
-  $bodyText .= "";
-};
-
-$mail = new PHPMailer();
-// Settings
-$mail->isSMTP();
-$mail->CharSet = 'UTF-8';
-$mail->Host = $_ENV['HOST'];
-$mail->SMTPDebug = 0;
-$mail->SMTPAuth = True;
-$mail->Port = $_ENV['PORT'];
-$mail->Username = $_ENV['USERNAME'];
-$mail->Password = $_ENV['PASSWORD'];
-
-// Content
-$mail->setFrom($_ENV['FROM']);
-$mail->addAddress($_ENV['FROM']);
-$mail->AddCC($ccEmail);
-$mail->isHTML(true);
-$mail->Subject = "PFGA $appType from Stripe";
-$mail->Body = "Hello Membership Secretary,<br />".$bodyHTML."Thanks,<br />The PFGA Stripe Application";
-$mail->AltBody = "Hello Membership Secretary,\n".$bodyText."Thanks,\nThe PFGA Stripe Application";;
-
-if(!$mail->Send()) {
-   $arrResult['response'] = 'error';
-   echo "There was a problem sending the form.: " . $mail->ErrorInfo;
-   exit;
+  } else {
+    error_log('DB credentials not configured; cannot retrieve encrypted records.');
+  }
 }
-   
+
 ?>
 
 <!DOCTYPE html>
@@ -226,20 +353,66 @@ if(!$mail->Send()) {
           <h1>Your payment succeeded</h1>
         </div>
         <p>
-          <?php 
-          if($meta['applicationType'] == 'renew'){ echo 'You have successfully renewed, do not send in another form of payment. The following has been emailed to the Membership Secretary and to you:'; } 
-          else { echo 'Your application has been submitted and will be considered at the next Board of Directors meeting. <br>You will be contacted sometime after the meeting to inform you if you have been accepted or not.<br>The following has been emailed to the Membership Secretary and to you:'; }
-          ?>
+          You have successfully completed your application(s), new members will be considered at the next Board of Directors meeting and you will be contacted<br />
+          You will be contacted sometime after the meeting to inform you if you have been accepted or not.<br />
+          
+          The following has been emailed to the Membership Secretary and to you:
         </p>
         
           <div class="sr-section completed-view">
-            <!--<pre><?= json_encode($checkout_session['metadata'], JSON_PRETTY_PRINT); ?></pre>-->
-            <?php echo $bodyHTML ?>
+            <?php
+              // Show submitted applicants
+              /*
+              if (!empty($debugRecords)) {
+                echo '<div class="alert alert-info mt-2"><h3>Submitted Applicants (' . count($debugRecords) . ')</h3><ul>';
+                foreach ($debugRecords as $rec) {
+
+                  $fname = htmlspecialchars($rec['firstname'] ?? '');
+                  $lname = htmlspecialchars($rec['lastname'] ?? '');
+                  $clubs = intval($rec['clubs']);
+                  $courses = intval($rec['courses']);
+                  echo "<li>$fname $lname (clubs: $clubs, courses: $courses)</li>";
+                }
+                echo '</ul></div>';
+              }*/
+
+              // Show individual records (for reference/display)
+              if (!empty($collectedBodyHTML)) {
+                echo '<div class="alert alert-info mt-2"><h3>Application Details</h3>';
+                $count = count($collectedBodyHTML);
+                foreach ($collectedBodyHTML as $idx => $b) {
+                  echo "<div class=\"body-record\">";
+                  echo $b;
+                  echo "</div>";
+                  if ($idx < $count - 1) echo "<hr />";
+                }
+                echo '</div>';
+              }
+
+              // Show email send status
+              /*
+              if (!empty($emailSuccess)) {
+                echo '<div class="alert alert-success mt-2"><strong>Email Status:</strong><br />';
+                foreach ($emailSuccess as $msg) {
+                  echo htmlspecialchars($msg) . '<br />';
+                }
+                echo '</div>';
+              }
+              if (!empty($emailErrors)) {
+                echo '<div class="alert alert-danger mt-2"><h3>Email Errors</h3>';
+                foreach ($emailErrors as $err) {
+                  $msg = htmlspecialchars($err['message'] ?? '');
+                  $errinfo = htmlspecialchars($err['error'] ?? '');
+                  $dbg = htmlspecialchars($err['debug'] ?? '');
+                  echo "<div class=\"email-error\"><strong>$msg</strong>: $errinfo<pre>$dbg</pre></div>";
+                }
+                echo '</div>';
+              }
+                */
+            ?>
           </div>
           <div class="sr-section">
-            <?php 
-              if($meta['applicationType'] != 'renew'){ echo 'As part of the new member application process please submit a photo for each family member to be used for ID. Email your photo(s) to membership@pfga.ca. The photo does not need to be professional, it can be taken on your phone. It should look like a passport photo. Please stand in front of a plain, preferably light coloured, background and include your head and shoulders. You can smile or not, whichever you prefer. Your face needs to be clearly seen. Thank you. '; }
-            ?>
+            If you are a new member, as part of the new member application process please submit a photo for each family member to be used for ID. Email your photo(s) to membership@pfga.ca. The photo does not need to be professional, it can be taken on your phone. It should look like a passport photo. Please stand in front of a plain, preferably light coloured, background and include your head and shoulders. You can smile or not, whichever you prefer. Your face needs to be clearly seen. Thank you. 
           </div>
         </div>
       </div>

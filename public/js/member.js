@@ -1,12 +1,14 @@
-const general = 350
-const senior = 320
-const junior = 250
-const halfGeneral = 250
-const halfSenior = 230
-const halfJunior = 180
-const initiation = 75
-const extraCards = 25
-const family = 20
+// Fee constants loaded from PHP environment variables
+// These are injected as a script block in memberform.php
+let general = window.MEMBERSHIP_FEES?.general || 350;
+let senior = window.MEMBERSHIP_FEES?.senior || 320;
+let junior = window.MEMBERSHIP_FEES?.junior || 250;
+let halfGeneral = window.MEMBERSHIP_FEES?.halfGeneral || 250;
+let halfSenior = window.MEMBERSHIP_FEES?.halfSenior || 230;
+let halfJunior = window.MEMBERSHIP_FEES?.halfJunior || 180;
+let initiation = window.MEMBERSHIP_FEES?.initiation || 75;
+let extraCards = window.MEMBERSHIP_FEES?.extraCards || 25;
+let family = window.MEMBERSHIP_FEES?.family || 20;
 
 function gatherFamily() {
     $('[name^="familyMembers"]').each(function(){
@@ -100,6 +102,71 @@ function recalc() {
     let totalExtra = parseInt($('#extra').val()) * extraCards;
 
     $('#total').text(totalInitiation + totalFee + totalFam + totalExtra);
+    updateGrandTotal();
+}
+
+// Calculate fee for a single applicant object
+function calculateApplicantFee(applicant) {
+    let totalInitiation = 0;
+    let totalFee = 0;
+    let totalFam = 0;
+    let totalExtra = 0;
+
+    // Initiation fee
+    if (applicant.applicationType === 'new' || applicant.applicationType === 'half') {
+        totalInitiation = initiation;
+    }
+
+    // Membership fee
+    switch (true) {
+        case (applicant.membershipFee == "general" && applicant.applicationType == "new"):
+        case (applicant.membershipFee == "general" && applicant.applicationType == "renew"):
+            totalFee = general;
+            break;
+        case (applicant.membershipFee == "general" && applicant.applicationType == "half"):
+        case (applicant.membershipFee == "archery" && applicant.applicationType == "half"):
+        case (applicant.membershipFee == "archery" && applicant.applicationType == "renew"):
+            totalFee = halfGeneral;
+            break;
+        case (applicant.membershipFee == "senior" && applicant.applicationType == "new"):
+        case (applicant.membershipFee == "senior" && applicant.applicationType == "renew"):
+            totalFee = senior;
+            break;
+        case (applicant.membershipFee == "senior" && applicant.applicationType == "half"):
+            totalFee = halfSenior;
+            break;
+        case (applicant.membershipFee == "junior" && applicant.applicationType == "new"):
+        case (applicant.membershipFee == "junior" && applicant.applicationType == "renew"):
+            totalFee = junior;
+            break;
+        case (applicant.membershipFee == "junior" && applicant.applicationType == "half"):
+            totalFee = halfJunior;
+            break;
+        default: 
+            totalFee = 0;
+    }
+
+    // Family and extra
+    totalFam = (applicant.familyCount || 0) * family;
+    totalExtra = (applicant.extra || 0) * extraCards;
+
+    return totalInitiation + totalFee + totalFam + totalExtra;
+}
+
+// Calculate grand total for all applicants (stored + current form)
+function calculateGrandTotal() {
+    // Grand total should include only applicants that have been added to the list
+    let total = 0;
+    applicants.forEach(function(app) {
+        total += calculateApplicantFee(app);
+    });
+    return total;
+}
+
+// Update grand total display
+function updateGrandTotal() {
+    let grandTotal = calculateGrandTotal();
+    $('#grandTotal').text(grandTotal);
 }
 
 var applicationTypeChange = function() {
@@ -112,7 +179,7 @@ var applicationTypeChange = function() {
             }
             $('#cardCell').hide();
             $('#cardLabel').removeClass('required');
-            $('#card').removeAttr('required');
+            $('#pfgaNumber').removeAttr('required');
             $('.newOnly').show();
             if ($('#archeryBtn').is(':checked')) {
                 $('#generalBtn').prop("checked", true);
@@ -127,7 +194,7 @@ var applicationTypeChange = function() {
                 $('input.new').attr('required');
             }
             $('#cardLabel').removeClass('required');
-            $('#card').removeAttr('required');
+            $('#pfgaNumber').removeAttr('required');
             $('.newOnly').show();
             $('#cardCell').hide();
             $('#archeryBtn').show();
@@ -138,7 +205,7 @@ var applicationTypeChange = function() {
             $('input.new').removeAttr('required');
             $('#cardCell').show();
             $('#cardLabel').addClass('required');
-            $('#card').attr('required');
+            $('#pfgaNumber').attr('required');
             $('.newOnly').hide();
             $('#initiationFee').text(`$0`);
             $('#archeryBtn').show();
@@ -146,6 +213,142 @@ var applicationTypeChange = function() {
     }
     recalc();
 }
+
+// Multi-applicant support
+let applicants = [];
+
+function gatherApplicantObject() {
+    gatherFamily();
+    gatherClubs();
+    gatherCourses();
+
+    // collect applicant main fields
+    let applicant = {};
+    applicant.applicationType = $('input[name="applicationType"]:checked').val();
+    applicant.membershipFee = $('input[name="membershipFee"]:checked').val();
+    applicant.firstname = $('#firstname').val();
+    applicant.lastname = $('#lastname').val();
+    applicant.alias = $('#alias').val();
+    applicant.dob = $('#dob').val();
+    applicant.pfgaNumber = $('#pfgaNumber').val();
+    applicant.address = $('#address').val();
+    applicant.city = $('#city').val();
+    applicant.province = $('#province').val();
+    applicant.postal = $('#postal').val();
+    applicant.homephone = $('#homephone').val();
+    applicant.cellphone = $('#cellphone').val();
+    applicant.email = $('#email').val();
+    applicant.palType = $('input[name="palType"]:checked').val();
+    applicant.palDate = $('#palDate').val();
+    applicant.palNum = $('#PALNum').val();
+    applicant.palExpiry = $('#palExpiry').val();
+    applicant.disciplines = [];
+    if($('#archery').is(':checked')) applicant.disciplines.push('archery');
+    if($('#rifle').is(':checked')) applicant.disciplines.push('rifle');
+    if($('#smallbore').is(':checked')) applicant.disciplines.push('smallbore');
+    if($('#handgun').is(':checked')) applicant.disciplines.push('handgun');
+    if($('#action').is(':checked')) applicant.disciplines.push('action');
+    applicant.family = [];
+
+    // gather family rows
+    $('.familyRow').each(function(){
+        let fn = $(this).find('.famName').val();
+        let ln = $(this).find('.famLast').val();
+        if (!fn && !ln) return; // skip empty
+        let m = {
+            firstname: fn || '',
+            lastname: ln || '',
+            pal: $(this).find('.famPAL').val() || '',
+            palExpiry: $(this).find('.famExpiry').val() || '',
+            dob: $(this).find('.famDOB').val() || ''
+        };
+        applicant.family.push(m);
+    });
+
+    // gather clubs (prefer Vue state) — handle Vue proxies safely
+    applicant.clubs = [];
+    if (window.formVm && typeof window.formVm.clubs !== 'undefined') {
+        try {
+            const copied = JSON.parse(JSON.stringify(window.formVm.clubs));
+            applicant.clubs = Array.isArray(copied) ? copied : [];
+        } catch (e) {
+            applicant.clubs = [];
+        }
+    }
+    if (!applicant.clubs || applicant.clubs.length === 0) {
+        $('.clubRow').each(function(){
+            let name = $(this).find('.otherClub').val();
+            if(!name) return;
+            applicant.clubs.push({name: name, city: $(this).find('.otherCity').val(), from: $(this).find('.otherFrom').val(), to: $(this).find('.otherTo').val()});
+        });
+    }
+
+    // gather courses (prefer Vue state) — handle Vue proxies safely
+    applicant.courses = [];
+    if (window.formVm && typeof window.formVm.courses !== 'undefined') {
+        try {
+            const copied = JSON.parse(JSON.stringify(window.formVm.courses));
+            applicant.courses = Array.isArray(copied) ? copied : [];
+        } catch (e) {
+            applicant.courses = [];
+        }
+    }
+    if (!applicant.courses || applicant.courses.length === 0) {
+        $('.courseRow').each(function(){
+            let desc = $(this).find('.courseDesc').val();
+            if(!desc) return;
+            applicant.courses.push({desc: desc, trainer: $(this).find('.courseTrainer').val(), location: $(this).find('.courseLocation').val(), date: $(this).find('.courseDate').val()});
+        });
+    }
+
+    applicant.extra = parseInt($('#extra').val()) || 0;
+    applicant.familyCount = parseInt($('#family').val()) || 0;
+    applicant.terms = $('#terms').is(':checked');
+
+    return applicant;
+}
+
+function clearForm() {
+    // reset inputs except templates
+    $('#form')[0].reset();
+    // reset Vue-managed family members if present
+        // clear Vue-managed data if present
+        if (window.formVm && typeof window.formVm === 'object') {
+            if (Array.isArray(window.formVm.members)) window.formVm.members = [];
+            if (Array.isArray(window.formVm.clubs)) window.formVm.clubs = [];
+            if (Array.isArray(window.formVm.courses)) window.formVm.courses = [];
+            // keep the family count in sync
+            const el = $('#family'); if (el.length) el.val(0);
+            if (typeof window.formVm.updateCount === 'function') window.formVm.updateCount();
+        } else if (window.familyVm && Array.isArray(window.familyVm.members)) {
+            window.familyVm.members = [];
+            $('#family').val(0);
+        } else {
+            // remove dynamically added family rows (legacy)
+            $('.familyRow').not(':first').remove();
+        }
+        // remove DOM-managed club/course rows and clear inputs for legacy mode
+        $('.clubRow').not(':first').remove();
+        $('.courseRow').not(':first').remove();
+        $('.familyRow :input').val('');
+        $('.clubRow :input').val('');
+        $('.courseRow :input').val('');
+    recalc();
+    updateGrandTotal();
+}
+
+function renderApplicants() {
+    $('#applicantCount').text(applicants.length + ' applicants added').attr('data-count', applicants.length);
+    let html = '<ul>';
+    applicants.forEach(function(a, i){
+        let fee = calculateApplicantFee(a);
+        html += `<li>${i+1}: ${a.firstname} ${a.lastname} (${a.email || 'no email'}) — ${a.family.length} family members — $${fee}</li>`;
+    });
+    html += '</ul>';
+    $('#applicantList').html(html);
+    updateGrandTotal();
+}
+
 
 $(function(){
     $('.initiationFee').text(`$${initiation}`);    
@@ -176,7 +379,7 @@ $(function(){
         $('#memberYear').text(`October 1st ${date.getFullYear() - 1} - September 30th ${date.getFullYear()}`);
     }
 
-    if (date.getMonth() >=2 && date.getMonth() <= 6) {
+    if (date.getMonth() >=1 && date.getMonth() <= 6) {
         $('#halfColumn').show();
         $('#halfSpan').show();
     } else {
@@ -185,38 +388,21 @@ $(function(){
     }
 
 
-    $('#addFamily').on('click', function(){
-        let template = $('#familyTemplate').html();
-        $('.familyRow:last').after(template);
-        $('.btnDeleteFam').on('click', function(){
-            $(this).closest(".familyRow").remove();
-            let famNum = parseInt($('#family').val());
-            if (famNum > 0) {
-                $('#family').val(famNum - 1);
-            }            
-        });       
-        let famNum = parseInt($('#family').val());
-        $('#family').val(famNum + 1);
-        recalc();
-    });
-
+    // Clubs handled by Vue when available
     $('#addClub').on('click', function(){
-        let template = $('#clubTemplate').html();
-        $('.clubRow').after(template);
-        $('.btnDeleteClub').on('click', function(){
-            $(this).closest(".clubRow").remove();
-        });
-        $('.otherFrom').inputmask("99/99");
-        $('.otherTo').inputmask("99/99");
+        if (window.formVm && typeof window.formVm.addClub === 'function') {
+            window.formVm.addClub();
+            return;
+        }
+        // fallback (no-op)
     });
 
+    // Courses handled by Vue when available
     $('#addCourse').on("click", function(){
-        let template = $('#courseTemplate').html();
-        $('.courseRow:last').after(template);
-        $('.btnDeleteCourse').on("click", function(){
-            $(this).closest(".courseRow").remove();
-        });
-        $('.courseDate').inputmask("99/99");
+        if (window.formVm && typeof window.formVm.addCourse === 'function') {
+            window.formVm.addCourse();
+            return;
+        }
     });    
 
     $('[name="applicationType"]').on("change", applicationTypeChange);
@@ -301,16 +487,62 @@ $(function(){
     recalc();
 
     $.validator.addMethod("familyTest", function(value, element){
-        return $('.famName').length == value;  
+        // Count only filled family name inputs to avoid counting template rows
+        const filled = $('.famName').filter(function(){ return $(this).val() && $(this).val().toString().trim() !== ''; }).length;
+        return filled == value;  
     }, "The number of family members does not match the number being paid for");
     
+    // Add Applicant button: capture current filled form as one applicant and clear for next
+    $('#addApplicant').on('click', function(){
+        // perform validation for required fields before adding
+        gatherFamily();
+        gatherClubs();
+        gatherCourses();
+        let app = gatherApplicantObject();
+        // basic required check
+        if (!app.firstname || !app.lastname || !app.email) {
+            alert('Applicant must include first name, last name, and email');
+            return;
+        }
+        applicants.push(app);
+        renderApplicants();
+        clearForm();
+    });
+
     $('#btnSubmit').on("click", function(){
         gatherFamily();
         gatherClubs();
         gatherCourses();
         recalc();
-       
-        $('#form').submit();
+
+        // If no applicants were explicitly added, we must validate the current form
+        if (applicants.length === 0) {
+            // run Vue validation if present
+            if (window.formVm && typeof window.formVm.validate === 'function') {
+                let ok = window.formVm.validate();
+                if (!ok) { alert('Please fix highlighted form errors'); return; }
+            }
+
+            // collect current form as the single applicant and let normal validation (jQuery validate)
+            // proceed by calling the standard submit so plugin can run its checks
+            let app = gatherApplicantObject();
+            applicants.push(app);
+            try { $('#members_json').val(JSON.stringify(applicants)); } catch (e) { console.error('Failed to serialize applicants', e); }
+            $('#form').submit();
+            return;
+        }
+
+        // There are applicants already added — include current form if filled, then submit
+        try {
+            const currentApp = gatherApplicantObject();
+            if ((currentApp.firstname && currentApp.firstname.trim() !== '') || (currentApp.lastname && currentApp.lastname.trim() !== '') || (currentApp.email && currentApp.email.trim() !== '')) {
+                applicants.push(currentApp);
+            }
+        } catch (e) { console.error('Failed to gather current applicant', e); }
+        try { $('#members_json').val(JSON.stringify(applicants)); } catch (e) { console.error('Failed to serialize applicants', e); }
+    
+        // Use native submit to bypass jQuery Validate
+        $('#form')[0].submit();
     });
 
     $('#form').validate({
@@ -356,4 +588,5 @@ $(function(){
         $('#newMember').prop("checked", true);
     }
     applicationTypeChange();
+    updateGrandTotal();
 });

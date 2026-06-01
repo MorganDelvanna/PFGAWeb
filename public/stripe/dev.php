@@ -85,3 +85,103 @@ DOMAIN=http://localhost:4242</pre>
 );
 
 $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
+
+// Retrieve all encrypted member records from DB, decrypt and output as JSON
+header('Content-Type: application/json; charset=utf-8');
+
+$dbHost = $_ENV['DB_HOST'] ?? '127.0.0.1';
+$dbName = $_ENV['DB_NAME'] ?? null;
+$dbUser = $_ENV['DB_USER'] ?? null;
+$dbPass = $_ENV['DB_PASS'] ?? null;
+
+$result = ['success' => false, 'records' => [], 'error' => null];
+
+if (!$dbName || !$dbUser) {
+  http_response_code(500);
+  $result['error'] = 'DB credentials not configured; cannot retrieve encrypted records.';
+  echo json_encode($result, JSON_PRETTY_PRINT);
+  exit;
+}
+
+$mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+if ($mysqli->connect_errno) {
+  http_response_code(500);
+  $result['error'] = 'DB connect failed: ' . $mysqli->connect_error;
+  echo json_encode($result, JSON_PRETTY_PRINT);
+  exit;
+}
+
+// decryption helper (matches success.php implementation)
+function decrypt_record($b64, $key) {
+  $raw = base64_decode($b64);
+  if ($raw === false || strlen($raw) < 17) return false;
+  $iv = substr($raw, 0, 16);
+  $cipher = substr($raw, 16);
+  $plain = openssl_decrypt($cipher, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+  return $plain === false ? false : $plain;
+}
+
+$enc_key = $_ENV['ENCRYPTION_KEY'] ?? null;
+// If encryption key not present in .dev, try loading the production .thing file
+if (!$enc_key && file_exists(__DIR__ . '/..' . '/.thing')) {
+  try {
+    $dotenv2 = Dotenv\Dotenv::createImmutable(__DIR__ . '/..', '.thing');
+    $dotenv2->load();
+    $enc_key = $_ENV['ENCRYPTION_KEY'] ?? $enc_key;
+  } catch (Exception $e) {
+    // ignore; we'll report missing key below
+  }
+}
+
+if (!$enc_key) {
+  // include a warning in the JSON so caller sees why decrypted values are null
+  $result['warning'] = 'ENCRYPTION_KEY not set; decrypted fields will be null.';
+}
+
+$stmt = $mysqli->prepare("SELECT uuid, `type`, data, created_at, emailed, emailed_at FROM encrypted_members ORDER BY created_at DESC");
+if (!$stmt) {
+  http_response_code(500);
+  $result['error'] = 'DB prepare failed: ' . $mysqli->error;
+  echo json_encode($result, JSON_PRETTY_PRINT);
+  $mysqli->close();
+  exit;
+}
+
+if (!$stmt->execute()) {
+  http_response_code(500);
+  $result['error'] = 'DB execute failed: ' . $stmt->error;
+  echo json_encode($result, JSON_PRETTY_PRINT);
+  $stmt->close();
+  $mysqli->close();
+  exit;
+}
+
+$res = $stmt->get_result();
+while ($row = $res->fetch_assoc()) {
+  $decrypted = null;
+  if ($enc_key) {
+    $plain = decrypt_record($row['data'], $enc_key);
+    if ($plain !== false) {
+      $decoded = json_decode($plain, true);
+      $decrypted = $decoded === null ? $plain : $decoded;
+    } else {
+      $decrypted = null;
+    }
+  }
+
+  $result['records'][] = [
+    'uuid' => $row['uuid'],
+    'type' => $row['type'],
+    'created_at' => $row['created_at'],
+    'emailed' => $row['emailed'],
+    'emailed_at' => $row['emailed_at'],
+    'decrypted' => $decrypted
+  ];
+}
+
+$stmt->close();
+$mysqli->close();
+
+$result['success'] = true;
+echo json_encode($result, JSON_PRETTY_PRINT);
+exit;
