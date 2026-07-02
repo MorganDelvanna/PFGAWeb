@@ -4,5 +4,7 @@
 -->
 <VisualWebDeveloper>
 
-  <iisExpressSettings windowsAuthentication="disabled" anonymousAuthentication="enabled" useClassicPipelineMode="false"/>
+  <Globals>
+    <UserProperties links_1json__JsonSchema="https://json-schema.org/draft/2019-09/schema"/>
+  </Globals>
 </VisualWebDeveloper>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <handlers>
+      <add name="PHP_via_XAMPP" path="*.php" verb="*" modules="IsapiModule" scriptProcessor="C:\xampp\php\php-cgi.exe" resourceType="Unspecified" requireAccess="Script" preCondition="bitness64" />
+    </handlers>
+    <rewrite>
+      <rules>
+        <rule name="Route PHP to XAMPP via redirect" stopProcessing="true">
+          <match url="^(.+\.php)$" ignoreCase="false" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+          </conditions>
+          <action type="Redirect" url="http://localhost:8000/{R:0}" redirectType="Temporary" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>

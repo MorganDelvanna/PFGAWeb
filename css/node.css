@@ -1,0 +1,56 @@
+﻿body {
+    color: black;
+    font-family: Arial;
+    font-size: medium;
+    background-color: #ffeb99;
+}
+
+.heading {
+    font-weight: bold;
+}
+
+.bordered {
+    border: solid 1px black;
+}
+
+.button {
+    text-decoration: none;
+}
+
+    .button:hover {
+        color: green;
+    }
+
+.main {
+    margin-left: 40px;
+}
+
+.button {
+    display: inline;
+    padding: 4px 6px;
+    border: 1px solid #777;
+    background: #fff;
+    color: #d04;
+    margin-right: 8px;
+    border-radius: 5px;
+    -moz-box-shadow: 2px 2px 2px #888;
+    -webkit-box-shadow: 2px 2px 2px #888;
+    box-shadow: 2px 2px 2px #888;
+}
+
+.container {
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+.description {
+    height: 40px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card {
+    background-color: inherit;
+}

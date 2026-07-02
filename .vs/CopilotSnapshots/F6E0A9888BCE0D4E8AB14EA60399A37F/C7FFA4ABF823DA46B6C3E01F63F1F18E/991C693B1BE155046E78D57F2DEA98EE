@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Proxy PHP to XAMPP" stopProcessing="true">
+          <match url="^(.*)\.php(\?.*)?$" />
+          <action type="Rewrite" url="http://127.0.0.1:8000/{R:0}" />
+        </rule>
+      </rules>
+    </rewrite>
+    <httpErrors>
+      <remove statusCode="500" subStatusCode="-1" />
+      <error statusCode="500" subStatusCode="-1" path="C:\iisexpress_error\error500.html" responseMode="File" />
+    </httpErrors>
+  </system.webServer>
+</configuration>

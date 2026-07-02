@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="language" content="en-us" />
+    <meta name="description" content="Peterborough Fish & Game Association gun club in Peterborough Ontario Canada" />
+    <meta name="keywords" content="handgun, rifle, archery, indoor range, outdoor range" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="Bryan McKellar" />
+    <meta name="copyright" content="2018, PFGA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Peterborough Fish and Game Association: Property Map</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/pfga.css" />
+    <link rel="stylesheet" href="css/menu.css" />
+    <link rel="shortcut icon" href="images/pfgalogo.ico" />
+
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+
+<body class="pfga">
+    <div class="container app">
+        <div class="row">
+            <div class="col center">
+                <img alt="Peterborough Fish & Game Association" src="images/header.gif" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <menu-control></menu-control>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1>Property Map</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div align="center" class="map">
+                    <img src="images/property-map2024.jpg" alt="" usemap="#ranges" />
+                    <map name="ranges" id="ranges">
+                        <area shape="rect" coords="281,451,430,659" alt="Club House, Indoor Range #1 and Parking Lot" title="Club House, Indoor Range #1 and Parking Lot" nohref="nohref" />
+                        <area shape="poly" coords="134,493,222,445,226,474,281,476,282,508,159,523" alt="Range 2 - 25 Meter Handgun Only" title="Range 2 - 25 Meter Handgun Only" nohref="nohref" />
+                        <area shape="poly" coords="98,429,128,424,229,376,243,406,321,396,316,428,245,432,127,491,132,490" alt="Range 3 - 50/100 Yard Rifle Only" title="Range 3 - 50/100 Yard Rifle Only, No Shotgun" nohref="nohref" />
+                        <area shape="poly" coords="111,375,207,345,230,356,258,349,294,366,288,386,226,378,210,376,108,423,108,419" alt="Range 4 - 25 Meter Handgun - 50 Meter Rifle, Shotgun" title="Range 4 - 25 Meter Handgun - 50 Meter Rifle, Shotgun" nohref="nohref" />
+                        <area shape="poly" coords="113,325,112,372,204,342,233,351,290,338,284,311,185,311,189,312" alt="Range 5 - 25 Yard Handgun - 50 Yard Rifle, Shotgun" title="Range 5 - 25 Yard Handgun - 50 Yard Rifle, Shotgun" nohref="nohref" />
+                        <area shape="poly" coords="109,276,113,321,190,306,266,306,257,263,257,264" alt="Range 6 - Archery Only" title="Range 6 - Archery Only" nohref="nohref" />
+                        <area shape="poly" coords="103,227,252,231,255,260,111,270,112,270" alt="Range 7 - 25 Yard Action Handgun" title="Range 7 - 25 Yard Action Handgun" nohref="nohref" />
+                        <area shape="poly" coords="102,175,232,174,242,191,304,191,302,224,251,227,103,224,103,225" alt="Range 8 - 50 Yard Handgun - 100 yard Rifle, Shotgun" title="Range 8 - 50 Yard Handgun - 100 yard Rifle, Shotgun" nohref="nohref" />
+                        <area shape="poly" coords="101,168,74,164,24,51,89,18,119,65,207,66,211,87,140,102,146,152" alt="Range 9 - 100m FITA Archery Only" title="Range 9 - 100m FITA Archery Only" nohref="nohref" />
+                        <area shape="poly" coords="67,167,58,174,61,210,76,228,58,253,5,246,4,211,26,205,5,54,21,20,86,3,119,12,140,50,162,47,223,45,233,80,231,98,159,126,148,110,217,90,211,59,125,60,92,13,19,47" alt="Range 10 – 3D Archery" title="Range 10 – 3D Archery" nohref="nohref" />
+                        <area shape="poly" coords="236,74,245,142,252,189,283,188,280,78,255,68" alt="Range 11 – 25 Yard Handgun" title="Range 11 – 25 Yard Handgun" nohref="nohref" />
+                        <area shape="poly" coords="282,60,287,188,323,188,322,53,320,53" alt="Range 12 – 20 Yard Handgun" title="Range 12 – 20 Yard Handgun" nohref="nohref" />
+                        <area shape="poly" coords="325,48,329,188,364,191,367,50" alt="Range 13 – 20 Yard Handgun" title="Range 13 – 20 Yard Handgun" nohref="nohref" />                       
+                    </map>
+                </div>
+                <div id="Description" class="center">Peterborough Fish & Game Association Property, move the mouse over the map for Range Descriptions</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('area').mouseover(function () {
+                var altText = $(this).attr('alt');
+
+                $('#Description').text(altText);
+            });
+
+            $('area').mouseout(function () {
+                var altText = 'Peterborough Fish & Game Association Property, move the mouse over the map for Range Descriptions';
+
+                $('#Description').text(altText);
+            });
+        });
+    </script>
+</body>
+</html>

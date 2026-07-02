@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <rewrite>
+      <allowedServerVariables>
+        <add name="HTTP_ACCEPT_ENCODING" />
+      </allowedServerVariables>
+      <rules>
+        <rule name="PHP Files" stopProcessing="false">
+          <match url="^(.+\.php)(.*)$" ignoreCase="false" />
+          <conditions logicalGrouping="MatchAll">
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="http://localhost:8000{REQUEST_URI}" appendQueryString="false" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>

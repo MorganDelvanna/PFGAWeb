@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Proxy PHP to XAMPP" stopProcessing="true">
+          <match url="^(.*)\.php$" />
+          <action type="Rewrite" url="http://localhost:8000/{R:0}" logRewrittenUrl="true" />
+        </rule>
+      </rules>
+      <outboundRules>
+        <rule name="Rewrite absolute links back to IIS" preCondition="IsHTML">
+          <match filterByTags="A, Form, Img" pattern="^http://localhost:8000/(.*)" />
+          <action type="Rewrite" value="/{R:1}" />
+        </rule>
+      </outboundRules>
+      <preConditions>
+        <preCondition name="IsHTML">
+          <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" />
+        </preCondition>
+      </preConditions>
+    </rewrite>
+    <security>
+      <requestFiltering>
+        <fileExtensions>
+          <add fileExtension=".php" allowed="true" />
+        </fileExtensions>
+      </requestFiltering>
+    </security>
+  </system.webServer>
+</configuration>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Route PHP to XAMPP" stopProcessing="true">
+          <match url="^(.+\.php)(.*)$" ignoreCase="false" />
+          <action type="Rewrite" url="http://localhost:8000{REQUEST_PATH}{QUERY_STRING}" logRewrittenUrl="true" />
+        </rule>
+      </rules>
+      <outboundRules>
+        <rule name="Replace localhost:8000 with current host" preCondition="IsHtml">
+          <match filterByTags="A, Form, Script, Img, Link" pattern="http://localhost:8000/(.*)" />
+          <action type="Rewrite" value="/{R:1}" />
+        </rule>
+      </outboundRules>
+      <preConditions>
+        <preCondition name="IsHtml">
+          <add input="{RESPONSE_CONTENT_TYPE}" pattern="text/html" />
+        </preCondition>
+      </preConditions>
+    </rewrite>
+  </system.webServer>
+</configuration>

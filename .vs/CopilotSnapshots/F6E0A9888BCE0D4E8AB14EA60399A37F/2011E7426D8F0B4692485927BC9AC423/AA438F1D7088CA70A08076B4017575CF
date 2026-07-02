@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <handlers>
+      <add name="PHP_via_FastCGI" path="*.php" verb="*" modules="FastCgiModule" scriptProcessor="C:\xampp\php\php-cgi.exe" resourceType="File" />
+    </handlers>
+    <fastCgi>
+      <application fullPath="C:\xampp\php\php-cgi.exe" instanceMaxRequests="10000">
+        <environmentVariables>
+          <environmentVariable name="PHPRC" value="C:\xampp\php" />
+        </environmentVariables>
+      </application>
+    </fastCgi>
+  </system.webServer>
+</configuration>

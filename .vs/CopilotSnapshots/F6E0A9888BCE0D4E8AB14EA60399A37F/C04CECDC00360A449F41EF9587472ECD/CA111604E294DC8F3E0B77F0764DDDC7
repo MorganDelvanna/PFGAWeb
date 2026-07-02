@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <handlers>
+      <add name="PHP_via_FastCGI" path="*.php" verb="*" modules="FastCgiModule" scriptProcessor="[PHP_FastCGI_Path]" resourceType="File" />
+    </handlers>
+    <rewrite>
+      <rules>
+        <rule name="Proxy PHP to XAMPP" stopProcessing="true">
+          <match url="^(.*)\.php$" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="http://localhost:8000/{R:0}" logRewrittenUrl="true" />
+        </rule>
+        <rule name="Proxy PHP Requests to XAMPP" stopProcessing="true">
+          <match url=".*" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+            <add input="{URL}" pattern="\.php$" />
+          </conditions>
+          <action type="Rewrite" url="http://localhost:8000/{R:0}" logRewrittenUrl="true" />
+        </rule>
+      </rules>
+      <outboundRules>
+        <rule name="Rewrite Location Header" patternSyntax="Wildcard">
+          <match filterByTags="Hyperlink" pattern="http://localhost:8000/*" />
+          <conditions logicalGrouping="MatchAll">
+            <add input="{HTTP_HOST}" pattern=".*" />
+          </conditions>
+          <action type="Rewrite" value="http://{HTTP_HOST}/{R:1}" />
+        </rule>
+      </outboundRules>
+    </rewrite>
+    <security>
+      <requestFiltering>
+        <fileExtensions>
+          <add fileExtension=".php" allowed="true" />
+        </fileExtensions>
+      </requestFiltering>
+    </security>
+  </system.webServer>
+</configuration>

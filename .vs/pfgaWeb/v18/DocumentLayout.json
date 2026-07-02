@@ -1,0 +1,146 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|c:\\users\\curse\\documents\\visual studio 2022\\pfga\\web\\stripe\\checkout.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|solutionrelative:stripe\\checkout.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|c:\\users\\curse\\documents\\visual studio 2022\\pfga\\web\\js\\member.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|solutionrelative:js\\member.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\memberform.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|solutionrelative:stripe\\memberform.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\success.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|solutionrelative:stripe\\success.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|c:\\users\\curse\\documents\\visual studio 2022\\pfga\\web\\calendar\\functions.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|solutionrelative:calendar\\functions.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|c:\\users\\curse\\documents\\visual studio 2022\\pfga\\web\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{186A90C1-6C33-49FD-AD9B-BC479898F5D6}|http://localhost:54069|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "member.js",
+              "DocumentMoniker": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\js\\member.js",
+              "RelativeDocumentMoniker": "js\\member.js",
+              "ToolTip": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\js\\member.js",
+              "RelativeToolTip": "js\\member.js",
+              "ViewState": "AgIAAJcCAAAAAAAAAAAYwFoBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-06-27T21:33:18.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "checkout.php",
+              "DocumentMoniker": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\checkout.php",
+              "RelativeDocumentMoniker": "stripe\\checkout.php",
+              "ToolTip": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\checkout.php",
+              "RelativeToolTip": "stripe\\checkout.php",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-06-27T21:16:00.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "functions.php",
+              "DocumentMoniker": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\calendar\\functions.php",
+              "RelativeDocumentMoniker": "calendar\\functions.php",
+              "ToolTip": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\calendar\\functions.php",
+              "RelativeToolTip": "calendar\\functions.php",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-06-27T20:50:34.119Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\Web.config",
+              "RelativeDocumentMoniker": "Web.config",
+              "ToolTip": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\Web.config",
+              "RelativeToolTip": "Web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-06-27T20:13:14.369Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "success.php",
+              "DocumentMoniker": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\success.php",
+              "RelativeDocumentMoniker": "stripe\\success.php",
+              "ToolTip": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\success.php",
+              "RelativeToolTip": "stripe\\success.php",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADwAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-06-26T17:14:25.076Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "memberform.php",
+              "DocumentMoniker": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\memberform.php",
+              "RelativeDocumentMoniker": "stripe\\memberform.php",
+              "ToolTip": "C:\\Users\\Curse\\Documents\\Visual Studio 2022\\PFGA\\Web\\stripe\\memberform.php",
+              "RelativeToolTip": "stripe\\memberform.php",
+              "ViewState": "AgIAAMUAAAAAAAAAAAArwOAAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-06-26T16:38:13.42Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

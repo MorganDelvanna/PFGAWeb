@@ -1,0 +1,166 @@
+body
+{
+	color: black;
+	font-family: Arial;
+	font-size: medium;
+	background-color: #ffeb99;
+}
+
+p
+{
+	line-height: normal;
+}
+
+h2
+{
+	font-family:Arial;
+	font-size: medium;
+	font-weight:bold;
+}
+
+h1
+{
+	font-size: large;
+	font-family: Arial;
+	font-weight: bold;
+	text-align:center;
+	width: 100%;
+}
+
+.alt
+{
+    background-color: white;
+}
+
+.center 
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.pfgaAccordian
+{
+    border-width: 1px;
+    padding-bottom: 0px;
+    border-color: transparent #ACA899 #919191 transparent;
+    background: url(../img/tabEnabled.png) #e9e9e9 repeat-x top;
+    color: #000 !important; 
+    font-size: medium;
+    font-weight: 600;
+}
+
+.row
+{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.padded
+{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.navbar
+{
+    background-color: gold;
+}
+
+a.active
+{
+    color:blue;
+}
+
+.nav-link
+{
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+}
+
+.nav-item:hover
+{
+    color: #0056b3;
+}
+
+.news
+{
+    border: 1px solid black;
+}
+
+.latest
+{
+    border-right: 1px solid black;
+}
+
+#script-warning {
+	display: none;
+	background: #eee;
+	border-bottom: 1px solid #ddd;
+	padding: 0 10px;
+	line-height: 40px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 12px;
+	color: red;
+}
+
+#loading {
+	display: none;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+#calendar {
+	max-width: 900px;
+	margin: 40px auto;
+	padding: 0 10px;
+}
+
+.pfgaTable
+{
+    width: 100%;
+}
+
+.pfgaTable thead tr 
+{
+    border-width: 1px;
+	padding: 0 0 0 0;
+	border-color: transparent #ACA899 #919191 transparent;
+	background-color: gold;
+	color: #000 !important;
+}
+
+.table th
+{
+	padding: 0 0 0 0;
+}
+
+.pfgaAccordian
+{
+    width: 100%;
+}
+
+.slides {
+	padding: 50px 0px 50px 0px;
+}
+
+.altList > li:nth-child(even) {
+	background-color: White;
+}
+
+.tooltip {
+	z-index: 2000;
+	opacity: 1;	
+}
+
+.fc-list-event tr {
+	width: 100% !important;
+	box-sizing: border-box;
+}
+
+.newsRow {
+	border-bottom: solid 1px black
+}

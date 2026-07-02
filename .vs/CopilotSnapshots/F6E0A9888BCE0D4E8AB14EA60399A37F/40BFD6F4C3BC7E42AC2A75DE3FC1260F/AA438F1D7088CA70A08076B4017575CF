@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
+  </system.web>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Redirect PHP to XAMPP" stopProcessing="true">
+          <match url="^(.+\.php)$" />
+          <action type="Redirect" url="http://localhost:8000/{R:1}" redirectType="Temporary" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>
