@@ -177,6 +177,27 @@ if (!empty($_POST['token'])) {
 
     // Build items for all applicants and prepare encryption
     $all_items = [];
+    // Prepare blacklist DB check (optional)
+    $bl_mysqli = null;
+    $bl_stmt = null;
+    
+    $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
+    $dbName = $_ENV['DB_NAME'] ?? null;
+    $dbUser = $_ENV['DB_USER'] ?? null;
+    $dbPass = $_ENV['DB_PASS'] ?? null;
+    
+    if ($dbName && $dbUser) {
+      $bl_mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+      if (!$bl_mysqli->connect_errno) {
+        $bl_stmt = $bl_mysqli->prepare('SELECT id FROM blacklist WHERE email = ? LIMIT 1');
+        if (!$bl_stmt) {
+          error_log('Failed to prepare blacklist statement: ' . $bl_mysqli->error);
+        }
+      } else {
+        error_log('Blacklist DB connect failed: ' . $bl_mysqli->connect_error);
+        $bl_mysqli = null;
+      }
+    }
     
     foreach ($applicants_list as $ap) {
       $appObj = is_array($ap) ? $ap : [];
@@ -187,6 +208,21 @@ if (!empty($_POST['token'])) {
 
       if ($afn === '' || $aln === '' || $aem === '') {
         continue; // Skip invalid applicants
+      }
+
+      // Check blacklist for this applicant's email; if found, cancel flow
+      if ($bl_stmt) {
+        $bl_stmt->bind_param('s', $aem);
+        $bl_stmt->execute();
+        $bl_stmt->store_result();
+        if ($bl_stmt->num_rows > 0) {
+          // close resources
+          $bl_stmt->close();
+          if ($bl_mysqli) $bl_mysqli->close();
+          // redirect to canceled page
+          header("Location: canceled.php");
+          exit();
+        }
       }
 
       // Generate UUID for this applicant
@@ -268,18 +304,8 @@ if (!empty($_POST['token'])) {
 
     // Store encrypted applicant records if encryption key is available
     if ($enc_key && !empty($stored_records)) {
-
-      
-    $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
-    $dbName = $_ENV['DB_NAME'] ?? null;
-    $dbUser = $_ENV['DB_USER'] ?? null;
-    $dbPass = $_ENV['DB_PASS'] ?? null;
-   /*
-    $dbHost = 'localhost:3306';
-    $dbName = 'pfga_forum';
-    $dbUser = 'root';
-    $dbPass = '1q2w3e4r';
- */
+   
+ 
       // Prepare DB connection if possible
       $mysqli = null;
       if ($dbName && $dbUser) {

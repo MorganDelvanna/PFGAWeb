@@ -60,12 +60,7 @@ if (!empty($uuids)) {
     $dbName = $_ENV['DB_NAME'] ?? null;
     $dbUser = $_ENV['DB_USER'] ?? null;
     $dbPass = $_ENV['DB_PASS'] ?? null;
-  /*  
-    $dbHost = 'localhost:3306';
-    $dbName = 'pfga_forum';
-    $dbUser = 'root';
-    $dbPass = '1q2w3e4r';
-*/
+  
   if ($dbName && $dbUser) {
     $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
     if ($mysqli->connect_errno) {

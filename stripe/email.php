@@ -42,16 +42,12 @@ $prevDate = $startDate->modify('-1 month');
 $nextDate = $startDate->modify('+1 month');
 $prevParams = 'year=' . $prevDate->format('Y') . '&month=' . $prevDate->format('n');
 $nextParams = 'year=' . $nextDate->format('Y') . '&month=' . $nextDate->format('n');
-/*
+
 $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
 $dbName = $_ENV['DB_NAME'] ?? null;
 $dbUser = $_ENV['DB_USER'] ?? null;
 $dbPass = $_ENV['DB_PASS'] ?? null;
-*/
-$dbHost = 'localhost:3306';
-$dbName = 'pfga_forum';
-$dbUser = 'root';
-$dbPass = '1q2w3e4r';
+
 
 if ($dbName && $dbUser) {
     $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
@@ -172,8 +168,11 @@ if ($dbName && $dbUser) {
     <div class="sr-root">
       <div class="sr-main">
         <div class="sr-payment-summary completed-view">
-          <h1>Your payment succeeded</h1>
+          <h1>Applicants without email records</h1>
         </div>
+        <div class="completed-view">
+            <a href="blacklist.php">Blacklist</a>
+        </dir>
 
           <div class="sr-section completed-view">
             <div class="d-flex justify-content-between align-items-center mb-2">

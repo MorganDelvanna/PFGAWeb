@@ -164,3 +164,6 @@ a.active
 .newsRow {
 	border-bottom: solid 1px black
 }
+.card {
+	background-color:unset;
+}

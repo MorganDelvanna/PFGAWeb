@@ -7,12 +7,7 @@
     $dbName = $_ENV['DB_NAME'] ?? null;
     $dbUser = $_ENV['DB_USER'] ?? null;
     $dbPass = $_ENV['DB_PASS'] ?? null;
-     /*
-    $dbHost = 'localhost:3306';
-    $dbName = 'pfga_forum';
-    $dbUser = 'root';
-    $dbPass = '1q2w3e4r';
-*/
+
     function sanitizeString($var)
     {
         global $mysqli;
