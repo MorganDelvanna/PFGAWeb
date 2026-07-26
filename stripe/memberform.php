@@ -241,8 +241,16 @@
                     <div class="col-6 col-md-2"><input type="date" class="famExpiry" v-model="m.palExpiry" aria-label="Pal Expiry"></div>
                     <div class="col-6 d-md-none"><label class="required">Date of Birth: </label></div>
                     <div class="col-6 col-md-2"><input type="date" class="famDOB" v-model="m.dob" required aria-label="Date of Birth"></div>
-                    <div class="col-12 col-md-1"><button type="button" class="btnDeleteFam" @click="removeFamily(idx)">delete</button>
+                    <div class="col-12 col-md-1">
+                        <button type="button" class="btnDeleteFam" @click="removeFamily(idx)">delete</button>                        
+                    </div>
+                    <div class="col-12">
+                        <input type="file" class="famPhoto" @change="onFamilyPhoto($event, idx)" accept="image/jpeg,image/jpg,image/png">
+                        <div class="error famPhotoError"></div>
                         <input type="hidden" :name="'familyMembers[]'" :value="formatMember(m)">
+                        <input type="hidden" :name="'familyPhotoData[]'" :value="m.photoData || ''" class="famPhotoData">
+                        <input type="hidden" :name="'familyPhotoName[]'" :value="m.photoName || ''" class="famPhotoName">
+                        <input type="hidden" :name="'familyPhotoType[]'" :value="m.photoType || ''" class="famPhotoType">                   
                     </div>
                 </div>
             </div>
@@ -419,6 +427,37 @@
                         formatCourse(c){ return `${c.desc || ''} ${c.trainer || ''} ${c.location || ''} ${c.date || ''}`; },
                         addFamily() { this.members.push({ firstname: '', lastname: '', pal: '', palExpiry: '', dob: '' }); this.updateCount(); },
                         removeFamily(idx) { this.members.splice(idx,1); this.updateCount(); },
+                        onFamilyPhoto(e, idx) {
+                            const file = (e.target && e.target.files && e.target.files[0]) ? e.target.files[0] : null;
+                            const vm = this;
+                            const errorEl = e.target ? e.target.closest('.row')?.querySelector('.famPhotoError') : null;
+                            if (!file) {
+                                if (errorEl) errorEl.textContent = '';
+                                vm.members[idx].photoData = '';
+                                vm.members[idx].photoName = '';
+                                vm.members[idx].photoType = '';
+                                return;
+                            }
+                            // reuse global helper to validate and read
+                            readPhotoFile(file, function(result){
+                                if (!result.ok) {
+                                    if (errorEl) errorEl.textContent = result.message;
+                                    vm.members[idx].photoData = '';
+                                    vm.members[idx].photoName = '';
+                                    vm.members[idx].photoType = '';
+                                    return;
+                                }
+                                // sanitize and build filename from member names
+                                const first = (vm.members[idx].firstname || '').trim().replace(/[^a-z0-9]/gi,'_') || 'family';
+                                const last = (vm.members[idx].lastname || '').trim().replace(/[^a-z0-9]/gi,'_') || ('member' + idx);
+                                const ext = (file.name || '').split('.').pop().toLowerCase() || 'jpg';
+                                const newName = `${first}_${last}.${ext}`;
+                                vm.members[idx].photoData = result.dataUrl.replace(/^data:[^;]+;base64,/, '');
+                                vm.members[idx].photoName = newName;
+                                vm.members[idx].photoType = file.type;
+                                if (errorEl) errorEl.textContent = '';
+                            });
+                        },
                         formatMember(m) { return `${m.firstname || ''} ${m.lastname || ''} DOB: ${m.dob || ''} PAL: ${m.pal || ''} ${m.palExpiry || ''}`; },
                         updateCount() { const el = document.getElementById('family'); if (el) el.value = this.members.length; if (typeof recalc === 'function') recalc(); },
                         // simple validation that complements jQuery Validate

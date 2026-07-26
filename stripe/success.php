@@ -55,11 +55,17 @@ $attachmentNames = [];
 
 if (!empty($uuids)) {
     //TODO: Fix
-  $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
-  $dbName = $_ENV['DB_NAME'] ?? null;
-  $dbUser = $_ENV['DB_USER'] ?? null;
-  $dbPass = $_ENV['DB_PASS'] ?? null;
-
+  
+    $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
+    $dbName = $_ENV['DB_NAME'] ?? null;
+    $dbUser = $_ENV['DB_USER'] ?? null;
+    $dbPass = $_ENV['DB_PASS'] ?? null;
+  /*  
+    $dbHost = 'localhost:3306';
+    $dbName = 'pfga_forum';
+    $dbUser = 'root';
+    $dbPass = '1q2w3e4r';
+*/
   if ($dbName && $dbUser) {
     $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
     if ($mysqli->connect_errno) {
@@ -300,6 +306,51 @@ if (!empty($uuids)) {
                 error_log('Invalid photo base64 for applicant ' . $firstName . ' ' . $lastName);
               }
             }
+            // Attach any family member photos for this applicant
+            if (isset($plain['family']) && is_array($plain['family'])) {
+              foreach ($plain['family'] as $f) {
+                if (!is_array($f)) continue;
+                if (!isset($f['photo']) || !isset($f['photo']['data']) || strlen($f['photo']['data']) === 0) continue;
+                $photoBytes = base64_decode($f['photo']['data']);
+                if ($photoBytes === false) {
+                  error_log('Invalid family photo base64 for ' . ($f['firstname'] ?? '') . ' ' . ($f['lastname'] ?? ''));
+                  continue;
+                }
+                $photoType = trim($f['photo']['type'] ?? '');
+                $photoName = trim($f['photo']['name'] ?? '');
+                $photoName = preg_replace('/[^A-Za-z0-9._-]+/', '_', $photoName);
+                $extension = '';
+                if ($photoType === 'image/jpeg' || $photoType === 'image/jpg') {
+                  $extension = 'jpg';
+                } elseif ($photoType === 'image/png') {
+                  $extension = 'png';
+                } elseif ($photoName !== '') {
+                  $detected = strtolower(pathinfo($photoName, PATHINFO_EXTENSION));
+                  if (in_array($detected, ['jpg','jpeg','png'], true)) {
+                    $extension = $detected === 'jpeg' ? 'jpg' : $detected;
+                  }
+                }
+                if ($extension === '') $extension = 'jpg';
+                if ($photoName === '' || pathinfo($photoName, PATHINFO_EXTENSION) === '') {
+                  $photoName = sprintf('%s_%s_photo.%s', preg_replace('/[^A-Za-z0-9]+/', '_', ($f['firstname'] ?? '')), preg_replace('/[^A-Za-z0-9]+/', '_', ($f['lastname'] ?? '')), $extension);
+                } else {
+                  $photoName = pathinfo($photoName, PATHINFO_FILENAME) . '.' . $extension;
+                }
+                $uniqueName = $photoName;
+                $suffix = 1;
+                while (isset($attachmentNames[$uniqueName])) {
+                  $uniqueName = pathinfo($photoName, PATHINFO_FILENAME) . '-' . $suffix . '.' . $extension;
+                  $suffix++;
+                }
+                $attachmentNames[$uniqueName] = true;
+                $photoAttachments[] = [
+                  'data' => $photoBytes,
+                  'filename' => $uniqueName,
+                  'type' => $photoType ?: 'application/octet-stream',
+                  'applicant' => trim(($f['firstname'] ?? '') . ' ' . ($f['lastname'] ?? ''))
+                ];
+              }
+            }
             // Store for display on page
             $collectedBodyHTML[] = $bodyHTML;
 
@@ -312,19 +363,32 @@ if (!empty($uuids)) {
           $customer = $checkout_session['customer_details'];
           $ccEmail = $customer['email'];
           // TODO: Fix the environment variables for SMTP configuration
+           
+            $eHost = $_ENV['HOST'];
+            $ePort = $_ENV['PORT'];
+            $eUser = $_ENV['USERNAME'];
+            $ePass = $_ENV['PASSWORD'];
+            $eFrom = $_ENV['FROM'];
+            /*
+            $eHost = 'localhost';
+            $ePort = 25;
+            $eUser = 'dawebguy2@pfga.ca';
+            $ePass = '241pizza';
+            $eFrom = 'dawebguy2@pfga.ca';
+*/
           $pm = new PHPMailer();
           $pm->isSMTP();
           $pm->CharSet = 'UTF-8';
-          $pm->Host = $_ENV['HOST'];
+          $pm->Host = $eHost;
           $smtpDebug = '';
           $pm->SMTPDebug = 0; // Set to 2 for detailed debug output
           $pm->Debugoutput = function($str, $level) use (&$smtpDebug) { $smtpDebug .= "[$level] $str\n"; };
           $pm->SMTPAuth = True;
-          $pm->Port = $_ENV['PORT'];
-          $pm->Username = $_ENV['USERNAME'];
-          $pm->Password = $_ENV['PASSWORD'];
-          $pm->setFrom($_ENV['FROM']);
-          $pm->addAddress($_ENV['FROM']);
+          $pm->Port = $ePort;
+          $pm->Username = $eUser;
+          $pm->Password = $ePass;
+          $pm->setFrom($eFrom);
+          $pm->addAddress($eFrom);
           if (!empty($ccEmail)) $pm->AddCC($ccEmail);
           $pm->isHTML(true);
 
@@ -355,9 +419,36 @@ if (!empty($uuids)) {
                 }
               }
             }
+
+
+
           } else {
             $emailErrors[] = ['message' => 'Batch email failed', 'error' => $pm->ErrorInfo, 'debug' => $smtpDebug];
             error_log('Failed to send batch email: ' . $pm->ErrorInfo . '\n' . $smtpDebug);
+
+            // Persist failure to DB log table if DB connection is available
+            if (isset($mysqli) && $mysqli instanceof mysqli) {
+              $logStmt = $mysqli->prepare("INSERT INTO log (`level`, `message`, `details`, `created_at`) VALUES (?, ?, ?, ?)");
+              if ($logStmt) {
+                $level = 'error';
+                $message = 'Failed to send batch email';
+                $details = json_encode([
+                  'error' => $pm->ErrorInfo,
+                  'debug' => $smtpDebug,
+                  'uuids' => $uuids,
+                  'transaction' => $checkout_session['payment_intent'] ?? null
+                ]);
+                $now = date('Y-m-d H:i:s');
+                $logStmt->bind_param('ssss', $level, $message, $details, $now);
+                $logStmt->execute();
+                if ($logStmt->errno) {
+                  error_log('Failed to insert log record: ' . $logStmt->error);
+                }
+                $logStmt->close();
+              } else {
+                error_log('Failed to prepare log insert statement: ' . $mysqli->error);
+              }
+            }
           }
         }
       } else {
@@ -398,7 +489,10 @@ if (!empty($uuids)) {
         </div>
     </div>
     <div class="sr-root">
-      <div class="sr-main">
+      <div class="sr-loading">
+        <image src="..\images\ekkant-loader-9342.gif" />
+      </div>
+      <div class="sr-main hidden">
         <div class="sr-payment-summary completed-view">
           <h1>Your payment succeeded</h1>
         </div>
@@ -472,4 +566,24 @@ if (!empty($uuids)) {
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="../js/vue.js"></script>
   </body>
+<script>
+  // Hide the loading indicator and reveal the main content after email send completes
+  (function(){
+    var emailSent = <?php echo (!empty($emailSuccess) && count($emailSuccess) > 0) ? 'true' : 'false'; ?>;
+    window.addEventListener('load', function(){
+      try {
+        if (emailSent) {
+          var loader = document.querySelector('.sr-loading') || document.querySelector('.loading') || document.getElementById('loader');
+          if (loader) loader.style.display = 'none';
+          var main = document.querySelector('.sr-root .sr-main') || document.querySelector('.sr-main') || document.querySelector('.sr-root') || document.getElementById('main');
+          if (main) {
+            try { main.classList.remove('hidden'); } catch(e) {}
+            // Ensure visible regardless of CSS rule
+            main.style.display = 'block';
+          }
+        }
+      } catch (e) { console.error(e); }
+    });
+  })();
+</script>
 </html>

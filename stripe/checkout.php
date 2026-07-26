@@ -268,11 +268,18 @@ if (!empty($_POST['token'])) {
 
     // Store encrypted applicant records if encryption key is available
     if ($enc_key && !empty($stored_records)) {
-      $dbHost = $_ENV['DB_HOST'] ?? '127.0.0.1';
-      $dbName = $_ENV['DB_NAME'] ?? null;
-      $dbUser = $_ENV['DB_USER'] ?? null;
-      $dbPass = $_ENV['DB_PASS'] ?? null;
 
+      
+    $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
+    $dbName = $_ENV['DB_NAME'] ?? null;
+    $dbUser = $_ENV['DB_USER'] ?? null;
+    $dbPass = $_ENV['DB_PASS'] ?? null;
+   /*
+    $dbHost = 'localhost:3306';
+    $dbName = 'pfga_forum';
+    $dbUser = 'root';
+    $dbPass = '1q2w3e4r';
+ */
       // Prepare DB connection if possible
       $mysqli = null;
       if ($dbName && $dbUser) {
@@ -306,7 +313,7 @@ if (!empty($_POST['token'])) {
         $mysqli->close();
       }
     }
-  
+
     header("HTTP/1.1 303 See Other");
     header("Location: " . "$checkout_session->url");
   }

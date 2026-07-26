@@ -89,10 +89,10 @@ $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
 // Retrieve all encrypted member records from DB, decrypt and output as JSON
 header('Content-Type: application/json; charset=utf-8');
 
-$dbHost = $_ENV['DB_HOST'] ?? '127.0.0.1';
-$dbName = $_ENV['DB_NAME'] ?? null;
-$dbUser = $_ENV['DB_USER'] ?? null;
-$dbPass = $_ENV['DB_PASS'] ?? null;
+$dbHost = 'localhost:3306';
+$dbName = 'pfga_forum';
+$dbUser = 'root';
+$dbPass = '1q2w3e4r';
 
 $result = ['success' => false, 'records' => [], 'error' => null];
 
@@ -121,11 +121,11 @@ function decrypt_record($b64, $key) {
   return $plain === false ? false : $plain;
 }
 
-$enc_key = $_ENV['ENCRYPTION_KEY'] ?? null;
+$enc_key ='q3Zf2u7P8p4QmYHc7a4Zc3Qm9c7E3wQFf6cRr2K0s1In'; //$_ENV['ENCRYPTION_KEY'] ?? null;
 // If encryption key not present in .dev, try loading the production .thing file
-if (!$enc_key && file_exists(__DIR__ . '/..' . '/.thing')) {
+if (!$enc_key && file_exists(__DIR__ . '/..' . '/.dev')) {
   try {
-    $dotenv2 = Dotenv\Dotenv::createImmutable(__DIR__ . '/..', '.thing');
+    $dotenv2 = Dotenv\Dotenv::createImmutable(__DIR__ . '/..', '.dev');
     $dotenv2->load();
     $enc_key = $_ENV['ENCRYPTION_KEY'] ?? $enc_key;
   } catch (Exception $e) {

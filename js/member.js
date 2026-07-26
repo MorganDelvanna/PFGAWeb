@@ -24,6 +24,13 @@ function gatherFamily() {
     });
 }
 
+// Promise wrapper for readPhotoFile
+function readPhotoFilePromise(file) {
+    return new Promise(function(resolve){
+        readPhotoFile(file, function(result){ resolve(result); });
+    });
+}
+
 function gatherClubs() {
     $('[name^="otherClubs"]').each(function(){
         let currentRow = $(this).closest(".row");
@@ -330,21 +337,52 @@ function gatherApplicantObject() {
     if($('#handgun').is(':checked')) applicant.disciplines.push('handgun');
     if($('#action').is(':checked')) applicant.disciplines.push('action');
     applicant.family = [];
+    // Prefer Vue-managed family members when available (keeps photo data)
+    if (window.formVm && Array.isArray(window.formVm.members)) {
+        try {
+            const copied = JSON.parse(JSON.stringify(window.formVm.members || []));
+            if (Array.isArray(copied) && copied.length > 0) {
+                applicant.family = copied.map(m => {
+                    return {
+                        firstname: m.firstname || '',
+                        lastname: m.lastname || '',
+                        pal: m.pal || '',
+                        palExpiry: m.palExpiry || '',
+                        dob: m.dob || '',
+                        photo: (m.photoData && m.photoData.length > 0) ? { name: m.photoName || '', type: m.photoType || '', data: m.photoData } : null
+                    };
+                });
+            }
+        } catch (e) {
+            applicant.family = [];
+        }
+    }
 
-    // gather family rows
-    $('.familyRow').each(function(){
-        let fn = $(this).find('.famName').val();
-        let ln = $(this).find('.famLast').val();
-        if (!fn && !ln) return; // skip empty
-        let m = {
-            firstname: fn || '',
-            lastname: ln || '',
-            pal: $(this).find('.famPAL').val() || '',
-            palExpiry: $(this).find('.famExpiry').val() || '',
-            dob: $(this).find('.famDOB').val() || ''
-        };
-        applicant.family.push(m);
-    });
+    // Fallback: gather family rows from DOM (legacy) and include hidden photo fields if present
+    if ((!applicant.family || applicant.family.length === 0)) {
+        $('.familyRow').each(function(){
+            let fn = $(this).find('.famName').val();
+            let ln = $(this).find('.famLast').val();
+            if (!fn && !ln) return; // skip empty
+            let m = {
+                firstname: fn || '',
+                lastname: ln || '',
+                pal: $(this).find('.famPAL').val() || '',
+                palExpiry: $(this).find('.famExpiry').val() || '',
+                dob: $(this).find('.famDOB').val() || ''
+            };
+            // include legacy hidden photo inputs if present
+            const photoData = $(this).find('.famPhotoData').val();
+            if (photoData && photoData.length > 0) {
+                m.photo = {
+                    name: $(this).find('.famPhotoName').val() || '',
+                    type: $(this).find('.famPhotoType').val() || '',
+                    data: photoData
+                };
+            }
+            applicant.family.push(m);
+        });
+    }
 
     // gather clubs (prefer Vue state) — handle Vue proxies safely
     applicant.clubs = [];
@@ -465,18 +503,31 @@ $(function(){
     
 
     let date = new Date();
-    if (date.getMonth() >=7 && date.getMonth() <= 10) {
-        $('#memberYear').text(`October 1st ${date.getFullYear()} - September 30th ${date.getFullYear() + 1}`);
-    } else {
-        $('#memberYear').text(`October 1st ${date.getFullYear() - 1} - September 30th ${date.getFullYear()}`);
+    const year = date.getFullYear();
+
+    // Returns the Date of the first Tuesday of a given month (0 = Jan)
+    function firstTuesday(year, month) {
+        const d = new Date(year, month, 1);
+        const daysUntilTuesday = (2 - d.getDay() + 7) % 7; // Tuesday = 2
+        d.setDate(1 + daysUntilTuesday);
+        return d;
     }
 
-    if (date.getMonth() >=1 && date.getMonth() <= 6) {
+    const firstTuesdayMay = firstTuesday(year, 4);   // May
+    const firstTuesdayJuly = firstTuesday(year, 6);  // July
+
+    if (date >= firstTuesdayMay && date < firstTuesdayJuly) {
         $('#halfColumn').show();
         $('#halfSpan').show();
     } else {
         $('#halfColumn').hide();
         $('#halfSpan').hide();
+    }
+
+    if (date.getMonth() >= firstTuesdayJuly && date.getMonth() <= 10) {
+        $('#memberYear').text(`October 1st ${date.getFullYear()} - September 30th ${date.getFullYear() + 1}`);
+    } else {
+        $('#memberYear').text(`October 1st ${date.getFullYear() - 1} - September 30th ${date.getFullYear()}`);
     }
 
 
@@ -584,8 +635,18 @@ $(function(){
         return filled == value;  
     }, "The number of family members does not match the number being paid for");
     
+    // Helper to wait for any pending family photo reads to finish
+    function waitForFamilyPhotos() {
+        if (!window.formVm || !Array.isArray(window.formVm.members)) return Promise.resolve();
+        const promises = window.formVm.members.map(m => m && m.photoReadPromise ? m.photoReadPromise : null).filter(p => p);
+        if (promises.length === 0) return Promise.resolve();
+        return Promise.all(promises.map(p => p.catch(e => e)));
+    }
+
     // Add Applicant button: capture current filled form as one applicant and clear for next
-    $('#addApplicant').on('click', function(){
+    $('#addApplicant').on('click', async function(){
+        // Wait for any family photo reads to complete
+        await waitForFamilyPhotos();
         // perform validation for required fields before adding
         gatherFamily();
         gatherClubs();
@@ -605,7 +666,9 @@ $(function(){
         clearForm();
     });
 
-    $('#btnSubmit').on("click", function(){
+    $('#btnSubmit').on("click", async function(){
+        // Ensure any pending family photo reads complete before collecting
+        await waitForFamilyPhotos();
         gatherFamily();
         gatherClubs();
         gatherCourses();
