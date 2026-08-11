@@ -10,6 +10,11 @@
         if (isset($_SESSION['user']))
         {
             $user = $_SESSION['user'];
+            $role = $_SESSION["role"];
+            if ($role != 'admin') {
+                echo "You are not authorized to perform this action";
+                die;
+            }
             $loggedIn = TRUE;
         }
         else {
@@ -45,7 +50,8 @@
         if ($mysqli->connect_errno) {
             error_log('DB connect failed in email.php: ' . $mysqli->connect_error);
         } else {
-            $uuid = $_POST['uuid'] ?? null;
+            // accept uuid via GET or POST so preview works when opened via link
+            $uuid = $_REQUEST['uuid'] ?? null;
             $enc_key = $_ENV['ENCRYPTION_KEY'] ?? null;
 
             $stmt = $mysqli->prepare("SELECT uuid, `type`, data, created_at FROM encrypted_members WHERE uuid = ? LIMIT 1");
@@ -271,21 +277,78 @@
             $eUser = $_ENV['USERNAME'];
             $ePass = $_ENV['PASSWORD'];
             $eFrom = $_ENV['FROM'];
-            /* 
-            $eHost = 'localhost';
-            $ePort = 25;
-            $eUser = 'dawebguy2@pfga.ca';
-            $ePass = '241pizza';
-            $eFrom = 'dawebguy2@pfga.ca';
-*/
-            // TODO: Fix the environment variables for SMTP configuration
-            $pm = new PHPMailer();
-            $pm->isSMTP();
-            $pm->CharSet = 'UTF-8';
-            $pm->Host = $eHost;
-            $smtpDebug = '';
-            $pm->SMTPDebug = 0; // Set to 2 for detailed debug output
-            $pm->Debugoutput = function($str, $level) use (&$smtpDebug) { $smtpDebug .= "[$level] $str\n"; };
+
+            // Render preview and send button
+            ?>
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="utf-8" />
+              <title>Resend Application Email</title>
+              <link rel="stylesheet" href="../css/bootstrap.min.css" />
+              <link rel="stylesheet" href="../css/style.css" />
+            </head>
+            <body>
+            <div class="container mt-3">
+              <h2>Email Preview for <?= htmlspecialchars(trim($firstName . ' ' . $lastName)) ?></h2>
+              <div class="card mb-3">
+                <div class="card-body">
+                  <?= $batchBodyHTML ?>
+                </div>
+              </div>
+              <h4>Attachments</h4>
+              <ul>
+              <?php foreach ($photoAttachments as $att): ?>
+                <li><?= htmlspecialchars($att['filename']) ?> (<?= htmlspecialchars($att['type']) ?>)</li>
+              <?php endforeach; ?>
+              </ul>
+
+              <form method="post" action="resend_email.php">
+                <input type="hidden" name="uuid" value="<?= htmlspecialchars($uuid) ?>" />
+                <input type="hidden" name="action" value="send" />
+                <button type="submit" class="btn btn-primary">Send Email</button>
+                <a href="email.php" class="btn btn-secondary">Cancel</a>
+              </form>
+            </div>
+            </body>
+            </html>
+            <?php
+
+            // If send requested, proceed
+            if (isset($_POST['action']) && $_POST['action'] === 'send') {
+                // build and send
+                $pm = new PHPMailer();
+                $pm->isSMTP();
+                $pm->CharSet = 'UTF-8';
+                $pm->Host = $eHost;
+                $smtpDebug = '';
+                $pm->SMTPDebug = 0; // Set to 2 for detailed debug output
+                $pm->Debugoutput = function($str, $level) use (&$smtpDebug) { $smtpDebug .= "[$level] $str\n"; };
+                $pm->SMTPAuth = true;
+                $pm->Port = $ePort;
+                $pm->Username = $eUser;
+                $pm->Password = $ePass;
+                $pm->setFrom($eFrom);
+                $pm->addAddress($eFrom);
+                if (!empty($ccEmail)) $pm->addCC($ccEmail);
+                $pm->isHTML(true);
+
+                foreach ($photoAttachments as $attachment) {
+                  $pm->addStringAttachment($attachment['data'], $attachment['filename'], 'base64', $attachment['type']);
+                }
+
+                $pm->Subject = "PFGA Application from $firstName $lastName (resend)";
+                $pm->Body = "<html><body><p>Hello Membership Secretary,</p><p>The following application submitted previously via Stripe is being resent:</p>" . $batchBodyHTML . "<p>Thanks,<br />The PFGA System</p></body></html>";
+                $pm->AltBody = $batchBodyText;
+
+                if ($pm->send()) {
+                  echo "<div class='container mt-3'><div class='alert alert-success'>Email sent successfully.</div><p><a href='email.php' class='btn btn-primary'>Back</a></p></div>";
+                } else {
+                  echo "<div class='container mt-3'><div class='alert alert-danger'>Failed to send email: " . htmlspecialchars($pm->ErrorInfo) . "</div><p><a href='email.php' class='btn btn-secondary'>Back</a></p></div>";
+                }
+                // done
+                exit();
+            }
             $pm->SMTPAuth = True;
             $pm->Port = $ePort;
             $pm->Username = $eUser; 

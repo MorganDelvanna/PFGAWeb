@@ -56,8 +56,6 @@ else
 {
     die("</div></body></html>");
 }
-
-
  
 ?>
 

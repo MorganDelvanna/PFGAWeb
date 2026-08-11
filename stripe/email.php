@@ -4,6 +4,11 @@ require_once 'shared.php';
 if (isset($_SESSION['user']))
 {
     $user = $_SESSION['user'];
+    $role = $_SESSION["role"];
+    if ($role != 'admin') {
+        echo "You are not authorized to perform this action";
+        die;
+    }
     $loggedIn = TRUE;
 }
 else {
@@ -109,7 +114,6 @@ if ($dbName && $dbUser) {
                             break;
                         }
                     }
-                    // pi_3To6YAB2ie8bsWmg16WMRg2x
 
                     // Attach payment intent info to the decoded record (keep as array)
                     
@@ -193,6 +197,7 @@ if ($dbName && $dbUser) {
                   <th>Last Name</th>
                   <th>Email</th>
                   <th>Payment Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -205,7 +210,9 @@ if ($dbName && $dbUser) {
                     echo "<td>" . htmlspecialchars($record['lastname'] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($record['email'] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($record['payment_status'] ?? '') . "</td>";
-                    echo "<td><button id='btnResend_" . htmlspecialchars($record['uuid']) . "' class='btn btn-sm btn-outline-primary' data-id='" . htmlspecialchars($record['uuid']) . "'>Resend Email</button></td>";
+                    echo "<td>";
+                    echo "<button id='btnResend_" . htmlspecialchars($record['uuid']) . "' class='btn btn-sm btn-outline-primary' data-id='" . htmlspecialchars($record['uuid']) . "'>Resend Email</button>";
+                    echo "</td>";         
                     echo "</tr>";
                   }
                 } else {
@@ -228,18 +235,9 @@ if ($dbName && $dbUser) {
     <script type="text/javascript">
         $('button[id^="btnResend_"]').click(function() {
             var uuid = $(this).data('id');
-            $.ajax({
-                url: 'resend_email.php',
-                method: 'POST',
-                data: { uuid: uuid },
-                success: function(response) {
-                    alert('Email resend request sent for UUID: ' + uuid);
-                },
-                error: function(xhr, status, error) {
-                    alert('Error resending email for UUID: ' + uuid + '. Error: ' + error);
-                }
-            });
+            window.location.href = 'resend_email.php?uuid=' + encodeURIComponent(uuid);
         });
+
     </script>
   </body>
 </html>
