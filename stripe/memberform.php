@@ -60,13 +60,13 @@
             </div>
             <div class="row mt-1">
                 <div class="col-12 col-md-4">
-                    <input type="radio" id="newMember" name="applicationType" value="new" checked> <label for="newMember">New Membership (Full Year)</label> 
+                    <input type="radio" id="newMember" name="applicationType" value="new" class="form-check-input" checked> <label class="form-check-label" for="newMember">New Membership (Full Year)</label> 
                 </div>
                 <div class="col-12 col-md-4" id="halfColumn">
-                   <input type="radio" id="halfMember" name="applicationType" value="half"> <label for="halfMember">New Membership (Half Year)*<br />April to September</label>
+                   <input type="radio" id="halfMember" name="applicationType" value="half" class="form-check-input"> <label class="form-check-label" for="halfMember">New Membership (Half Year)*<br />April to September</label>
                 </div>
                 <div class="col-12 col-md-4">
-                    <input type="radio" id="renewMember" name="applicationType" value="renew"> <label for="renewMember">Membership Renewal</label> 
+                    <input type="radio" id="renewMember" name="applicationType" value="renew" class="form-check-input"> <label class="form-check-label" for="renewMember">Membership Renewal</label> 
                 </div>
             </div>
             <div class="row">
@@ -84,86 +84,86 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-2">
-                    <label for="firstname" class="title required">First Name</label><br />
-                    <input id="firstname" type="text" class="new" name="firstname" required>
+                    <label for="firstname" class="form-label title required">First Name</label><br />
+                    <input id="firstname" type="text" class="form-control new" name="firstname" required>
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="lastname" class="title required">Last Name</label><br />
-                    <input id="lastname" type="text" class="new" name="lastname" required>
+                    <label for="lastname" class="form-label title required">Last Name</label><br />
+                    <input id="lastname" type="text" class="form-control new" name="lastname" required>
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="alias" class="title">Preferred Name</label><br />
-                    <input id="alias" type="text" name="alias">
+                    <label for="alias" class="form-label">Preferred Name</label><br />
+                    <input id="alias" type="text" class="form-control" name="alias">
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="dob" class="title required new" >Date of Birth</label><br/>
-                    <input id="dob" type="date" class="new" name="dob" required>
+                    <label for="dob" class="form-label title required new" >Date of Birth</label><br/>
+                    <input id="dob" type="date" class="form-control new" name="dob" required>
                 </div>
                 <div id="cardCell" class="col-12 col-md-3 hidden">
-                    <label id="cardLabel" for="pfgaNumber" class="title">PFGA Card #</label><br/>
-                    <input id="pfgaNumber" type="text" name="pfgaNumber">
+                    <label id="cardLabel" for="pfgaNumber" class="form-label">PFGA Card #</label><br/>
+                    <input id="pfgaNumber" type="text" class="form-control" name="pfgaNumber">
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">
-                    <label for="address" class="title required new">Home Address</label><br />
-                    <input id="address" type="text" class="new" name="address" required>
+                    <label for="address" class="form-label title required new">Home Address</label><br />
+                    <input id="address" type="text" class="form-control new" name="address" required>
                 </div>
                 <div class="col-12 col-md-2" >
-                    <label for="city" class="title required new">City</label><br />
-                    <input id="city" type="text" class="new" name="city" required>
+                    <label for="city" class="form-label title required new">City</label><br />
+                    <input id="city" type="text" class="form-control new" name="city" required>
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="province" class="title required new">Province</label><br />
-                    <input id="province" type="text" class="new" name="province" required>
+                    <label for="province" class="form-label title required new">Province</label><br />
+                    <input id="province" type="text" class="form-control new" name="province" required>
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="postal" class="title required new">Postal Code</label><br />
-                    <input id="postal" type="text" class="new" name="postal" required>
+                    <label for="postal" class="form-label title required new">Postal Code</label><br />
+                    <input id="postal" type="text" class="form-control new" name="postal" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-2">
-                    <label for="homephone" class="title">Home Phone *</label><br/>
-                    <input id="homephone" type="text" class="new phone" name="homephone" >
+                    <label for="homephone" class="form-label title">Home Phone *</label><br/>
+                    <input id="homephone" type="text" class="form-control new phone" name="homephone" >
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="cellphone" class="title">Cell Phone *</label><br />
-                    <input id="cellphone" type="text" class="new phone" name="cellphone" >
+                    <label for="cellphone" class="form-label title">Cell Phone *</label><br />
+                    <input id="cellphone" type="text" class="form-control new phone" name="cellphone" >
                 </div>
                 <div class="col-12 col-md-4">
-                    <label for="email" class="title required new">E-Mail Address</label>
-                    <input type="text" id="email" class="new" name="email" required>
+                    <label for="email" class="form-label title required new">E-Mail Address</label>
+                    <input type="text" id="email" class="form-control new" name="email" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-4">
                     <div class="row">
                         <div class="col-4 centered">
-                            <label for="pal" class="title required">PAL</label><br />
-                            <input type="radio" id="pal" name="palType" value="pal" required checked>
+                            <label for="pal" class="form-check-label title required">PAL</label><br />
+                            <input type="radio" class="form-check-input" id="pal" name="palType" value="pal" required checked>
                         </div>
                         <div class="col-4 centered">
-                            <label for="rpal" class="title required">RPAL</label><br />
-                            <input type="radio" id="rpal" name="palType" value="rpal">
+                            <label for="rpal" class="form-check-label title required">RPAL</label><br />
+                            <input type="radio" class="form-check-input" id="rpal" name="palType" value="rpal">
                         </div>
                         <div class="col-4 centered">
-                            <label for="noPal" class="title required">None</label><br />
-                            <input type="radio" id="noPal" name="palType" value="noPal">
+                            <label for="noPal" class="form-check-label title required">None</label><br />
+                            <input type="radio" class="form-check-input" id="noPal" name="palType" value="noPal">
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="palDate" class="title">Approx. Date of PAL Course (MM-YY)</label>
-                    <input type="text" id="palDate" name="palDate">
+                    <label for="palDate" class="form-label title">Approx. Date of PAL Course (MM-YY)</label>
+                    <input type="text" id="palDate" name="palDate" class="form-control">
                 </div>                    
                 <div class="col-12 col-md-2">
-                    <label for="PALNum" class="title required pal">PAL/RPAL #</label>
-                    <input type="text" id="PALNum" name="palNum" required>
+                    <label for="PALNum" class="form-label title required pal">PAL/RPAL #</label>
+                    <input type="text" id="PALNum" name="palNum" class="form-control" required>
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="palExpiry" class="title required pal">Pal Expiry Date</label>
-                    <input type="date" id="palExpiry" name="palExpiry" required>
+                    <label for="palExpiry" class="form-label title required pal">Pal Expiry Date</label>
+                    <input type="date" id="palExpiry" name="palExpiry" class="form-control" required>
                 </div>
             </div>
             <hr />
@@ -172,24 +172,24 @@
                     <span><strong>Please select the section(s) you would like to join:</strong> (New Members Only)</span>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
-                    <input type="checkbox" id="archery" name="archery">
-                    <label class="ml-1" for="archery">Archery</label>
+                    <input type="checkbox" class="form-check-input" id="archery" name="archery">
+                    <label class="form-check-label ml-1" for="archery">Archery</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
-                    <input type="checkbox" id="rifle" name="rifle">
-                    <label class="ml-1" for="rifle">Rifle</label>
+                    <input type="checkbox" class="form-check-input" id="rifle" name="rifle">
+                    <label class="form-check-label ml-1" for="rifle">Rifle</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
-                    <input type="checkbox" id="smallbore" name="smallbore">
-                    <label class="ml-1" for="smallbore">Smallbore</label>
+                    <input type="checkbox" class="form-check-input" id="smallbore" name="smallbore">
+                    <label class="form-check-label ml-1" for="smallbore">Smallbore</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
-                    <input type="checkbox" id="handgun" name="handgun">
-                    <label class="ml-1" for="handgun">Handgun</label>
+                    <input type="checkbox" class="form-check-input" id="handgun" name="handgun">
+                    <label class="form-check-label ml-1" for="handgun">Handgun</label>
                 </div>
                 <div class="col-12 col-md-2" style="align-content: center;">
-                    <input type="checkbox" id="action" name="action">
-                    <label class="ml-1" for="action">Action*</label>
+                    <input type="checkbox" class="form-check-input" id="action" name="action">
+                    <label class="form-check-label ml-1" for="action">Action*</label>
                 </div>
                 <div class="col-12">
                     <span><strong>Note:</strong> In order to join Action Pistol you must first join Handgun, or be a current active member of an action shooting organization such as IPSC, IDPA, or ICORE. Please include this in the training & certifications section.</span>
@@ -206,7 +206,7 @@
                     <div class="row">
                         <div class="col-12">
                             <label for="photo" class="title required">Passport-style Photo</label><br />
-                            <input id="photo" type="file" class="new" name="photo" accept="image/jpeg,image/jpg,image/png">
+                            <input id="photo" type="file" class="form-control new" name="photo" accept="image/jpeg,image/jpg,image/png">
                             <small class="form-text text-muted">Upload a passport-style JPG or PNG photo, max 200 KB. The image should be portrait orientation with a near passport ratio.</small>
                             <div id="photoError" class="error"></div>
                         </div>
@@ -232,20 +232,20 @@
 
                 <div class="row mt-2 familyRow" v-for="(m, idx) in members" :key="idx">
                     <div class="col-6 d-md-none"><label class="required">First Name: </label></div>
-                    <div class="col-6 col-md-2"><input type="text" class="famName" v-model="m.firstname" required aria-label="First Name"></div>
+                    <div class="col-6 col-md-2"><input type="text" class="form-control famName" v-model="m.firstname" required aria-label="First Name"></div>
                     <div class="col-6 d-md-none"><label class="required">Last Name: </label></div>
-                    <div class="col-6 col-md-3"><input type="text" class="famLast" v-model="m.lastname" required aria-label="Last Name"></div>
+                    <div class="col-6 col-md-3"><input type="text" class="form-control famLast" v-model="m.lastname" required aria-label="Last Name"></div>
                     <div class="col-6 d-md-none"><label class="required">PAL#: </label></div>
-                    <div class="col-6 col-md-2"><input type="text" class="famPAL" v-model="m.pal" aria-label="PAL #"></div>
+                    <div class="col-6 col-md-2"><input type="text" class="form-control famPAL" v-model="m.pal" aria-label="PAL #"></div>
                     <div class="col-6 d-md-none"><label class="required">Pal Expiry: </label></div>
-                    <div class="col-6 col-md-2"><input type="date" class="famExpiry" v-model="m.palExpiry" aria-label="Pal Expiry"></div>
+                    <div class="col-6 col-md-2"><input type="date" class="form-control famExpiry" v-model="m.palExpiry" aria-label="Pal Expiry"></div>
                     <div class="col-6 d-md-none"><label class="required">Date of Birth: </label></div>
-                    <div class="col-6 col-md-2"><input type="date" class="famDOB" v-model="m.dob" required aria-label="Date of Birth"></div>
+                    <div class="col-6 col-md-2"><input type="date" class="form-control famDOB" v-model="m.dob" required aria-label="Date of Birth"></div>
                     <div class="col-12 col-md-1">
                         <button type="button" class="btnDeleteFam" @click="removeFamily(idx)">delete</button>                        
                     </div>
                     <div class="col-12">
-                        <input type="file" class="famPhoto" @change="onFamilyPhoto($event, idx)" accept="image/jpeg,image/jpg,image/png">
+                        <input type="file" class="form-control famPhoto" @change="onFamilyPhoto($event, idx)" accept="image/jpeg,image/jpg,image/png">
                         <div class="error famPhotoError"></div>
                         <input type="hidden" :name="'familyMembers[]'" :value="formatMember(m)">
                         <input type="hidden" :name="'familyPhotoData[]'" :value="m.photoData || ''" class="famPhotoData">
@@ -271,10 +271,10 @@
                 </div>
 
                 <div class="row clubRow" v-for="(c, idx) in clubs" :key="idx">
-                    <div class="col-6 d-md-none">Club Name: </div><div class="col-6 col-md-3"><input type="text" v-model="c.name" class="otherClub"></div>
-                    <div class="col-6 d-md-none">City, Province: </div><div class="col-6 col-md-3"><input type="text" v-model="c.city" class="otherCity"></div>
-                    <div class="col-6 d-md-none">From (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.from" class="otherFrom" placeholder="MM/YY"></div>
-                    <div class="col-6 d-md-none">To (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.to" class="otherTo" placeholder="MM/YY"></div>
+                    <div class="col-6 d-md-none">Club Name: </div><div class="col-6 col-md-3"><input type="text" v-model="c.name" class="form-control otherClub"></div>
+                    <div class="col-6 d-md-none">City, Province: </div><div class="col-6 col-md-3"><input type="text" v-model="c.city" class="form-control otherCity"></div>
+                    <div class="col-6 d-md-none">From (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.from" class="form-control otherFrom" placeholder="MM/YY"></div>
+                    <div class="col-6 d-md-none">To (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.to" class="form-control otherTo" placeholder="MM/YY"></div>
                     <div class="col-12 col-md-1"><button type="button" class="btnDeleteClub" @click="removeClub(idx)">delete</button>
                         <input type="hidden" :name="'otherClubs[]'" :value="formatClub(c)">
                     </div>
@@ -297,10 +297,10 @@
                 </div>
 
                 <div class="row courseRow" v-for="(c, idx) in courses" :key="idx">
-                    <div class="col-6 d-md-none">Description: </div><div class="col-6 col-md-3"><input type="text" v-model="c.desc" class="courseDesc"></div>
-                    <div class="col-6 d-md-none">Instructor/Trainer: </div><div class="col-6 col-md-3"><input type="text" v-model="c.trainer" class="courseTrainer"></div>
-                    <div class="col-6 d-md-none">Location: </div><div class="col-6 col-md-3"><input type="text" v-model="c.location" class="courseLocation"></div>
-                    <div class="col-6 d-md-none">Date (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.date" class="courseDate" placeholder="MM/YY"></div>
+                    <div class="col-6 d-md-none">Description: </div><div class="col-6 col-md-3"><input type="text" v-model="c.desc" class="form-control courseDesc"></div>
+                    <div class="col-6 d-md-none">Instructor/Trainer: </div><div class="col-6 col-md-3"><input type="text" v-model="c.trainer" class="form-control courseTrainer"></div>
+                    <div class="col-6 d-md-none">Location: </div><div class="col-6 col-md-3"><input type="text" v-model="c.location" class="form-control courseLocation"></div>
+                    <div class="col-6 d-md-none">Date (MM/YY): </div><div class="col-6 col-md-2"><input type="text" v-model="c.date" class="form-control courseDate" placeholder="MM/YY"></div>
                     <div class="col-12 col-md-1"><button type="button" class="btnDeleteCourse" @click="removeCourse(idx)">delete</button>
                         <input type="hidden" :name="'courses[]'" :value="formatCourse(c)">
                     </div>

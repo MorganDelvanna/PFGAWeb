@@ -70,16 +70,16 @@
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-4">
-                                <label for="firstname" class="title required">First Name</label><br />
-                                <input id="firstname" type="text" class="new" name="firstname" data-no-auto-fill required>
+                                <label for="firstname" class="form-label title required">First Name</label><br />
+                                <input id="firstname" type="text" class="form-control new" name="firstname" data-no-auto-fill required>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label for="lastname" class="title required">Last Name</label><br />
-                                <input id="lastname" type="text" class="new" name="lastname" data-no-auto-fill required>
+                                <label for="lastname" class="form-label title required">Last Name</label><br />
+                                <input id="lastname" type="text" class="form-control new" name="lastname" data-no-auto-fill required>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label id="cardLabel" for="pfgaNumber" class="title required">PFGA Card #</label><br/>
-                                <input id="pfgaNumber" type="text" name="pfgaNumber" data-no-auto-fill required>
+                                <label id="cardLabel" for="pfgaNumber" class="form-label title required">PFGA Card #</label><br/>
+                                <input id="pfgaNumber" type="text" class="form-control" name="pfgaNumber" data-no-auto-fill required>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -99,15 +99,15 @@
 
                             <div class="row mt-2 familyRow" v-for="(m, idx) in members" :key="idx">
                                 <div class="col-6 d-md-none"><label class="required">First Name: </label></div>
-                                <div class="col-6 col-md-2"><input type="text" class="famName" v-model="m.firstname" required aria-label="First Name"></div>
+                                <div class="col-6 col-md-2"><input type="text" class="form-control famName" v-model="m.firstname" required aria-label="First Name"></div>
                                 <div class="col-6 d-md-none"><label class="required">Last Name: </label></div>
-                                <div class="col-6 col-md-3"><input type="text" class="famLast" v-model="m.lastname" required aria-label="Last Name"></div>
+                                <div class="col-6 col-md-3"><input type="text" class="form-control famLast" v-model="m.lastname" required aria-label="Last Name"></div>
                                 <div class="col-6 d-md-none"><label class="required">PAL#: </label></div>
-                                <div class="col-6 col-md-2"><input type="text" class="famPAL" v-model="m.pal" aria-label="PAL #"></div>
+                                <div class="col-6 col-md-2"><input type="text" class="form-control famPAL" v-model="m.pal" aria-label="PAL #"></div>
                                 <div class="col-6 d-md-none"><label class="required">Pal Expiry: </label></div>
-                                <div class="col-6 col-md-2"><input type="date" class="famExpiry" v-model="m.palExpiry" aria-label="Pal Expiry"></div>
+                                <div class="col-6 col-md-2"><input type="date" class="form-control famExpiry" v-model="m.palExpiry" aria-label="Pal Expiry"></div>
                                 <div class="col-6 d-md-none"><label class="required">Date of Birth: </label></div>
-                                <div class="col-6 col-md-2"><input type="date" class="famDOB" v-model="m.dob" required aria-label="Date of Birth"></div>
+                                <div class="col-6 col-md-2"><input type="date" class="form-control famDOB" v-model="m.dob" required aria-label="Date of Birth"></div>
                                 <div class="col-12 col-md-1"><button type="button" class="btnDeleteFam" @click="removeFamily(idx)">delete</button>
                                     <input type="hidden" :name="'familyMembers[]'" :value="formatMember(m)">
                                 </div>
