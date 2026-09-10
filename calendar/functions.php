@@ -83,7 +83,7 @@
         if ($id == -1){
             $result = queryMysql("INSERT INTO news (publish_date, header, description, archived) VALUES ('$publishDate', '$header', '$description', 0) ");
         } else {
-            $result = queryMysql("UPDATE news  SET publish_date = '$publishDate', header = '$header', description = '$description', archived = $archived");
+            $result = queryMysql("UPDATE news  SET publish_date = '$publishDate', header = '$header', description = '$description', archived = $archived WHERE id=$id");
         }
 
         return $result;

@@ -439,6 +439,7 @@ function gatherApplicantObject() {
 function clearForm() {
     // reset inputs except templates
     $('#form')[0].reset();
+    setApplicationType();
     // reset Vue-managed family members if present
         // clear Vue-managed data if present
         if (window.formVm && typeof window.formVm === 'object') {
@@ -476,6 +477,24 @@ function renderApplicants() {
     html += '</ul>';
     $('#applicantList').html(html);
     updateGrandTotal();
+}
+
+function setApplicationType() {
+    let urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('type')) {
+        switch (urlParams.get('type')) {
+            case "renew":
+                $('#renewMember').prop("checked", true);
+                break;
+            case "new":
+                $('#newMember').prop("checked", true);
+                break;
+            default:
+                $('#newMember').prop("checked", true);
+        }
+    } else {
+        $('#newMember').prop("checked", true);
+    }
 }
 
 
@@ -653,11 +672,11 @@ $(function(){
         gatherCourses();
         let app = gatherApplicantObject();
         // basic required check
-        if (!app.firstname || !app.lastname || !app.email) {
-            alert('Applicant must include first name, last name, and email');
+        if (!app.firstname || !app.lastname) {
+            alert('Applicant must include first name, last name');
             return;
         }
-        if (!app.photo || !app.photo.data) {
+        if (app.applicationType !== "renew" && (!app.photo || !app.photo.data)) {
             alert('Please upload a valid passport-style photo before adding an applicant.');
             return;
         }
@@ -695,7 +714,7 @@ $(function(){
         try {
             const currentApp = gatherApplicantObject();
             if ((currentApp.firstname && currentApp.firstname.trim() !== '') || (currentApp.lastname && currentApp.lastname.trim() !== '') || (currentApp.email && currentApp.email.trim() !== '')) {
-                if (!currentApp.photo || !currentApp.photo.data) {
+                if (currentApp.applicationType !== "renew" && (!currentApp.photo || !currentApp.photo.data)) {
                     alert('Please upload a valid passport-style photo for the current applicant before submitting.');
                     return;
                 }
@@ -712,10 +731,12 @@ $(function(){
         rules: {
             family: { familyTest : true },
             homephone: {
-                require_from_group: [1, '.phone']
+                require_from_group: [1, '.phone'],
+                depends: function () { return $('input[name="applicationType"]:checked').val() !== "renew"; }
             },
             cellphone: {
-                require_from_group: [1, '.phone']
+                require_from_group: [1, '.phone'],
+                depends: function () { return $('input[name="applicationType"]:checked').val() !== "renew"; }   
             }
         },
         messages: {
@@ -735,21 +756,7 @@ $(function(){
         errorClass: "error"
     });
 
-    let urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.has('type')){
-        switch (urlParams.get('type')){
-            case "renew": 
-                $('#renewMember').prop("checked", true);
-                break;
-            case "new":
-                $('#newMember').prop("checked", true);
-                break;
-            default:
-                $('#newMember').prop("checked", true);
-        }
-    } else {
-        $('#newMember').prop("checked", true);
-    }
+    setApplicationType();
     applicationTypeChange();
     updateGrandTotal();
 });

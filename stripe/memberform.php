@@ -124,11 +124,11 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-2">
-                    <label for="homephone" class="form-label title">Home Phone *</label><br/>
+                    <label for="homephone" class="form-label title">Home Phone</label><br/>
                     <input id="homephone" type="text" class="form-control new phone" name="homephone" >
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="cellphone" class="form-label title">Cell Phone *</label><br />
+                    <label for="cellphone" class="form-label title">Cell Phone</label><br />
                     <input id="cellphone" type="text" class="form-control new phone" name="cellphone" >
                 </div>
                 <div class="col-12 col-md-4">

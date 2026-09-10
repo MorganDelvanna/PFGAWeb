@@ -17,15 +17,6 @@ if(isset($_GET['session_id'])){
 }
 
 
-function preg_grep_keys($pattern, $input) {
-  foreach ($input as $key => $value) {
-    echo ' '. $key .' '. $value .' '.$pattern;
-    if ($pattern == substr($key, 0, strlen($pattern))) {
-            echo $value;
-    }
-  }
-}
-
 // --- Additional step: retrieve encrypted records by UUID from DB, decrypt, and email in batch ---
 // Find UUID keys in metadata
 $uuids = [];
@@ -53,20 +44,29 @@ $debugRecords = [];
 $photoAttachments = [];
 $attachmentNames = [];
 
-if (!empty($uuids)) {
-    //TODO: Fix
-  
-    $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
-    $dbName = $_ENV['DB_NAME'] ?? null;
-    $dbUser = $_ENV['DB_USER'] ?? null;
-    $dbPass = $_ENV['DB_PASS'] ?? null;
-  
+                      
+$eHost = $_ENV['HOST'];
+$ePort = $_ENV['PORT'];
+$eUser = $_ENV['USERNAME'];
+$ePass = $_ENV['PASSWORD'];
+$eFrom = $_ENV['FROM'];
+$dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
+$dbName = $_ENV['DB_NAME'] ?? null;
+$dbUser = $_ENV['DB_USER'] ?? null;
+$dbPass = $_ENV['DB_PASS'] ?? null;
+
+$customer = $checkout_session['customer_details'];
+$ccEmail = $customer['email'];
+$transactionId = $checkout_session['payment_intent'];
+
+
+if (!empty($uuids)) {  
   if ($dbName && $dbUser) {
     $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
     if ($mysqli->connect_errno) {
       error_log('DB connect failed in success.php: ' . $mysqli->connect_error);
     } else {
-      
+      $updt = $mysqli->prepare("UPDATE encrypted_members SET transactionId=?, email=? WHERE  uuid = ?");  
       $stmt = $mysqli->prepare("SELECT uuid, `type`, data, created_at FROM encrypted_members WHERE uuid = ? LIMIT 1");
       if ($stmt) {
         // decryption helper
@@ -83,6 +83,9 @@ if (!empty($uuids)) {
 
         // STEP 1: Retrieve and decrypt all records
         foreach ($uuids as $u) {
+          $updt->bind_param('sss', $transactionId, $ccEmail, $u);
+          $updt->execute();
+
           $stmt->bind_param('s', $u);
           $stmt->execute();
           $res = $stmt->get_result();
@@ -355,22 +358,6 @@ if (!empty($uuids)) {
           }
 
           // STEP 3: Send single batch email with all applicants
-          $customer = $checkout_session['customer_details'];
-          $ccEmail = $customer['email'];
-          // TODO: Fix the environment variables for SMTP configuration
-           
-            $eHost = $_ENV['HOST'];
-            $ePort = $_ENV['PORT'];
-            $eUser = $_ENV['USERNAME'];
-            $ePass = $_ENV['PASSWORD'];
-            $eFrom = $_ENV['FROM'];
-            /*
-            $eHost = 'localhost';
-            $ePort = 25;
-            $eUser = 'dawebguy2@pfga.ca';
-            $ePass = '241pizza';
-            $eFrom = 'dawebguy2@pfga.ca';
-*/
           $pm = new PHPMailer();
           $pm->isSMTP();
           $pm->CharSet = 'UTF-8';
@@ -400,13 +387,12 @@ if (!empty($uuids)) {
             $emailSuccess[] = 'Batch email sent for ' . count($collectedRecords) . ' applicant(s)';
             
             // Mark all records as emailed in DB
-            if (isset($mysqli) && $mysqli instanceof mysqli) {
-              $transactionId = $checkout_session['payment_intent'];
+            if (isset($mysqli) && $mysqli instanceof mysqli) {              
               foreach ($uuids as $uuid) {
-                $u_stmt = $mysqli->prepare("UPDATE encrypted_members SET emailed = 1, emailed_at = ?, transactionId=? WHERE uuid = ?");
+                $u_stmt = $mysqli->prepare("UPDATE encrypted_members SET emailed = 1, emailed_at = ? WHERE uuid = ?");
                 if ($u_stmt) {
                   $now = date('Y-m-d H:i:s');
-                  $u_stmt->bind_param('sss', $now, $transactionId, $uuid);
+                  $u_stmt->bind_param('ss', $now, $uuid);
                   $u_stmt->execute();
                   $u_stmt->close();
                 } else {
@@ -500,20 +486,6 @@ if (!empty($uuids)) {
         
           <div class="sr-section completed-view">
             <?php
-              // Show submitted applicants
-              /*
-              if (!empty($debugRecords)) {
-                echo '<div class="alert alert-info mt-2"><h3>Submitted Applicants (' . count($debugRecords) . ')</h3><ul>';
-                foreach ($debugRecords as $rec) {
-
-                  $fname = htmlspecialchars($rec['firstname'] ?? '');
-                  $lname = htmlspecialchars($rec['lastname'] ?? '');
-                  $clubs = intval($rec['clubs']);
-                  $courses = intval($rec['courses']);
-                  echo "<li>$fname $lname (clubs: $clubs, courses: $courses)</li>";
-                }
-                echo '</ul></div>';
-              }*/
 
               // Show individual records (for reference/display)
               if (!empty($collectedBodyHTML)) {
@@ -528,26 +500,6 @@ if (!empty($uuids)) {
                 echo '</div>';
               }
 
-              // Show email send status
-              /*
-              if (!empty($emailSuccess)) {
-                echo '<div class="alert alert-success mt-2"><strong>Email Status:</strong><br />';
-                foreach ($emailSuccess as $msg) {
-                  echo htmlspecialchars($msg) . '<br />';
-                }
-                echo '</div>';
-              }
-              if (!empty($emailErrors)) {
-                echo '<div class="alert alert-danger mt-2"><h3>Email Errors</h3>';
-                foreach ($emailErrors as $err) {
-                  $msg = htmlspecialchars($err['message'] ?? '');
-                  $errinfo = htmlspecialchars($err['error'] ?? '');
-                  $dbg = htmlspecialchars($err['debug'] ?? '');
-                  echo "<div class=\"email-error\"><strong>$msg</strong>: $errinfo<pre>$dbg</pre></div>";
-                }
-                echo '</div>';
-              }
-                */
             ?>
           </div>
           <div class="sr-section">

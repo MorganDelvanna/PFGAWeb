@@ -180,7 +180,7 @@ if (!empty($_POST['token'])) {
     // Prepare blacklist DB check (optional)
     $bl_mysqli = null;
     $bl_stmt = null;
-    
+
     $dbHost = $_ENV['DB_HOST'] ?? 'localhost:3306';
     $dbName = $_ENV['DB_NAME'] ?? null;
     $dbUser = $_ENV['DB_USER'] ?? null;
@@ -206,12 +206,13 @@ if (!empty($_POST['token'])) {
       $aln = trim((string)($appObj['lastname'] ?? ''));
       $aem = trim((string)($appObj['email'] ?? ''));
 
-      if ($afn === '' || $aln === '' || $aem === '') {
+      // Require first and last name; email is optional (useful for renewals)
+      if ($afn === '' || $aln === '') {
         continue; // Skip invalid applicants
       }
 
-      // Check blacklist for this applicant's email; if found, cancel flow
-      if ($bl_stmt) {
+      // Check blacklist for this applicant's email only if an email was provided
+      if ($bl_stmt && $aem !== '') {
         $bl_stmt->bind_param('s', $aem);
         $bl_stmt->execute();
         $bl_stmt->store_result();
@@ -267,7 +268,7 @@ if (!empty($_POST['token'])) {
       foreach ($applicant_items as $item) {
         $all_items[] = $item;
       }
-      
+      error_log(print_r($all_items, true));
 
       // Encrypt and store applicant record (now including family array if present)
       if ($enc_key) {
@@ -292,6 +293,19 @@ if (!empty($_POST['token'])) {
       $meta['total_applicants'] = count($applicant_uuids);
     }
   
+    // Debug log incoming payload and computed items
+    error_log('DEBUG members_json: ' . substr($_POST['members_json'] ?? '', 0, 4000));
+    error_log('DEBUG applicants_list count: ' . count($applicants_list));
+    error_log('DEBUG all_items: ' . json_encode($all_items));
+
+    // Guard: don't call Stripe if there are no line items
+    if (empty($all_items)) {
+        error_log('ERROR: No line_items for Stripe checkout. Aborting.');
+        http_response_code(400);
+        echo 'No items selected. Please pick at least one membership option.';
+        exit;
+    }
+
     // Create checkout session with all applicants' items
     $checkout_session = $stripe->checkout->sessions->create([
       'success_url' => $domain_url . $_ENV['SUCCESS_PATH'],
@@ -303,9 +317,7 @@ if (!empty($_POST['token'])) {
     ]);    
 
     // Store encrypted applicant records if encryption key is available
-    if ($enc_key && !empty($stored_records)) {
-   
- 
+    if ($enc_key && !empty($stored_records)) { 
       // Prepare DB connection if possible
       $mysqli = null;
       if ($dbName && $dbUser) {
