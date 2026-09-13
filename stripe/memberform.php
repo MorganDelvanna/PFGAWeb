@@ -28,7 +28,7 @@
         <script type="text/javascript">
             <?php include 'fees.php'; ?>
         </script>
-        <script src="../js/member.js?v=1"></script>
+        <script src="../js/member.js?v=2"></script>
     </head>
 
     <body>
@@ -124,16 +124,16 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-2">
-                    <label for="homephone" class="form-label title">Home Phone</label><br/>
+                    <label for="homephone" class="form-label title">Home Phone *</label><br/>
                     <input id="homephone" type="text" class="form-control new phone" name="homephone" >
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="cellphone" class="form-label title">Cell Phone</label><br />
+                    <label for="cellphone" class="form-label title">Cell Phone *</label><br />
                     <input id="cellphone" type="text" class="form-control new phone" name="cellphone" >
                 </div>
                 <div class="col-12 col-md-4">
                     <label for="email" class="form-label title required new">E-Mail Address</label>
-                    <input type="text" id="email" class="form-control new" name="email" required>
+                    <input type="text" id="email" class="form-control required new" name="email" required>
                 </div>
             </div>
             <div class="row">
@@ -158,12 +158,12 @@
                     <input type="text" id="palDate" name="palDate" class="form-control">
                 </div>                    
                 <div class="col-12 col-md-2">
-                    <label for="PALNum" class="form-label title required pal">PAL/RPAL #</label>
-                    <input type="text" id="PALNum" name="palNum" class="form-control" required>
+                    <label for="PALNum" class="form-label title pal">PAL/RPAL #</label>
+                    <input type="text" id="PALNum" name="palNum" class="form-control">
                 </div>
                 <div class="col-12 col-md-2">
-                    <label for="palExpiry" class="form-label title required pal">Pal Expiry Date</label>
-                    <input type="date" id="palExpiry" name="palExpiry" class="form-control" required>
+                    <label for="palExpiry" class="form-label title pal">Pal Expiry Date</label>
+                    <input type="date" id="palExpiry" name="palExpiry" class="form-control">
                 </div>
             </div>
             <hr />
@@ -401,7 +401,7 @@
     
         <script src="../js/bootstrap.js" type="text/javascript"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-        <script src="../js/vue.js"></script>
+        <script src="../js/vue.js?v=2"></script>
         <script>
             (function(){
                 const { createApp } = Vue;
@@ -458,7 +458,7 @@
                                 if (errorEl) errorEl.textContent = '';
                             });
                         },
-                        formatMember(m) { return `${m.firstname || ''} ${m.lastname || ''} DOB: ${m.dob || ''} PAL: ${m.pal || ''} ${m.palExpiry || ''}`; },
+                        formatMember(m) { return (m.firstname || '') + " " + (m.lastname || '') + " DOB: " + (m.dob || '') + " PAL: " + (m.pal || '') + " " + (m.palExpiry || ''); },
                         updateCount() { const el = document.getElementById('family'); if (el) el.value = this.members.length; if (typeof recalc === 'function') recalc(); },
                         // simple validation that complements jQuery Validate
                         validate() {
@@ -467,19 +467,26 @@
                             const applicantCount = parseInt(document.querySelectorAll('#applicantList li').length || '0');
                             if (applicantCount > 0) return true;
 
-                            // applicationType-specific required fields (class new)                            
-                            document.querySelectorAll('input[required]').forEach(i=>{
-                                if (!i.value || i.value.trim()==='') { 
-                                    i.setAttribute('aria-invalid','true'); ok=false; 
+                            // applicationType-specific required fields (class new)
+                            // Exclude PAL inputs when palType is not pal/rpal
+                            let requiredInputs = Array.from(document.querySelectorAll('input[required]'));
+                            if (this.palType !== 'pal' && this.palType !== 'rpal') {
+                                requiredInputs = requiredInputs.filter(i => !(i.id === 'PALNum' || i.id === 'palExpiry'));
+                            }
+                            requiredInputs.forEach(i=>{
+                                if (!i.value || i.value.trim()==='') {
+                                    i.setAttribute('aria-invalid','true'); ok=false;
                                     i.classList.add('failed');
                                 }
                                 else {
                                     i.removeAttribute('aria-invalid');
-                                    i.classList.remove('failed');}
+                                    i.classList.remove('failed');
+                                }
                             });
                             
-                            // pal rules
-                            if (this.palType === 'pal' || this.palType === 'rpal') {
+                            // pal rules - use the live DOM value in case radios changed outside Vue
+                            const currentPalType = document.querySelector('input[name="palType"]:checked')?.value || this.palType;
+                            if (currentPalType === 'pal' || currentPalType === 'rpal') {
                                 const palNum = document.getElementById('PALNum');
                                 const palExpiry = document.getElementById('palExpiry');
                                 if (!palNum || !palNum.value.trim()) { 
@@ -501,6 +508,19 @@
                                 else if (palExpiry) {
                                     palExpiry.removeAttribute('aria-invalid');
                                     palExpiry.classList.remove('failed');
+                                }
+                            } else {
+                                const _palNum = document.getElementById('PALNum');
+                                const _palExpiry = document.getElementById('palExpiry');
+                                if (_palNum) {
+                                    _palNum.removeAttribute('required');
+                                    _palNum.removeAttribute('aria-invalid');
+                                    _palNum.classList.remove('failed');
+                                }
+                                if (_palExpiry) {
+                                    _palExpiry.removeAttribute('required');
+                                    _palExpiry.removeAttribute('aria-invalid');
+                                    _palExpiry.classList.remove('failed');
                                 }
                             }
                             // phone requirement (home or cell)

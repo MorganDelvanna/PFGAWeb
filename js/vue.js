@@ -38,8 +38,8 @@ app.component("menu-control", {
         };
     },
     mounted() {
-        // Load the JSON file
-        fetch("./menu.json")
+        // Load the JSON file (use root-relative path so pages in subfolders still find it)
+        fetch("/menu.json")
             .then(r => r.json())
             .then(data => {
                 this.menu = data;

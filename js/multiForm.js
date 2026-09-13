@@ -53,23 +53,18 @@ $(function () {
     $('[name="applicationType"]').on("change", applicationTypeChange);
 
     $('[name="palType"]').on('change', function () {
-        let selectedValue = $('[name="palType"]:checked').val();
+        let selectedValue = ($('[name="palType"]:checked').val() || '').toString().toLowerCase();
         let PALNum = $('#PALNum');
         let palExpiry = $('#palExpiry');
 
-        switch (selectedValue) {
-            case "pal":
-            case "rpal":
-                if (!PALNum.hasClass('required')) {
-                    PALNum.attr('required');
-                    palExpiry.attr('required');
-                    $('label.pal').addClass('required');
-                }
-                break;
-            case "noPal":
-                PALNum.removeAttr('required');
-                palExpiry.removeAttr('required');
-                $('label.pal').removeClass('required');
+        if (selectedValue === 'pal' || selectedValue === 'rpal') {
+            PALNum.attr('required', 'required');
+            palExpiry.attr('required', 'required');
+            $('label.pal').addClass('required');
+        } else {
+            PALNum.removeAttr('required');
+            palExpiry.removeAttr('required');
+            $('label.pal').removeClass('required');
         }
     });
 

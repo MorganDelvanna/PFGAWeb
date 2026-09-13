@@ -207,7 +207,7 @@ if (!empty($_POST['token'])) {
       $aem = trim((string)($appObj['email'] ?? ''));
 
       // Require first and last name; email is optional (useful for renewals)
-      if ($afn === '' || $aln === '') {
+      if ($afn === '' || $aln === '' || $aem === '') {
         continue; // Skip invalid applicants
       }
 

@@ -22,6 +22,11 @@ function gatherFamily() {
         let extra = `${firstName} ${lastName} DOB: ${dob} PAL: ${pal} ${expiry}`;
         $(this).val(extra);
     });
+
+    // Ensure PAL fields reflect the current selection on load
+    $(function(){
+        try { $('[name="palType"]:checked').trigger('change'); } catch (e) { /* ignore */ }
+    });
 }
 
 // Promise wrapper for readPhotoFile
@@ -569,26 +574,45 @@ $(function(){
 
     $('[name="applicationType"]').on("change", applicationTypeChange);
 
+    // Ensure PAL inputs start optional; the change handler will enforce required when appropriate
+    $('#PALNum').removeAttr('required');
+    $('#palExpiry').removeAttr('required');
+    $('label.pal').removeClass('required');
+
     $('[name="palType"]').on('change', function(){
-        let selectedValue = $('[name="palType"]:checked').val();
+        let selectedValue = ($('[name="palType"]:checked').val() || '').toString().toLowerCase();
         let PALNum = $('#PALNum');
         let palExpiry = $('#palExpiry');
-       
-        switch(selectedValue){
-            case "pal":
-            case "rpal":
-                if(!PALNum.hasClass('required')){
-                    PALNum.attr('required');
-                    palExpiry.attr('required');
-                    $('label.pal').addClass('required');
-                }        
-                break;
-            case "noPal":
-                PALNum.removeAttr('required');
-                palExpiry.removeAttr('required');
-                $('label.pal').removeClass('required');
+
+        // Require PAL fields only when the selected type indicates a PAL/RPAL
+        if (selectedValue === 'pal' || selectedValue === 'rpal') {
+            PALNum.attr('required', 'required');
+            palExpiry.attr('required', 'required');
+            $('label.pal').addClass('required');
+        } else {
+            // treat 'noPal', 'none', empty or any other value as no PAL
+            PALNum.removeAttr('required');
+            palExpiry.removeAttr('required');
+            // clear any prior validation state
+            PALNum.removeAttr('aria-invalid');
+            palExpiry.removeAttr('aria-invalid');
+            PALNum.removeClass('failed');
+            palExpiry.removeClass('failed');
+            $('label.pal').removeClass('required');
         }
+        // Run a follow-up clear shortly after change to override other handlers that may run later
+        setTimeout(function(){
+            try {
+                PALNum.removeAttr('aria-invalid');
+                palExpiry.removeAttr('aria-invalid');
+                PALNum.removeClass('failed');
+                palExpiry.removeClass('failed');
+            } catch (e) { /* ignore */ }
+        }, 50);
     });
+
+    // Sync initial state from any pre-selected palType
+    $('[name="palType"]').trigger('change');
 
     $('[name="membershipFee"]').on("change", function(){
         let selectedValue = $('input[name="membershipFee"]:checked').val();
@@ -672,8 +696,8 @@ $(function(){
         gatherCourses();
         let app = gatherApplicantObject();
         // basic required check
-        if (!app.firstname || !app.lastname) {
-            alert('Applicant must include first name, last name');
+        if (!app.firstname || !app.lastname || !app.email) {
+            alert('Applicant must include first name, last name, and email');
             return;
         }
         if (app.applicationType !== "renew" && (!app.photo || !app.photo.data)) {
@@ -727,16 +751,28 @@ $(function(){
         $('#form')[0].submit();
     });
 
+    // Add a custom validator to require at least one phone number when not renewing
+    if (typeof $.validator === 'undefined' || typeof $.validator.addMethod !== 'function') {
+        console.warn('jQuery validate plugin not loaded; phone group validation will be skipped');
+    } else {
+        $.validator.addMethod('phone_group_required', function(value, element, selector) {
+            try {
+                // skip requirement for renewals
+                if ($('input[name="applicationType"]:checked').val() === 'renew') return true;
+            } catch (e) { /* ignore and continue */ }
+            const any = $(selector).filter(function(){ return $(this).val() && $(this).val().toString().trim() !== ''; }).length > 0;
+            return any;
+        }, 'Home Phone or Cell Phone is required');
+    }
+
     $('#form').validate({
         rules: {
             family: { familyTest : true },
             homephone: {
-                require_from_group: [1, '.phone'],
-                depends: function () { return $('input[name="applicationType"]:checked').val() !== "renew"; }
+                phone_group_required: '.phone'
             },
             cellphone: {
-                require_from_group: [1, '.phone'],
-                depends: function () { return $('input[name="applicationType"]:checked').val() !== "renew"; }   
+                phone_group_required: '.phone'
             }
         },
         messages: {
