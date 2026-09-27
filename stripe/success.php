@@ -379,7 +379,8 @@ if (!empty($uuids)) {
           }
           
           $appCountStr = count($collectedRecords) === 1 ? 'Applicant' : 'Applicants (' . count($collectedRecords) . ')';
-          $pm->Subject = "PFGA $appCountStr from Stripe";
+            
+          $pm->Subject = "PFGA $appType $appCountStr from Stripe";
           $pm->Body = "<html><body><p>Hello Membership Secretary,</p><p>The following $appCountStr submitted via Stripe:</p>" . $batchBodyHTML . "<p>Thanks,<br />The PFGA Stripe Application</p></body></html>";
           $pm->AltBody = "Hello Membership Secretary,\n\nThe following $appCountStr submitted via Stripe:\n\n" . $batchBodyText . "\n\nThanks,\nThe PFGA Stripe Application";
 

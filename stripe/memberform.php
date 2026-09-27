@@ -28,7 +28,7 @@
         <script type="text/javascript">
             <?php include 'fees.php'; ?>
         </script>
-        <script src="../js/member.js?v=2"></script>
+        <script src="../js/member.js?v=3"></script>
     </head>
 
     <body>
@@ -132,8 +132,8 @@
                     <input id="cellphone" type="text" class="form-control new phone" name="cellphone" >
                 </div>
                 <div class="col-12 col-md-4">
-                    <label for="email" class="form-label title required new">E-Mail Address</label>
-                    <input type="text" id="email" class="form-control required new" name="email" required>
+                    <label for="email" class="form-label title required">E-Mail Address</label>
+                    <input type="text" id="email" class="form-control" name="email" required>
                 </div>
             </div>
             <div class="row">

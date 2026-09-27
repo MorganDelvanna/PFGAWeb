@@ -548,7 +548,7 @@ $(function(){
         $('#halfSpan').hide();
     }
 
-    if (date.getMonth() >= firstTuesdayJuly && date.getMonth() <= 10) {
+    if (date.getMonth() >= firstTuesdayJuly.getMonth() && date.getMonth() <= 9) {
         $('#memberYear').text(`October 1st ${date.getFullYear()} - September 30th ${date.getFullYear() + 1}`);
     } else {
         $('#memberYear').text(`October 1st ${date.getFullYear() - 1} - September 30th ${date.getFullYear()}`);
