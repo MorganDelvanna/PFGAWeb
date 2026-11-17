@@ -203,3 +203,4 @@ ModelManifest.xml
 /.env_prod
 /.dev
 /.env_local.exclude
+/.localpilot
